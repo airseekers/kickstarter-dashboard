@@ -35,6 +35,7 @@ describe('actions configuration', () => {
     expect(ci).toContain('persist-credentials: false')
     expect(ci).toContain("github.event_name != 'pull_request'")
     expect(ci).not.toContain('contents: write')
-    expect(vite).toContain("'/kickstarter-dashboard/'")
+    expect(vite).toContain('resolveViteBase(process.env.VITE_BASE)')
+    expect(readFileSync(new URL('../shared/base.ts', import.meta.url), 'utf8')).toContain("'/kickstarter-dashboard/'")
   })
 })

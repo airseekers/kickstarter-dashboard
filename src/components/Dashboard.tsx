@@ -17,7 +17,8 @@ import {
   top10Total,
 } from '../../shared/metrics.ts'
 import { HistoryChart } from './HistoryChart.tsx'
-import { PAGE_BASE, PROJECT_ROUTES, type ProjectRoute } from '../../shared/routes.ts'
+import { publicBase } from '../../shared/base.ts'
+import { PROJECT_ROUTES, type ProjectRoute } from '../../shared/routes.ts'
 import { dateOnly, shanghaiDate } from '../../shared/time.ts'
 import type { DatasetFile, GeoRow } from '../../shared/types.ts'
 
@@ -60,7 +61,7 @@ export function Dashboard({
             {PROJECT_ROUTES.map((item) => (
               <a
                 key={item.route}
-                href={`${PAGE_BASE}/${item.route}/`}
+                href={`${publicBase()}${item.route}/`}
                 aria-current={item.route === route ? 'page' : undefined}
               >
                 {item.route}
