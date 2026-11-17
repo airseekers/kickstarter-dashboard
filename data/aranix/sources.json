@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "projectKey": "aranix",
+  "writtenAt": "2026-11-17T10:51:00+08:00",
+  "writtenBy": "manual_seed",
+  "sources": [
+    {
+      "id": "search",
+      "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "project_json",
+      "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
+    },
+    {
+      "id": "community",
+      "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
+    },
+    {
+      "id": "faqs",
+      "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
+    }
+  ]
+}

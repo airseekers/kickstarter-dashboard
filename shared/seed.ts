@@ -11,6 +11,7 @@ export const TRON_PROJECT: ProjectConfig = {
   id: 1873694145,
   creator: 'airseekers',
   slug: 'tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing',
+  route: 'TRON',
   searchTerm: 'tron 360 ai vision robot mower',
   displayName: 'TRON',
   productName: '360° AI 视觉割草机器人',

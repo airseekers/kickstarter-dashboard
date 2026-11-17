@@ -45,8 +45,8 @@ jobs:
           print("at=" + datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%dT%H:%M:%S+08:00"))
           PY
 
-      - name: Fetch search JSON
-        id: fetch_search
+      - name: Fetch TRON search JSON
+        id: fetch_tron_search
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -57,8 +57,8 @@ jobs:
           axios_config: data/axios.json
           postprocess: deno/postprocess.ts
 
-      - name: Fetch project fragment
-        id: fetch_project
+      - name: Fetch TRON project fragment
+        id: fetch_tron_project
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -69,8 +69,8 @@ jobs:
           axios_config: data/axios.json
           postprocess: deno/postprocess.ts
 
-      - name: Fetch community page
-        id: fetch_community
+      - name: Fetch TRON community page
+        id: fetch_tron_community
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -81,8 +81,8 @@ jobs:
           axios_config: data/axios.json
           postprocess: deno/postprocess.ts
 
-      - name: Fetch FAQ page
-        id: fetch_faqs
+      - name: Fetch TRON FAQ page
+        id: fetch_tron_faqs
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -93,14 +93,66 @@ jobs:
           axios_config: data/axios.json
           postprocess: deno/postprocess.ts
 
+      - name: Fetch ARANIX search JSON
+        id: fetch_aranix_search
+        continue-on-error: true
+        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
+        env:
+          COLLECTED_AT: ${{ steps.clock.outputs.at }}
+        with:
+          http_url: https://www.kickstarter.com/projects/search.json?term=ARANIX
+          downloaded_filename: data/raw/aranix/search.json
+          axios_config: data/axios.json
+          postprocess: deno/postprocess.ts
+
+      - name: Fetch ARANIX project fragment
+        id: fetch_aranix_project
+        continue-on-error: true
+        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
+        env:
+          COLLECTED_AT: ${{ steps.clock.outputs.at }}
+        with:
+          http_url: https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json
+          downloaded_filename: data/raw/aranix/project.json
+          axios_config: data/axios.json
+          postprocess: deno/postprocess.ts
+
+      - name: Fetch ARANIX community page
+        id: fetch_aranix_community
+        continue-on-error: true
+        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
+        env:
+          COLLECTED_AT: ${{ steps.clock.outputs.at }}
+        with:
+          http_url: https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community
+          downloaded_filename: data/raw/aranix/community.json
+          axios_config: data/axios.json
+          postprocess: deno/postprocess.ts
+
+      - name: Fetch ARANIX FAQ page
+        id: fetch_aranix_faqs
+        continue-on-error: true
+        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
+        env:
+          COLLECTED_AT: ${{ steps.clock.outputs.at }}
+        with:
+          http_url: https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs
+          downloaded_filename: data/raw/aranix/faqs.json
+          axios_config: data/axios.json
+          postprocess: deno/postprocess.ts
+
       - name: Record failures without replacing last-known-good data
         if: always()
         env:
           COLLECTED_AT: ${{ steps.clock.outputs.at }}
-          SEARCH_OUTCOME: ${{ steps.fetch_search.outcome }}
-          PROJECT_OUTCOME: ${{ steps.fetch_project.outcome }}
-          COMMUNITY_OUTCOME: ${{ steps.fetch_community.outcome }}
-          FAQS_OUTCOME: ${{ steps.fetch_faqs.outcome }}
+          TRON_SEARCH_OUTCOME: ${{ steps.fetch_tron_search.outcome }}
+          TRON_PROJECT_OUTCOME: ${{ steps.fetch_tron_project.outcome }}
+          TRON_COMMUNITY_OUTCOME: ${{ steps.fetch_tron_community.outcome }}
+          TRON_FAQS_OUTCOME: ${{ steps.fetch_tron_faqs.outcome }}
+          ARANIX_SEARCH_OUTCOME: ${{ steps.fetch_aranix_search.outcome }}
+          ARANIX_PROJECT_OUTCOME: ${{ steps.fetch_aranix_project.outcome }}
+          ARANIX_COMMUNITY_OUTCOME: ${{ steps.fetch_aranix_community.outcome }}
+          ARANIX_FAQS_OUTCOME: ${{ steps.fetch_aranix_faqs.outcome }}
         run: deno run --allow-read --allow-write deno/reconcile.ts
 
       - name: Stage data files

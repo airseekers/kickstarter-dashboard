@@ -1,14 +1,15 @@
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
+import { buildAranixDataset } from '../shared/aranix.ts'
 import { Dashboard } from '../src/components/Dashboard.tsx'
 import { buildSeedDataset } from '../shared/seed.ts'
 import type { DatasetFile } from '../shared/types.ts'
 
 const now = new Date('2026-11-17T02:18:00Z')
 
-function html(dataset: DatasetFile, at = now): string {
-  return renderToStaticMarkup(createElement(Dashboard, { dataset, now: at }))
+function html(dataset: DatasetFile, at = now, route: 'TRON' | 'ARANIX' = 'TRON'): string {
+  return renderToStaticMarkup(createElement(Dashboard, { dataset, now: at, route }))
 }
 
 describe('dashboard copy', () => {
@@ -100,5 +101,19 @@ describe('dashboard copy', () => {
     expect(page).toContain('不含编造回填')
     expect(page).toContain('2026-11-16')
     expect(page).toContain('2026-11-17')
+  })
+
+  it('shows the unlaunched ARANIX snapshot without TRON geography or amounts', () => {
+    const page = html(buildAranixDataset(), now, 'ARANIX')
+    expect(page).toContain('ARANIX 众筹数据总览')
+    expect(page).toContain('未上线')
+    expect(page).toContain('HK$ 0')
+    expect(page).toContain('暂无公开国家排行')
+    expect(page).toContain('Community 这次没有取到')
+    expect(page).toContain('href="/kickstarter-dashboard/TRON/"')
+    expect(page).toContain('href="/kickstarter-dashboard/ARANIX/"')
+    expect(page).not.toContain('17,572,828')
+    expect(page).not.toContain('美国')
+    expect(page).not.toContain('<polyline')
   })
 })

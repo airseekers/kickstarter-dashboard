@@ -20,6 +20,8 @@ export interface ProjectConfig {
   id: number
   creator: string
   slug: string
+  /** Uppercase path suffix, for example TRON or ARANIX. */
+  route: string
   searchTerm: string
   displayName: string
   productName: string

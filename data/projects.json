@@ -3,10 +3,27 @@
   "timezone": "Asia/Shanghai",
   "projects": [
     {
+      "key": "aranix",
+      "id": 103950657,
+      "creator": "airseekers",
+      "slug": "aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower",
+      "route": "ARANIX",
+      "searchTerm": "ARANIX",
+      "displayName": "ARANIX",
+      "productName": "4WD+4WS 全地形割草机器人",
+      "sources": {
+        "search": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
+        "project_json": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
+        "community": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
+        "faqs": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs"
+      }
+    },
+    {
       "key": "tron",
       "id": 1873694145,
       "creator": "airseekers",
       "slug": "tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+      "route": "TRON",
       "searchTerm": "tron 360 ai vision robot mower",
       "displayName": "TRON",
       "productName": "360° AI 视觉割草机器人",

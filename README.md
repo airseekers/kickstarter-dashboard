@@ -4,6 +4,16 @@ Airseekers TRON 360° 割草机器人 Kickstarter 项目的**第三方**静态�
 
 这不是 Kickstarter 官方网站，也不代表 Airseekers 的购买或售后页面。
 
+## 路径
+
+静态站点 base 是 `/kickstarter-dashboard/`。规范地址带末尾斜杠：
+
+- `/kickstarter-dashboard/` 和没有末尾斜杠的 `/kickstarter-dashboard` 直接渲染 **ARANIX**，不是项目选择页，也不是 TRON。
+- `/kickstarter-dashboard/ARANIX/` 与 `/kickstarter-dashboard/ARANIX`（`ARANIX.html`）是 ARANIX。
+- `/kickstarter-dashboard/TRON/` 与 `/kickstarter-dashboard/TRON`（`TRON.html`）是 TRON。
+
+每个地址都有自己的 `index.html` 或同名 `.html`，刷新和直接打开不依赖前端路由。资源路径从 `/kickstarter-dashboard/assets/` 引出，子目录页面也能加载。
+
 ## 当前数据
 
 仓库里的数字是 **2026-11-16 约 23:12（北京时间，UTC+8）** 的人工种子快照，不是一次被标成“刚刚抓取”的 Flat Data 结果。
@@ -20,6 +30,10 @@ Airseekers TRON 360° 割草机器人 Kickstarter 项目的**第三方**静态�
 平均每位支持金额是 `已筹 ÷ 人数`，不是商品单价。新老支持者指的是此人以前有没有在 Kickstarter 支持过别的项目，不是 Airseekers 品牌复购。国家与城市只有公开 Top 10。`usd_pledged`（静态历史美元 `2244482.60289708`）和 `converted_pledged_amount`（2,250,050）是两套口径。社区页页眉 “Last updated October 19, 2026” 只是页面文案，不是地区数据的更新时间。
 
 没有奖励档销量、地区金额、支持者身份，也没有编造的历史曲线。趋势图要等 Flat Data 真正接受至少一条新快照之后才会出现。
+
+ARANIX 使用 2026-11-17 约 10:51（北京时间）的公开搜索 JSON，`term=ARANIX`，精确匹配 slug `aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower`、id `103950657`。当时 `state=submitted`，`pledged`、`goal`、`backers_count` 都是接口里的 0，`usd_pledged` 为 null。这次读取可能带缓存，不是 Flat Data 抓取。Community 超时，项目片段和 FAQ 没拿到，所以地区、新老支持者和互动计数保持空，不用 0 或 TRON 的数字填上。核对过的字段在 `data/aranix/public-search.json`，已去掉签名图片地址。
+
+两个项目的 Flat Data 步骤分开写入 `data/raw/tron/` 和 `data/raw/aranix/`。一边失败只更新那一边的来源状态。
 
 ## 本地
 

@@ -1,6 +1,7 @@
 import { Dashboard } from './components/Dashboard.tsx'
-import { loadDataset } from './load.ts'
+import { loadDataset, routeFromDocument } from './load.ts'
 
 export function App() {
-  return <Dashboard dataset={loadDataset()} now={new Date()} />
+  const route = routeFromDocument()
+  return <Dashboard dataset={loadDataset(route)} route={route} now={new Date()} />
 }

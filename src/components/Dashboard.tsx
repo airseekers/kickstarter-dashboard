@@ -15,27 +15,48 @@ import {
   timesGoal,
   top10Total,
 } from '../../shared/metrics.ts'
+import { PAGE_BASE, PROJECT_ROUTES, type ProjectRoute } from '../../shared/routes.ts'
 import { dateOnly, shanghaiDate } from '../../shared/time.ts'
 import type { DatasetFile, GeoRow, HistoryPoint } from '../../shared/types.ts'
 
-export function Dashboard({ dataset, now }: { dataset: DatasetFile; now: Date }) {
+export function Dashboard({
+  dataset,
+  route,
+  now,
+}: {
+  dataset: DatasetFile
+  route: ProjectRoute
+  now: Date
+}) {
   const freshness = freshnessOf(dataset, now)
   const snapshot = dataset.snapshot
   const funding = snapshot.observations.funding
   const multiple = timesGoal(snapshot.percentFunded)
   const top10 = top10Total(snapshot.countries)
   const fxEstimate =
-    snapshot.fxRate === null ? null : roundTo(snapshot.pledged * snapshot.fxRate, 2)
+    snapshot.fxRate === null || snapshot.pledged <= 0 ? null : roundTo(snapshot.pledged * snapshot.fxRate, 2)
+  const communityMissing = dataset.sources.find((source) => source.id === 'community')?.error
 
   return (
     <main className="page" data-freshness={freshness}>
       <header className="top">
         <div className="brand">
-          <h1>TRON 众筹数据总览</h1>
+          <h1>{dataset.project.displayName} 众筹数据总览</h1>
           <p>
             {dataset.project.creator === 'airseekers' ? 'Airseekers' : dataset.project.creator} ·{' '}
             {dataset.project.productName}
           </p>
+          <nav className="project-nav" aria-label="项目">
+            {PROJECT_ROUTES.map((item) => (
+              <a
+                key={item.route}
+                href={`${PAGE_BASE}/${item.route}/`}
+                aria-current={item.route === route ? 'page' : undefined}
+              >
+                {item.route}
+              </a>
+            ))}
+          </nav>
         </div>
         <div className={`state-pill state-${dataset.project.state}`}>
           <span className="dot" />
@@ -59,7 +80,10 @@ export function Dashboard({ dataset, now }: { dataset: DatasetFile; now: Date })
         <article className="card kpi">
           <h2>累计支持金额</h2>
           <p className="kpi-value">{formatMoney(snapshot.pledged, dataset.project.currency)}</p>
-          <p className="kpi-note">项目货币 · 港元 {dataset.project.currency}</p>
+          <p className="kpi-note">
+            项目货币 · {dataset.project.currency === 'HKD' ? '港元 ' : ''}
+            {dataset.project.currency}
+          </p>
         </article>
         <article className="card kpi">
           <h2>支持人数</h2>
@@ -97,7 +121,7 @@ export function Dashboard({ dataset, now }: { dataset: DatasetFile; now: Date })
           </div>
           <p className="card-kicker">公开 Top 10 · 按支持人数排序</p>
           {snapshot.countries.length === 0 ? (
-            <p className="empty">暂无公开国家排行，未用 0 填充。</p>
+            <p className="empty">暂无公开国家排行，未用 0 填充。{communityMissing ? ' Community 这次没有取到。' : ''}</p>
           ) : (
             <CountryBars rows={snapshot.countries} />
           )}
@@ -123,7 +147,7 @@ export function Dashboard({ dataset, now }: { dataset: DatasetFile; now: Date })
           </div>
           <p className="card-kicker">首次与既有 Kickstarter 支持者</p>
           {snapshot.newBackers === null || snapshot.returningBackers === null ? (
-            <p className="empty">暂无新老支持者拆分，未用 0 填充。</p>
+            <p className="empty">暂无新老支持者拆分，未用 0 填充。{communityMissing ? ' Community 这次没有取到。' : ''}</p>
           ) : (
             <BackerSplit freshCount={snapshot.newBackers} returningCount={snapshot.returningBackers} />
           )}
@@ -141,7 +165,7 @@ export function Dashboard({ dataset, now }: { dataset: DatasetFile; now: Date })
           </div>
           <p className="card-kicker">公开 Top 10 · 按支持人数排序</p>
           {snapshot.cities.length === 0 ? (
-            <p className="empty">暂无公开城市排行，未用 0 填充。</p>
+            <p className="empty">暂无公开城市排行，未用 0 填充。{communityMissing ? ' Community 这次没有取到。' : ''}</p>
           ) : (
             <CityTable rows={snapshot.cities} />
           )}

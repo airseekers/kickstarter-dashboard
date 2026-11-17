@@ -3,11 +3,11 @@ import { toShanghaiIso } from '../shared/time.ts'
 import type { ProjectsFile, SourceId } from '../shared/types.ts'
 import { readDataset, writeDataset } from './write.ts'
 
-const outcomes: Record<SourceId, string | undefined> = {
-  search: Deno.env.get('SEARCH_OUTCOME') ?? undefined,
-  project_json: Deno.env.get('PROJECT_OUTCOME') ?? undefined,
-  community: Deno.env.get('COMMUNITY_OUTCOME') ?? undefined,
-  faqs: Deno.env.get('FAQS_OUTCOME') ?? undefined,
+const outcomeEnv: Record<SourceId, string> = {
+  search: 'SEARCH_OUTCOME',
+  project_json: 'PROJECT_OUTCOME',
+  community: 'COMMUNITY_OUTCOME',
+  faqs: 'FAQS_OUTCOME',
 }
 
 const projects = JSON.parse(await Deno.readTextFile('data/projects.json')) as ProjectsFile
@@ -16,8 +16,9 @@ const fetchedAt = Deno.env.get('COLLECTED_AT') || toShanghaiIso(new Date())
 for (const project of projects.projects) {
   const before = JSON.stringify(await readDataset(project.key))
   let dataset = JSON.parse(before)
+  const prefix = project.key.toUpperCase()
   for (const source of dataset.sources) {
-    const outcome = outcomes[source.id as SourceId]
+    const outcome = Deno.env.get(`${prefix}_${outcomeEnv[source.id as SourceId]}`) ?? undefined
     if (outcome !== 'failure') continue
     dataset = markStepFailure(
       dataset,

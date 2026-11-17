@@ -5,6 +5,7 @@ import { applyAttempt, fundingUntouched, markStepFailure } from '../shared/merge
 import { averagePledge, formatShare, top10Total } from '../shared/metrics.ts'
 import { containsSignedUrl } from '../shared/sanitize.ts'
 import { parseDownload } from '../shared/parse.ts'
+import { ARANIX_PROJECT, buildAranixDataset } from '../shared/aranix.ts'
 import { buildSeedDataset, TRON_PROJECT } from '../shared/seed.ts'
 import { formatUnixShanghai } from '../shared/time.ts'
 
@@ -55,7 +56,7 @@ describe('seed snapshot', () => {
     const committed = JSON.parse(readFileSync(new URL('../data/tron/latest.json', import.meta.url), 'utf8'))
     const projects = JSON.parse(readFileSync(new URL('../data/projects.json', import.meta.url), 'utf8'))
     expect(committed).toEqual(seed)
-    expect(projects.projects[0]).toEqual(TRON_PROJECT)
+    expect(projects.projects).toEqual([ARANIX_PROJECT, TRON_PROJECT])
     expect(projects.timezone).toBe('Asia/Shanghai')
   })
 
@@ -178,5 +179,63 @@ describe('parsers and preservation', () => {
     expect(parsed.ok).toBe(false)
     if (parsed.ok) return
     expect(parsed.status).toBe('invalid')
+  })
+})
+
+describe('ARANIX public snapshot', () => {
+  const aranix = buildAranixDataset()
+
+  it('uses the exact submitted project and leaves missing sources empty', () => {
+    expect(aranix.project.id).toBe(103950657)
+    expect(aranix.project.slug).toBe(ARANIX_PROJECT.slug)
+    expect(aranix.project.state).toBe('submitted')
+    expect(aranix.project.isLaunched).toBe(false)
+    expect(aranix.snapshot.pledged).toBe(0)
+    expect(aranix.snapshot.goal).toBe(0)
+    expect(aranix.snapshot.backersCount).toBe(0)
+    expect(aranix.snapshot.percentFunded).toBe(0)
+    expect(aranix.snapshot.usdPledged).toBeNull()
+    expect(aranix.snapshot.convertedPledgedAmount).toBeNull()
+    expect(aranix.snapshot.launchedAt).toBeNull()
+    expect(aranix.snapshot.deadline).toBeNull()
+    expect(aranix.snapshot.countries).toEqual([])
+    expect(aranix.snapshot.cities).toEqual([])
+    expect(aranix.snapshot.newBackers).toBeNull()
+    expect(aranix.snapshot.comments).toBeNull()
+    expect(aranix.snapshot.provenance).toBe('manual_seed')
+    expect(aranix.snapshot.capturedAt).toBe('2026-11-17T10:51:00+08:00')
+    expect(formatUnixShanghai(1790756827)).toBe('2026-09-30T16:27:07+08:00')
+    expect(formatUnixShanghai(1791617356)).toBe('2026-10-10T15:29:16+08:00')
+    expect(JSON.stringify(aranix)).not.toContain('17572828')
+    expect(JSON.stringify(aranix)).not.toContain('United States')
+    expect(JSON.stringify(filesForDataset(aranix))).not.toContain('sig=')
+  })
+
+  it('matches the committed ARANIX files and ignores a different first search hit', () => {
+    const committed = JSON.parse(readFileSync(new URL('../data/aranix/latest.json', import.meta.url), 'utf8'))
+    expect(committed).toEqual(aranix)
+    const parsed = parseDownload('search', read('search-aranix.json'), ARANIX_PROJECT)
+    expect(parsed.ok).toBe(true)
+    if (!parsed.ok) return
+    expect(parsed.patch.project?.state).toBe('submitted')
+    expect(parsed.patch.snapshot?.pledged).toBe(0)
+    expect(parsed.patch.snapshot?.launchedAt).toBeNull()
+    const wiped = applyAttempt(buildSeedDataset(), {
+      source: 'search',
+      result: parsed,
+      fetchedAt: '2026-11-17T10:51:00+08:00',
+      httpStatus: 200,
+    })
+    expect(wiped.snapshot.pledged).toBe(17572828)
+    expect(wiped.sources.find((source) => source.id === 'search')?.status).toBe('invalid')
+    const accepted = applyAttempt(aranix, {
+      source: 'search',
+      result: parsed,
+      fetchedAt: '2026-11-17T11:00:00+08:00',
+      httpStatus: 200,
+    })
+    expect(accepted.snapshot.pledged).toBe(0)
+    expect(accepted.snapshot.observations.funding.provenance).toBe('flat')
+    expect(accepted.project.id).toBe(103950657)
   })
 })

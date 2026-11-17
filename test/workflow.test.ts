@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
+import { ARANIX_PROJECT } from '../shared/aranix.ts'
 import { TRON_PROJECT } from '../shared/seed.ts'
 
 const flat = readFileSync(new URL('../.github/workflows/flat.yml', import.meta.url), 'utf8')
@@ -16,9 +17,13 @@ describe('actions configuration', () => {
     expect(flat).toContain('postprocess: deno/postprocess.ts')
     expect(flat).not.toContain('[skip ci]')
     expect(flat).toContain("github.repository == 'airseekers/kickstarter-dashboard'")
-    for (const url of Object.values(TRON_PROJECT.sources)) {
+    for (const url of [...Object.values(TRON_PROJECT.sources), ...Object.values(ARANIX_PROJECT.sources)]) {
       expect(flat).toContain(url)
     }
+    expect(flat).toContain('TRON_SEARCH_OUTCOME')
+    expect(flat).toContain('ARANIX_SEARCH_OUTCOME')
+    expect(flat).toContain('data/raw/aranix/search.json')
+    expect(flat).toContain('data/raw/tron/search.json')
   })
 
   it('deploys from the collection workflow and keeps fork builds read-only', () => {

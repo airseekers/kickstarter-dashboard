@@ -1,6 +1,19 @@
-import latest from '../data/tron/latest.json'
+import aranix from '../data/aranix/latest.json'
+import tron from '../data/tron/latest.json'
+import { projectKeyFromRoute, projectRouteFromPath, type ProjectRoute } from '../shared/routes.ts'
 import type { DatasetFile } from '../shared/types.ts'
 
-export function loadDataset(): DatasetFile {
-  return latest as DatasetFile
+const datasets = {
+  aranix: aranix as DatasetFile,
+  tron: tron as DatasetFile,
+}
+
+export function routeFromDocument(): ProjectRoute {
+  const declared = document.body.dataset.project
+  if (declared === 'TRON' || declared === 'ARANIX') return declared
+  return projectRouteFromPath(window.location.pathname)
+}
+
+export function loadDataset(route: ProjectRoute = routeFromDocument()): DatasetFile {
+  return datasets[projectKeyFromRoute(route)]
 }

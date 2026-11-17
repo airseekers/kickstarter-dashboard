@@ -78,6 +78,18 @@ button, input { font: inherit; }
 
 .state-live { background: rgba(47, 224, 197, 0.12); color: var(--cyan); }
 .state-failed, .state-canceled { background: rgba(240, 139, 139, 0.12); color: var(--danger); }
+.state-submitted, .state-started { background: rgba(226, 177, 90, 0.16); color: var(--amber); }
+
+.project-nav { display: flex; gap: 8px; margin-top: 10px; }
+.project-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 13px;
+}
+.project-nav a[aria-current='page'] { color: var(--cyan); border-color: rgba(47, 224, 197, 0.45); }
 
 .dot {
   width: 8px;
