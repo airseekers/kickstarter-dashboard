@@ -1,0 +1,7 @@
+name = "kickstarter-fetch"
+main = "src/index.js"
+compatibility_date = "2026-11-17"
+workers_dev = true
+
+# No route on kickstarter-dashboard.pages.dev. This worker is separate from
+# the existing Pages project and must not change that project's settings.

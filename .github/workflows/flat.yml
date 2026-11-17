@@ -1,14 +1,17 @@
 name: Flat Data
 
-# githubocto/flat fetches public Kickstarter responses, Deno postprocess validates
-# them, and the action's post step commits accepted files.
 # One hourly run at minute 17 UTC. ARANIX is fetched every time.
 # TRON is fetched in that same run only when the UTC hour is 2 (10:17 Beijing).
-# A successful campaign does not freeze comments, updates, or geography.
-# GitHub cron is best-effort and may start late. GITHUB_TOKEN commits do not start other
-# workflows, so this same workflow uploads and deploys the site after collection.
-# Do not put a skip-ci marker in the data commit. Deploy runs in this workflow,
-# and that marker would also suppress a later human-triggered rebuild.
+# GitHub cron is best-effort and may start late.
+#
+# This job only fetches. It commits data files when a Kickstarter observation was
+# accepted or Frankfurter rate/date actually changed. It then pushes that commit
+# to main and only afterwards builds and deploys GitHub Pages.
+# GITHUB_TOKEN pushes do not start the CI workflow, so Pages cannot wait for a
+# second workflow. Deploy stays in this workflow, after origin/main matches HEAD.
+# Failure, unchanged rates, and status-only records are not committed and are not deployed.
+# The commit message must not contain a Cloudflare skip prefix. Cloudflare Pages
+# Git integration deploys this real push on its own.
 
 on:
   schedule:
@@ -35,6 +38,8 @@ jobs:
   collect:
     if: github.repository == 'airseekers/kickstarter-dashboard'
     runs-on: ubuntu-latest
+    outputs:
+      pushed: ${{ steps.push.outputs.pushed }}
     permissions:
       actions: write
       contents: write
@@ -48,6 +53,8 @@ jobs:
 
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
 
       - name: Beijing timestamp
         id: clock
@@ -57,17 +64,6 @@ jobs:
           print("at=" + datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%dT%H:%M:%S+08:00"))
           PY
 
-      - name: Fetch HKD exchange rates
-        id: fetch_fx
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://api.frankfurter.app/latest?from=HKD&to=USD,CNY
-          downloaded_filename: data/fx/frankfurter.json
-          postprocess: deno/fx-postprocess.ts
-
       - name: Choose projects for this trigger
         id: targets
         env:
@@ -76,173 +72,75 @@ jobs:
           INPUT_PROJECT: ${{ inputs.project }}
         run: node --experimental-strip-types scripts/select-projects.ts
 
-      - name: Fetch TRON search JSON
-        id: fetch_tron_search
-        if: steps.targets.outputs.tron == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
+      - name: Fetch public data
         env:
           COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower
-          downloaded_filename: data/raw/tron/search.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch TRON project fragment
-        id: fetch_tron_project
-        if: steps.targets.outputs.tron == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json
-          downloaded_filename: data/raw/tron/project.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch TRON community page
-        id: fetch_tron_community
-        if: steps.targets.outputs.tron == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community
-          downloaded_filename: data/raw/tron/community.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch TRON FAQ page
-        id: fetch_tron_faqs
-        if: steps.targets.outputs.tron == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs
-          downloaded_filename: data/raw/tron/faqs.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch ARANIX search JSON
-        id: fetch_aranix_search
-        if: steps.targets.outputs.aranix == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/search.json?term=ARANIX
-          downloaded_filename: data/raw/aranix/search.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch ARANIX project fragment
-        id: fetch_aranix_project
-        if: steps.targets.outputs.aranix == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json
-          downloaded_filename: data/raw/aranix/project.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch ARANIX community page
-        id: fetch_aranix_community
-        if: steps.targets.outputs.aranix == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community
-          downloaded_filename: data/raw/aranix/community.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Fetch ARANIX FAQ page
-        id: fetch_aranix_faqs
-        if: steps.targets.outputs.aranix == 'true'
-        continue-on-error: true
-        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-        with:
-          http_url: https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs
-          downloaded_filename: data/raw/aranix/faqs.json
-          axios_config: data/axios.json
-          postprocess: deno/postprocess.ts
-
-      - name: Record failures without replacing last-known-good data
-        if: always()
-        env:
-          COLLECTED_AT: ${{ steps.clock.outputs.at }}
-          TRON_SEARCH_OUTCOME: ${{ steps.fetch_tron_search.outcome }}
-          TRON_PROJECT_OUTCOME: ${{ steps.fetch_tron_project.outcome }}
-          TRON_COMMUNITY_OUTCOME: ${{ steps.fetch_tron_community.outcome }}
-          TRON_FAQS_OUTCOME: ${{ steps.fetch_tron_faqs.outcome }}
-          ARANIX_SEARCH_OUTCOME: ${{ steps.fetch_aranix_search.outcome }}
-          ARANIX_PROJECT_OUTCOME: ${{ steps.fetch_aranix_project.outcome }}
-          ARANIX_COMMUNITY_OUTCOME: ${{ steps.fetch_aranix_community.outcome }}
-          ARANIX_FAQS_OUTCOME: ${{ steps.fetch_aranix_faqs.outcome }}
           COLLECTION_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
-        run: deno run --allow-read --allow-write deno/reconcile.ts
+          KICKSTARTER_FETCH_BASE: ${{ vars.KICKSTARTER_FETCH_BASE }}
+          ARANIX: ${{ steps.targets.outputs.aranix }}
+          TRON: ${{ steps.targets.outputs.tron }}
+        run: deno run --allow-env --allow-net --allow-read --allow-write --allow-run=git deno/collect.ts
 
-      - name: Stage data files
-        id: stage
-        if: always()
-        run: |
-          if git diff --cached --quiet; then
-            echo "flat_staged=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "flat_staged=true" >> "$GITHUB_OUTPUT"
-          fi
-          git add -A -- data
-          if git diff --cached --quiet; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
-          fi
+      - name: Decide whether the files should be published
+        id: decide
+        run: node --experimental-strip-types scripts/decide-publish.ts
 
-      - name: Commit status when Flat did not stage a payload
-        if: always() && steps.stage.outputs.flat_staged == 'false' && steps.stage.outputs.has_changes == 'true'
+      - name: Commit material data to main
+        id: push
         env:
           COLLECTED_AT: ${{ steps.clock.outputs.at }}
+          REASON: ${{ steps.decide.outputs.reason }}
         run: |
-          git config user.name "flat-data"
-          git config user.email "flat-data@users.noreply.github.com"
-          git commit -m "Flat: source status ${COLLECTED_AT}"
+          if [ "${{ steps.decide.outputs.publish }}" != "true" ]; then
+            echo "No material data change. Last-known-good stays. No deploy."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$REASON" = "fx_rates_changed" ]; then
+            git checkout -- data/aranix data/tron data/raw || true
+            git clean -fd -- data/aranix data/tron data/raw
+          fi
+          git add -- data
+          if git diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Data: ${COLLECTED_AT} (${REASON})"
           git push origin HEAD
+          git fetch origin main
+          local_sha="$(git rev-parse HEAD)"
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$local_sha" != "$remote_sha" ]; then
+            echo "origin/main is $remote_sha, expected $local_sha"
+            exit 1
+          fi
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$local_sha" >> "$GITHUB_OUTPUT"
 
       - name: Setup Node
-        if: always() && steps.stage.outcome == 'success'
+        if: steps.push.outputs.pushed == 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
           cache: npm
 
       - name: Build static site
-        if: always() && steps.stage.outcome == 'success'
+        if: steps.push.outputs.pushed == 'true'
         run: |
           npm ci
           npm run build
 
       - name: Upload Pages artifact
-        if: always() && steps.stage.outcome == 'success'
+        if: steps.push.outputs.pushed == 'true'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
 
   deploy:
     needs: collect
-    if: github.repository == 'airseekers/kickstarter-dashboard'
+    if: needs.collect.outputs.pushed == 'true' && github.repository == 'airseekers/kickstarter-dashboard'
     runs-on: ubuntu-latest
     permissions:
       actions: read
