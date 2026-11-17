@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "projectKey": "tron",
-  "cadence": "unscheduled",
-  "cron": "",
+  "cadence": "daily",
+  "cron": "17 2 * * *",
   "observations": [],
   "attempts": [],
   "baseline": {

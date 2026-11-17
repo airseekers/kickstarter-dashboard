@@ -2,8 +2,9 @@ name: Flat Data
 
 # githubocto/flat fetches public Kickstarter responses, Deno postprocess validates
 # them, and the action's post step commits accepted files.
-# ARANIX: minute 17 of every UTC hour (also Beijing hh:17).
-# TRON is successful and is not on a schedule. A manual run can still select tron.
+# One hourly run at minute 17 UTC. ARANIX is fetched every time.
+# TRON is fetched in that same run only when the UTC hour is 2 (10:17 Beijing).
+# A successful campaign does not freeze comments, updates, or geography.
 # GitHub cron is best-effort and may start late. GITHUB_TOKEN commits do not start other
 # workflows, so this same workflow uploads and deploys the site after collection.
 # Do not put a skip-ci marker in the data commit. Deploy runs in this workflow,
@@ -15,12 +16,13 @@ on:
   workflow_dispatch:
     inputs:
       project:
-        description: 要采集的项目。定时运行只抓 ARANIX。TRON 已众筹成功，不在定时里。
+        description: 手动采集的项目。定时运行忽略此项：每小时抓 ARANIX，UTC 2 点那次同时抓 TRON。
         type: choice
         default: aranix
         options:
           - aranix
           - tron
+          - both
 
 permissions:
   contents: read

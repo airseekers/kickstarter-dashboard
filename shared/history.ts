@@ -85,7 +85,7 @@ export interface ManifestRow {
 export interface HistoryManifest {
   schemaVersion: typeof HISTORY_SCHEMA_VERSION
   projectKey: string
-  cadence: 'hourly' | 'unscheduled'
+  cadence: 'hourly' | 'daily'
   cron: string
   observations: ManifestRow[]
   attempts: Array<{ runId: string; attemptedAt: string; path: string }>

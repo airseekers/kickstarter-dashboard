@@ -11,6 +11,7 @@ describe('actions configuration', () => {
   it('schedules only ARANIX and pins the real flat action', () => {
     expect(flat).toContain("cron: '17 * * * *'")
     expect(flat).not.toContain("cron: '0 2 * * *'")
+    expect(flat).toContain('steps.targets.outputs.tron')
     expect(flat).toContain('workflow_dispatch:')
     expect(flat).toContain('githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d')
     expect(flat).toContain('denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282')

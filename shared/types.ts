@@ -88,7 +88,7 @@ export interface SourceState {
 
 export interface CollectionMeta {
   schemaVersion: 2
-  cadence: 'hourly' | 'unscheduled'
+  cadence: 'hourly' | 'daily'
   cron: string
   beijing: string
   flatObservationCount: number

@@ -138,10 +138,12 @@ describe('collection history', () => {
 
 describe('schedule gating', () => {
   it('fetches ARANIX hourly and TRON daily', () => {
-    expect(projectsForTrigger({ name: 'schedule', schedule: ARANIX_CRON })).toEqual(['aranix'])
-    expect(projectsForTrigger({ name: 'schedule', schedule: '0 2 * * *' })).toEqual([])
+    expect(projectsForTrigger({ name: 'schedule', schedule: ARANIX_CRON, utcHour: 3 })).toEqual(['aranix'])
+    expect(projectsForTrigger({ name: 'schedule', schedule: ARANIX_CRON, utcHour: 2 })).toEqual(['aranix', 'tron'])
+    expect(projectsForTrigger({ name: 'schedule', schedule: '0 2 * * *', utcHour: 2 })).toEqual([])
     expect(projectsForTrigger({ name: 'workflow_dispatch' })).toEqual(['aranix'])
     expect(projectsForTrigger({ name: 'workflow_dispatch', input: 'tron' })).toEqual(['tron'])
+    expect(projectsForTrigger({ name: 'workflow_dispatch', input: 'both' })).toEqual(['aranix', 'tron'])
     const workflow = readFileSync(new URL('../.github/workflows/flat.yml', import.meta.url), 'utf8')
     expect(workflow).toContain(`cron: '${ARANIX_CRON}'`)
     expect(workflow).not.toContain("cron: '0 2 * * *'")

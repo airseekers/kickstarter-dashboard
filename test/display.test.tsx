@@ -85,7 +85,7 @@ describe('dashboard copy', () => {
   it('does not draw a trend from the seed snapshot', () => {
     const page = html(buildSeedDataset())
     expect(page).toContain('至少有两次真实成功观测')
-    expect(page).toContain('不再定时抓取')
+    expect(page).toContain('10:17')
     expect(page).not.toContain('<polyline')
   })
 

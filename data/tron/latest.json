@@ -324,9 +324,9 @@
   ],
   "collection": {
     "schemaVersion": 2,
-    "cadence": "unscheduled",
-    "cron": "",
-    "beijing": "众筹已成功，公开数字不再定时抓取。页面保持 2026-11-16 的人工快照。",
+    "cadence": "daily",
+    "cron": "17 2 * * *",
+    "beijing": "每天 02:17 UTC，即北京时间 10:17。与 ARANIX 共用每小时第 17 分的那一次运行，只有 UTC 小时为 2 时才抓 TRON。Actions 定时是尽力而为，不保证准点。",
     "flatObservationCount": 0,
     "lastAcceptedAt": null,
     "lastAttemptAt": null
