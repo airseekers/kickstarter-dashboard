@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "timezone": "Asia/Shanghai",
+  "projects": [
+    {
+      "key": "tron",
+      "id": 1873694145,
+      "creator": "airseekers",
+      "slug": "tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+      "searchTerm": "tron 360 ai vision robot mower",
+      "displayName": "TRON",
+      "productName": "360° AI 视觉割草机器人",
+      "sources": {
+        "search": "https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower",
+        "project_json": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json",
+        "community": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community",
+        "faqs": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs"
+      }
+    }
+  ]
+}

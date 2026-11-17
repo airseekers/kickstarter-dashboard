@@ -1,0 +1,329 @@
+{
+  "schemaVersion": 1,
+  "writtenAt": "2026-11-16T23:12:00+08:00",
+  "writtenBy": "manual_seed",
+  "project": {
+    "key": "tron",
+    "id": 1873694145,
+    "creator": "airseekers",
+    "slug": "tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+    "name": "Tron 360° AI Vision Robotic Mower with Auto-Mulching",
+    "blurb": "360° AI Vision Navigation, Smart Collision Avoidance, No Wiring&Signal Issue, Mulch for Neat Lawns, No Dumping Hassle, For Complex Yard",
+    "displayName": "TRON",
+    "productName": "360° AI 视觉割草机器人",
+    "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+    "state": "successful",
+    "staffPick": true,
+    "spotlight": true,
+    "isLaunched": true,
+    "prelaunchActivated": true,
+    "isInPostCampaignPledgingPhase": false,
+    "country": "HK",
+    "locationName": "Hong Kong, Hong Kong",
+    "categoryName": "Hardware",
+    "currency": "HKD"
+  },
+  "snapshot": {
+    "provenance": "manual_seed",
+    "snapshotDate": "2026-11-16",
+    "capturedAt": "2026-11-16T23:12:00+08:00",
+    "capturedAtPrecision": "approximate",
+    "timezone": "Asia/Shanghai",
+    "pledged": 17572828,
+    "goal": 156576,
+    "percentFunded": 11223.193848354793,
+    "backersCount": 1389,
+    "averagePledge": 12651.42,
+    "usdPledged": "2244482.60289708",
+    "convertedPledgedAmount": 2250050,
+    "staticUsdRate": 0.12772461,
+    "usdExchangeRate": 0.12804146,
+    "fxRate": 0.12746144,
+    "currentCurrency": "USD",
+    "newBackers": 681,
+    "returningBackers": 708,
+    "countries": [
+      {
+        "rank": 1,
+        "nameEn": "United States",
+        "nameZh": "美国",
+        "countryEn": "United States",
+        "countryZh": "美国",
+        "countryCode": "US",
+        "backers": 301
+      },
+      {
+        "rank": 2,
+        "nameEn": "Germany",
+        "nameZh": "德国",
+        "countryEn": "Germany",
+        "countryZh": "德国",
+        "countryCode": "DE",
+        "backers": 125
+      },
+      {
+        "rank": 3,
+        "nameEn": "France",
+        "nameZh": "法国",
+        "countryEn": "France",
+        "countryZh": "法国",
+        "countryCode": "FR",
+        "backers": 96
+      },
+      {
+        "rank": 4,
+        "nameEn": "Belgium",
+        "nameZh": "比利时",
+        "countryEn": "Belgium",
+        "countryZh": "比利时",
+        "countryCode": "BE",
+        "backers": 84
+      },
+      {
+        "rank": 5,
+        "nameEn": "United Kingdom",
+        "nameZh": "英国",
+        "countryEn": "United Kingdom",
+        "countryZh": "英国",
+        "countryCode": "GB",
+        "backers": 60
+      },
+      {
+        "rank": 6,
+        "nameEn": "Netherlands",
+        "nameZh": "荷兰",
+        "countryEn": "Netherlands",
+        "countryZh": "荷兰",
+        "countryCode": "NL",
+        "backers": 55
+      },
+      {
+        "rank": 7,
+        "nameEn": "Denmark",
+        "nameZh": "丹麦",
+        "countryEn": "Denmark",
+        "countryZh": "丹麦",
+        "countryCode": "DK",
+        "backers": 51
+      },
+      {
+        "rank": 8,
+        "nameEn": "Poland",
+        "nameZh": "波兰",
+        "countryEn": "Poland",
+        "countryZh": "波兰",
+        "countryCode": "PL",
+        "backers": 51
+      },
+      {
+        "rank": 9,
+        "nameEn": "Italy",
+        "nameZh": "意大利",
+        "countryEn": "Italy",
+        "countryZh": "意大利",
+        "countryCode": "IT",
+        "backers": 45
+      },
+      {
+        "rank": 10,
+        "nameEn": "Sweden",
+        "nameZh": "瑞典",
+        "countryEn": "Sweden",
+        "countryZh": "瑞典",
+        "countryCode": "SE",
+        "backers": 41
+      }
+    ],
+    "cities": [
+      {
+        "rank": 1,
+        "nameEn": "Copenhagen",
+        "nameZh": "哥本哈根",
+        "countryEn": "Denmark",
+        "countryZh": "丹麦",
+        "countryCode": "DK",
+        "backers": 21
+      },
+      {
+        "rank": 2,
+        "nameEn": "London",
+        "nameZh": "伦敦",
+        "countryEn": "United Kingdom",
+        "countryZh": "英国",
+        "countryCode": "GB",
+        "backers": 20
+      },
+      {
+        "rank": 3,
+        "nameEn": "Ljubljana",
+        "nameZh": "卢布尔雅那",
+        "countryEn": "Slovenia",
+        "countryZh": "斯洛文尼亚",
+        "countryCode": "SI",
+        "backers": 18
+      },
+      {
+        "rank": 4,
+        "nameEn": "Brussels",
+        "nameZh": "布鲁塞尔",
+        "countryEn": "Belgium",
+        "countryZh": "比利时",
+        "countryCode": "BE",
+        "backers": 17
+      },
+      {
+        "rank": 5,
+        "nameEn": "Paris",
+        "nameZh": "巴黎",
+        "countryEn": "France",
+        "countryZh": "法国",
+        "countryCode": "FR",
+        "backers": 16
+      },
+      {
+        "rank": 6,
+        "nameEn": "Budapest",
+        "nameZh": "布达佩斯",
+        "countryEn": "Hungary",
+        "countryZh": "匈牙利",
+        "countryCode": "HU",
+        "backers": 14
+      },
+      {
+        "rank": 7,
+        "nameEn": "Vilnius",
+        "nameZh": "维尔纽斯",
+        "countryEn": "Lithuania",
+        "countryZh": "立陶宛",
+        "countryCode": "LT",
+        "backers": 14
+      },
+      {
+        "rank": 8,
+        "nameEn": "Vienna",
+        "nameZh": "维也纳",
+        "countryEn": "Austria",
+        "countryZh": "奥地利",
+        "countryCode": "AT",
+        "backers": 13
+      },
+      {
+        "rank": 9,
+        "nameEn": "Dublin",
+        "nameZh": "都柏林",
+        "countryEn": "Ireland",
+        "countryZh": "爱尔兰",
+        "countryCode": "IE",
+        "backers": 12
+      },
+      {
+        "rank": 10,
+        "nameEn": "Berlin",
+        "nameZh": "柏林",
+        "countryEn": "Germany",
+        "countryZh": "德国",
+        "countryCode": "DE",
+        "backers": 12
+      }
+    ],
+    "comments": 2680,
+    "updates": 47,
+    "faqs": 35,
+    "createdAt": "2023-10-18T15:38:52+08:00",
+    "launchedAt": "2024-04-09T22:00:10+08:00",
+    "deadline": "2024-05-24T22:00:10+08:00",
+    "stateChangedAt": "2024-05-24T22:00:10+08:00",
+    "campaignDays": 45,
+    "communityPageHeaderText": "Last updated October 19, 2026",
+    "geographyUpdatedAt": null,
+    "observations": {
+      "funding": {
+        "provenance": "manual_seed",
+        "capturedAt": "2026-11-16T23:12:00+08:00",
+        "capturedAtPrecision": "approximate"
+      },
+      "community": {
+        "provenance": "manual_seed",
+        "capturedAt": "2026-11-16T23:12:00+08:00",
+        "capturedAtPrecision": "approximate"
+      },
+      "activity": {
+        "provenance": "manual_seed",
+        "capturedAt": "2026-11-16T23:12:00+08:00",
+        "capturedAtPrecision": "approximate"
+      }
+    }
+  },
+  "history": [
+    {
+      "provenance": "manual_seed",
+      "snapshotDate": "2026-11-16",
+      "capturedAt": "2026-11-16T23:12:00+08:00",
+      "capturedAtPrecision": "approximate",
+      "pledged": 17572828,
+      "goal": 156576,
+      "percentFunded": 11223.193848354793,
+      "backersCount": 1389,
+      "averagePledge": 12651.42,
+      "usdPledged": "2244482.60289708",
+      "convertedPledgedAmount": 2250050,
+      "newBackers": 681,
+      "returningBackers": 708,
+      "comments": 2680,
+      "updates": 47,
+      "faqs": 35,
+      "top10Backers": 909,
+      "top10Share": 0.6544276457883369
+    }
+  ],
+  "sources": [
+    {
+      "id": "search",
+      "url": "https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "project_json",
+      "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "community",
+      "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "faqs",
+      "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    }
+  ],
+  "notes": [
+    "人工种子快照，整理时间约 2026-11-16 23:12（北京时间，UTC+8）。这不是 Flat Data 的自动抓取。",
+    "平均每位支持金额由已筹港元除以支持人数得到，不是商品单价。",
+    "新老支持者表示是否曾支持 Kickstarter 上的其他项目，不代表 Airseekers 品牌复购。",
+    "国家与城市只包含公开 Top 10，没有地区金额，也不能当成完整地理分布。",
+    "社区页页眉 “Last updated October 19, 2026” 不是地区数据的更新时间。",
+    "usd_pledged 是静态历史美元；converted_pledged_amount 是另一套现行换算。fx_rate 又是第三套，三者不能互相替代。"
+  ]
+}

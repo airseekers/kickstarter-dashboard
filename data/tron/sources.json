@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "projectKey": "tron",
+  "writtenAt": "2026-11-16T23:12:00+08:00",
+  "writtenBy": "manual_seed",
+  "sources": [
+    {
+      "id": "search",
+      "url": "https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "project_json",
+      "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "community",
+      "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    },
+    {
+      "id": "faqs",
+      "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs",
+      "fetchedAt": null,
+      "lastSuccessAt": null,
+      "httpStatus": null,
+      "status": "seed",
+      "accepted": false,
+      "error": null
+    }
+  ]
+}
