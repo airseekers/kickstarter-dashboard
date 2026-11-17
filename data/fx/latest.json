@@ -4,8 +4,8 @@
   "sourceUrl": "https://api.frankfurter.app/latest?from=HKD&to=USD,CNY",
   "base": "HKD",
   "rateDate": "2026-11-16",
-  "retrievedAt": "2026-11-17T11:47:00+08:00",
-  "retrievedAtPrecision": "approximate",
+  "retrievedAt": "2026-11-17T20:00:10+08:00",
+  "retrievedAtPrecision": "exact",
   "estimated": true,
   "status": "ok",
   "rates": {
