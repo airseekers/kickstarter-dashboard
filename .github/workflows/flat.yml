@@ -57,6 +57,17 @@ jobs:
           print("at=" + datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%dT%H:%M:%S+08:00"))
           PY
 
+      - name: Fetch HKD exchange rates
+        id: fetch_fx
+        continue-on-error: true
+        uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
+        env:
+          COLLECTED_AT: ${{ steps.clock.outputs.at }}
+        with:
+          http_url: https://api.frankfurter.app/latest?from=HKD&to=USD,CNY
+          downloaded_filename: data/fx/frankfurter.json
+          postprocess: deno/fx-postprocess.ts
+
       - name: Choose projects for this trigger
         id: targets
         env:

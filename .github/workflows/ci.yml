@@ -31,6 +31,7 @@ jobs:
       - name: Install, typecheck, test, lint, and build
         run: |
           npm ci
+          npx playwright install --with-deps chromium
           npm run typecheck
           npm test
           npm run lint

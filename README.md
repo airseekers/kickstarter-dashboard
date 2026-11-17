@@ -69,6 +69,8 @@ npm run preview
 
 页面上的「采集节奏」显示 cron、成功观测次数和最近成功时间。同一字段至少两次 `observed` 数值之后才画线；中间缺失会断开，不会当成已知变化。现在仓库里还没有 Flat Data 成功观测，所以还没有趋势曲线。
 
+金额切换默认人民币，可选美元。换算使用 `data/fx/latest.json` 里缓存的 Frankfurter / 欧洲央行参考汇率，不在浏览器里实时请求。这是估算，汇率日和检索时间写在页脚。Kickstarter 的 `usd_pledged` 与 `converted_pledged_amount` 保持原值。汇率抓取失败时保留上一份有效汇率并标成过期；没有上一份就不换算。人数和百分比不换算。
+
 后处理会校验项目 id / slug / creator、拒绝挑战页、拒绝负数，并拒绝把已有正数筹款覆盖成 0。签名图片和 `signature=` 地址不会进入接受后的文件。
 
 采集和部署在同一个 workflow。`GITHUB_TOKEN` 提交的数据不会再触发别的 workflow，所以不能靠 push 去带动 Pages。

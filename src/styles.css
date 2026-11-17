@@ -18,6 +18,11 @@
 
 * { box-sizing: border-box; }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -29,15 +34,13 @@ button, input { font: inherit; }
 
 .page {
   width: 100%;
-  min-height: 100vh;
-  padding: 22px 28px 16px;
+  min-height: 100%;
+  height: auto;
+  overflow: visible;
+  padding: 22px 28px 28px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-@media (min-width: 1101px) {
-  .page { height: 100vh; overflow: hidden; }
 }
 
 .top {
@@ -120,7 +123,7 @@ button, input { font: inherit; }
 
 .kpis, .mid, .bottom { display: grid; gap: 14px; }
 .kpis { grid-template-columns: 1.25fr 0.85fr 1.15fr 1.05fr; }
-.mid { grid-template-columns: 1.15fr 0.95fr 1.05fr; flex: 1; }
+.mid { grid-template-columns: 1.15fr 0.95fr 1.05fr; }
 .bottom { grid-template-columns: 0.9fr 1.25fr; }
 
 .card {
@@ -159,9 +162,20 @@ button, input { font: inherit; }
 .card-foot strong { color: var(--text); font-size: 18px; margin: 0 8px; }
 .card-foot span { color: var(--cyan); }
 
+.currency-switch { display: inline-flex; gap: 6px; margin-top: 8px; }
+.currency-switch button {
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.currency-switch button[aria-pressed='true'] { color: var(--cyan); border-color: rgba(47, 224, 197, 0.5); }
+
 .kpi-value {
   margin: 14px 0 8px;
-  font-size: 40px;
+  font-size: clamp(28px, 3vw, 40px);
   line-height: 1;
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -290,7 +304,7 @@ button, input { font: inherit; }
 .footer-brand { text-align: right; min-width: 280px; }
 
 @media (max-width: 1100px) {
-  .page { height: auto; overflow: visible; }
+  .page { height: auto; overflow: visible; padding: 20px 16px 28px; }
   .mid { flex: none; }
   .bars, .cities, .split { flex: none; }
   .top, .kpis, .mid, .bottom, .footer { grid-template-columns: 1fr; display: grid; }
