@@ -98,6 +98,7 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -108,6 +109,7 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -118,6 +120,7 @@
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -128,6 +131,7 @@
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -136,6 +140,15 @@
       "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
     }
   ],
+  "collection": {
+    "schemaVersion": 2,
+    "cadence": "hourly",
+    "cron": "17 * * * *",
+    "beijing": "每小时第 17 分（UTC 与北京时间相同的分钟）。GitHub Actions 定时是尽力而为，不保证准点。",
+    "flatObservationCount": 0,
+    "lastAcceptedAt": null,
+    "lastAttemptAt": null
+  },
   "notes": [
     "公开搜索 JSON（term=ARANIX）人工核对快照，约 2026-11-17 10:51（北京时间）。不是 Flat Data 自动抓取。",
     "WebFetch 可能返回缓存，不能当成实时数据。",

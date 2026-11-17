@@ -1,4 +1,5 @@
 import { snapshotToHistoryPoint } from './merge.ts'
+import { collectionCopy } from './schedule.ts'
 import { SCHEMA_VERSION, type DatasetFile, type ProjectConfig, type SourceId } from './types.ts'
 
 export const ARANIX_CAPTURED_AT = '2026-11-17T10:51:00+08:00'
@@ -98,6 +99,7 @@ export function buildAranixDataset(): DatasetFile {
     sources: (Object.keys(ARANIX_PROJECT.sources) as SourceId[]).map((id) => ({
       id,
       url: ARANIX_PROJECT.sources[id],
+      attemptedAt: null,
       fetchedAt: null,
       lastSuccessAt: null,
       httpStatus: null,
@@ -105,6 +107,13 @@ export function buildAranixDataset(): DatasetFile {
       accepted: false,
       error: id === 'search' ? null : missingSource,
     })),
+    collection: {
+      schemaVersion: 2,
+      ...collectionCopy('aranix'),
+      flatObservationCount: 0,
+      lastAcceptedAt: null,
+      lastAttemptAt: null,
+    },
     notes: [
       '公开搜索 JSON（term=ARANIX）人工核对快照，约 2026-11-17 10:51（北京时间）。不是 Flat Data 自动抓取。',
       'WebFetch 可能返回缓存，不能当成实时数据。',

@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { buildAranixDataset } from '../shared/aranix.ts'
 import { Dashboard } from '../src/components/Dashboard.tsx'
+import { HistoryChart } from '../src/components/HistoryChart.tsx'
 import { buildSeedDataset } from '../shared/seed.ts'
 import type { DatasetFile } from '../shared/types.ts'
 
@@ -81,26 +82,32 @@ describe('dashboard copy', () => {
     expect(html(stale)).toContain('超过 48 小时未成功复核')
   })
 
-  it('draws a trend only after a real flat snapshot exists beside the seed', () => {
-    const dataset = buildSeedDataset()
-    dataset.snapshot.observations.funding = {
-      provenance: 'flat',
-      capturedAt: '2026-11-17T10:00:00+08:00',
-      capturedAtPrecision: 'exact',
-    }
-    dataset.history.push({
-      ...dataset.history[0],
-      provenance: 'flat',
-      snapshotDate: '2026-11-17',
-      capturedAt: '2026-11-17T10:00:00+08:00',
-      capturedAtPrecision: 'exact',
-    })
-    const page = html(dataset)
-    expect(page).toContain('<polyline')
-    expect(page).toContain('已筹金额（港元）')
-    expect(page).toContain('不含编造回填')
-    expect(page).toContain('2026-11-16')
-    expect(page).toContain('2026-11-17')
+  it('does not draw a trend from the seed snapshot', () => {
+    const page = html(buildSeedDataset())
+    expect(page).toContain('至少有两次真实成功观测')
+    expect(page).toContain('不再定时抓取')
+    expect(page).not.toContain('<polyline')
+  })
+
+  it('draws separate marks when a missing observation sits between two values', () => {
+    const page = renderToStaticMarkup(createElement(HistoryChart, {
+      unit: 'HKD',
+      points: [
+        { at: '2026-11-17T10:17:00+08:00', value: 10 },
+        { at: '2026-11-17T11:17:00+08:00', value: null },
+        { at: '2026-11-17T12:17:00+08:00', value: 12 },
+      ],
+    }))
+    expect(page).not.toContain('<polyline')
+    expect(page.match(/<circle /g)).toHaveLength(2)
+    const connected = renderToStaticMarkup(createElement(HistoryChart, {
+      unit: 'HKD',
+      points: [
+        { at: '2026-11-17T10:17:00+08:00', value: 10 },
+        { at: '2026-11-17T11:17:00+08:00', value: 11 },
+      ],
+    }))
+    expect(connected).toContain('<polyline')
   })
 
   it('shows the unlaunched ARANIX snapshot without TRON geography or amounts', () => {

@@ -86,7 +86,7 @@ describe('parsers and preservation', () => {
     const next = applyAttempt(seed, { source: 'search', result: parsed, fetchedAt, httpStatus: 200 })
     expect(next.snapshot.observations.funding.provenance).toBe('flat')
     expect(next.snapshot.pledged).toBe(17572828)
-    expect(next.history.some((point) => point.provenance === 'flat')).toBe(true)
+    expect(next.history.every((point) => point.provenance === 'manual_seed')).toBe(true)
     expect(next.sources.find((source) => source.id === 'search')?.status).toBe('ok')
   })
 

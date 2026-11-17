@@ -280,6 +280,7 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -290,6 +291,7 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -300,6 +302,7 @@
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -310,6 +313,7 @@
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -318,6 +322,15 @@
       "error": null
     }
   ],
+  "collection": {
+    "schemaVersion": 2,
+    "cadence": "unscheduled",
+    "cron": "",
+    "beijing": "众筹已成功，公开数字不再定时抓取。页面保持 2026-11-16 的人工快照。",
+    "flatObservationCount": 0,
+    "lastAcceptedAt": null,
+    "lastAttemptAt": null
+  },
   "notes": [
     "人工种子快照，整理时间约 2026-11-16 23:12（北京时间，UTC+8）。这不是 Flat Data 的自动抓取。",
     "平均每位支持金额由已筹港元除以支持人数得到，不是商品单价。",

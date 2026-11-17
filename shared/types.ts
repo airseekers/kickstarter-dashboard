@@ -74,12 +74,26 @@ export interface HistoryPoint {
 export interface SourceState {
   id: SourceId
   url: string
+  /** Last time this source was attempted, including failures. */
+  attemptedAt: string | null
+  /** Last attempt time. Kept alongside attemptedAt for earlier files. */
   fetchedAt: string | null
+  /** Last time a payload from this source was accepted. */
   lastSuccessAt: string | null
   httpStatus: number | null
   status: SourceStatusCode
   accepted: boolean
   error: string | null
+}
+
+export interface CollectionMeta {
+  schemaVersion: 2
+  cadence: 'hourly' | 'unscheduled'
+  cron: string
+  beijing: string
+  flatObservationCount: number
+  lastAcceptedAt: string | null
+  lastAttemptAt: string | null
 }
 
 export interface ProjectIdentity {
@@ -152,6 +166,7 @@ export interface DatasetFile {
   history: HistoryPoint[]
   sources: SourceState[]
   notes: string[]
+  collection: CollectionMeta
 }
 
 export interface AcceptedPatch {

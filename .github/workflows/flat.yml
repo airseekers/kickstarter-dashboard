@@ -1,16 +1,26 @@
 name: Flat Data
 
 # githubocto/flat fetches public Kickstarter responses, Deno postprocess validates
-# them, and the action's post step commits accepted files. Schedule is 02:00 UTC,
-# which is 10:00 in Asia/Shanghai. GITHUB_TOKEN commits do not start other
+# them, and the action's post step commits accepted files.
+# ARANIX: minute 17 of every UTC hour (also Beijing hh:17).
+# TRON is successful and is not on a schedule. A manual run can still select tron.
+# GitHub cron is best-effort and may start late. GITHUB_TOKEN commits do not start other
 # workflows, so this same workflow uploads and deploys the site after collection.
 # Do not put a skip-ci marker in the data commit. Deploy runs in this workflow,
 # and that marker would also suppress a later human-triggered rebuild.
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '17 * * * *'
   workflow_dispatch:
+    inputs:
+      project:
+        description: 要采集的项目。定时运行只抓 ARANIX。TRON 已众筹成功，不在定时里。
+        type: choice
+        default: aranix
+        options:
+          - aranix
+          - tron
 
 permissions:
   contents: read
@@ -45,8 +55,17 @@ jobs:
           print("at=" + datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%dT%H:%M:%S+08:00"))
           PY
 
+      - name: Choose projects for this trigger
+        id: targets
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          INPUT_PROJECT: ${{ inputs.project }}
+        run: node --experimental-strip-types scripts/select-projects.ts
+
       - name: Fetch TRON search JSON
         id: fetch_tron_search
+        if: steps.targets.outputs.tron == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -59,6 +78,7 @@ jobs:
 
       - name: Fetch TRON project fragment
         id: fetch_tron_project
+        if: steps.targets.outputs.tron == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -71,6 +91,7 @@ jobs:
 
       - name: Fetch TRON community page
         id: fetch_tron_community
+        if: steps.targets.outputs.tron == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -83,6 +104,7 @@ jobs:
 
       - name: Fetch TRON FAQ page
         id: fetch_tron_faqs
+        if: steps.targets.outputs.tron == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -95,6 +117,7 @@ jobs:
 
       - name: Fetch ARANIX search JSON
         id: fetch_aranix_search
+        if: steps.targets.outputs.aranix == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -107,6 +130,7 @@ jobs:
 
       - name: Fetch ARANIX project fragment
         id: fetch_aranix_project
+        if: steps.targets.outputs.aranix == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -119,6 +143,7 @@ jobs:
 
       - name: Fetch ARANIX community page
         id: fetch_aranix_community
+        if: steps.targets.outputs.aranix == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -131,6 +156,7 @@ jobs:
 
       - name: Fetch ARANIX FAQ page
         id: fetch_aranix_faqs
+        if: steps.targets.outputs.aranix == 'true'
         continue-on-error: true
         uses: githubocto/flat@cea5ee43fce40ef71501bf5724a00d45db11641d # v3.4.0
         env:
@@ -153,6 +179,7 @@ jobs:
           ARANIX_PROJECT_OUTCOME: ${{ steps.fetch_aranix_project.outcome }}
           ARANIX_COMMUNITY_OUTCOME: ${{ steps.fetch_aranix_community.outcome }}
           ARANIX_FAQS_OUTCOME: ${{ steps.fetch_aranix_faqs.outcome }}
+          COLLECTION_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: deno run --allow-read --allow-write deno/reconcile.ts
 
       - name: Stage data files

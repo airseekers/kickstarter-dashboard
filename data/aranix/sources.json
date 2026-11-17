@@ -7,6 +7,7 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -17,6 +18,7 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -27,6 +29,7 @@
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,
@@ -37,6 +40,7 @@
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
+      "attemptedAt": null,
       "fetchedAt": null,
       "lastSuccessAt": null,
       "httpStatus": null,

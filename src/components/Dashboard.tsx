@@ -1,5 +1,4 @@
 import {
-  canShowTrend,
   freshnessCopy,
   freshnessOf,
   sourceName,
@@ -15,9 +14,10 @@ import {
   timesGoal,
   top10Total,
 } from '../../shared/metrics.ts'
+import { HistoryChart } from './HistoryChart.tsx'
 import { PAGE_BASE, PROJECT_ROUTES, type ProjectRoute } from '../../shared/routes.ts'
 import { dateOnly, shanghaiDate } from '../../shared/time.ts'
-import type { DatasetFile, GeoRow, HistoryPoint } from '../../shared/types.ts'
+import type { DatasetFile, GeoRow } from '../../shared/types.ts'
 
 export function Dashboard({
   dataset,
@@ -213,7 +213,21 @@ export function Dashboard({
         </article>
       </section>
 
-      {canShowTrend(dataset) ? <Trend history={dataset.history} /> : null}
+      <section className="card collection">
+        <div className="card-head">
+          <h2>采集节奏</h2>
+          <span className="unit">{dataset.collection.cron || '不定时'}</span>
+        </div>
+        <p className="card-kicker">{dataset.collection.beijing}</p>
+        <p className="card-foot">
+          Flat Data 成功观测 <strong>{dataset.collection.flatObservationCount}</strong> 次
+          <span>最近成功 {dataset.collection.lastAcceptedAt ?? '尚无'}</span>
+        </p>
+        <p className="empty">
+          历史趋势会在同一字段至少有两次真实成功观测之后显示。种子快照和失败记录不会连成曲线。
+        </p>
+        <HistoryChart points={[]} unit={dataset.project.currency} />
+      </section>
 
       <footer className="footer">
         <div>
@@ -338,36 +352,5 @@ function BackerSplit({ freshCount, returningCount }: { freshCount: number; retur
         </p>
       </div>
     </div>
-  )
-}
-
-function Trend({ history }: { history: HistoryPoint[] }) {
-  const width = 720
-  const height = 200
-  const values = history.map((point) => point.pledged)
-  const min = Math.min(...values)
-  const max = Math.max(...values)
-  const coords = history.map((point, index) => {
-    const x = history.length === 1 ? width / 2 : 28 + (index / (history.length - 1)) * (width - 56)
-    const y = max === min ? height / 2 : 24 + (1 - (point.pledged - min) / (max - min)) * (height - 56)
-    return { x, y, point }
-  })
-  return (
-    <section className="card trend">
-      <div className="card-head">
-        <h2>已筹金额（港元）</h2>
-        <span className="unit">仅真实采集快照</span>
-      </div>
-      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="已筹金额随已接受快照变化">
-        <polyline points={coords.map((item) => `${item.x},${item.y}`).join(' ')} />
-        {coords.map((item) => (
-          <circle key={item.point.capturedAt} cx={item.x} cy={item.y} r="4" />
-        ))}
-      </svg>
-      <p className="card-foot">
-        横轴：快照日期（北京时间）{history.map((point) => point.snapshotDate).join('、')}。纵轴：已筹港元。
-        来源：已接受快照，不含编造回填。
-      </p>
-    </section>
   )
 }

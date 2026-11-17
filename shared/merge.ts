@@ -93,6 +93,7 @@ export function applyAttempt(dataset: DatasetFile, input: ApplyInput): DatasetFi
   const source = next.sources.find((item) => item.id === input.source)
   if (!source) return next
   if (!input.result.ok) {
+    source.attemptedAt = input.fetchedAt
     source.fetchedAt = input.fetchedAt
     source.status = input.result.status
     source.error = input.result.error
@@ -126,6 +127,7 @@ export function applyAttempt(dataset: DatasetFile, input: ApplyInput): DatasetFi
   }
   if (patch.project) next.project = { ...next.project, ...patch.project, id: next.project.id, slug: next.project.slug, creator: next.project.creator, key: next.project.key }
   if (patch.snapshot) next.snapshot = applyPatch(next.snapshot, patch.snapshot, input.source, input.fetchedAt)
+  source.attemptedAt = input.fetchedAt
   source.fetchedAt = input.fetchedAt
   source.lastSuccessAt = input.fetchedAt
   source.status = 'ok'
@@ -134,11 +136,11 @@ export function applyAttempt(dataset: DatasetFile, input: ApplyInput): DatasetFi
   source.httpStatus = input.httpStatus
   next.writtenAt = input.fetchedAt
   next.writtenBy = input.source === 'search' ? 'flat' : next.writtenBy
-  if (input.source === 'search') sealHistory(next)
   return next
 }
 
 function markInvalid(dataset: DatasetFile, source: SourceState, input: ApplyInput, error: string): DatasetFile {
+  source.attemptedAt = input.fetchedAt
   source.fetchedAt = input.fetchedAt
   source.status = 'invalid'
   source.error = error
@@ -146,16 +148,6 @@ function markInvalid(dataset: DatasetFile, source: SourceState, input: ApplyInpu
   source.httpStatus = input.httpStatus
   dataset.writtenAt = input.fetchedAt
   dataset.writtenBy = 'status_only'
-  return dataset
-}
-
-export function sealHistory(dataset: DatasetFile): DatasetFile {
-  if (dataset.snapshot.observations.funding.provenance !== 'flat') return dataset
-  const point = snapshotToHistoryPoint(dataset.snapshot)
-  const exists = dataset.history.some(
-    (item) => item.provenance === 'flat' && item.capturedAt === point.capturedAt,
-  )
-  if (!exists) dataset.history.push(point)
   return dataset
 }
 
@@ -171,6 +163,7 @@ export function markStepFailure(
   if (!source) return next
   if (source.fetchedAt === fetchedAt) return next
   const previousSuccess = source.lastSuccessAt
+  source.attemptedAt = fetchedAt
   source.fetchedAt = fetchedAt
   source.status = status
   source.error = error

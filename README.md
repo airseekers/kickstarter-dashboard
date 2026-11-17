@@ -48,19 +48,32 @@ npm run preview
 
 站点 base 是 `/kickstarter-dashboard/`。预览地址是 `http://127.0.0.1:4173/kickstarter-dashboard/`。
 
-## Flat Data
+## Flat Data 与历史
 
 `.github/workflows/flat.yml` 使用 [`githubocto/flat` v3.4.0](https://github.com/githubocto/flat)（钉在 `cea5ee43fce40ef71501bf5724a00d45db11641d`）。Deno 先装 **1.46.3**，因为这个版本的 action 会用 `deno run --unstable` 调用 `deno/postprocess.ts`。
 
-- 定时：每天 **02:00 UTC**（北京时间 10:00）
-- 也可以在 Actions 里手动运行 `workflow_dispatch`
-- 顺序请求搜索 JSON、项目 `.json` 片段、Community、FAQ
-- 后处理会校验项目 id / slug / creator、拒绝挑战页和 HTML 冒充 JSON、拒绝负数，并拒绝把已有筹款数字覆盖成 0
-- 失败时只更新 `data/tron/sources.json` 和快照里的来源状态，保留上一份有效数字
-- 原始响应里的签名图片、视频和 `signature=` 地址不会进入接受后的文件
-- 同一工作流接着构建并上传 Pages artifact。`GITHUB_TOKEN` 推上去的数据提交**不会**再触发别的 workflow，所以不能靠 push 去带动部署
+定时在 GitHub Actions 里，不是外部机器人。Actions 的 cron 是尽力而为，可能延迟，不保证卡在那一分钟。
 
-再增加项目时，在 `data/projects.json` 加一项，并在 `flat.yml` 里按同样顺序加四步。抓取保持在同一个 job 里串行执行，避免两份 Flat 提交互相覆盖。
+| 项目 | cron（UTC） | 北京时间 | 说明 |
+| --- | --- | --- | --- |
+| ARANIX | `17 * * * *` | 每小时第 17 分 | 定时只抓 ARANIX |
+| TRON | 无 | 不定时 | 众筹已成功，数字不再定时抓取 |
+
+手动运行默认也是 ARANIX。只有在 Actions 里明确选择 `tron` 才会再抓一次 TRON。
+
+每次运行用 `github.run_id` 和 `github.run_attempt` 做记录编号。同一个编号重跑不会再写一份。编号不同、数值没变，仍会追加一条成功观测，这样间隔还在。
+
+历史 schema 是 2。成功观测写在 `data/<项目>/history/observations/年/月/<时间>-<运行编号>.json`，里面是当次接受的整份业务快照：金额、状态、生命周期日期、地区数组、新老支持者、互动计数、货币和汇率，以及每个字段是当次测到、沿用、人工种子，还是不可用。失败和挑战页写在 `history/attempts/年/月/`，只记尝试和错误，不新增观测，也不把数字改成 0。`history/manifest.json` 是索引，页面用它画趋势；完整快照留在分区文件里。这些文件只追加，工作流不会删历史。
+
+种子快照留在 `latest.json` 和 `history/` 下的 `manual_seed` 基线里，provenance 仍是人工读取。它不会被写成 Flat Data 观测，趋势图也不把它和后来的点连起来。沿用的地区分布会标成 `manual_seed` 或 `carried_forward`，观测时间仍是上次真正接受的时间，不是这次失败的时间。项目创建、上线和截止是生命周期时间，不是采集时间。
+
+页面上的「采集节奏」显示 cron、成功观测次数和最近成功时间。同一字段至少两次 `observed` 数值之后才画线；中间缺失会断开，不会当成已知变化。现在仓库里还没有 Flat Data 成功观测，所以还没有趋势曲线。
+
+后处理会校验项目 id / slug / creator、拒绝挑战页、拒绝负数，并拒绝把已有正数筹款覆盖成 0。签名图片和 `signature=` 地址不会进入接受后的文件。
+
+采集和部署在同一个 workflow。`GITHUB_TOKEN` 提交的数据不会再触发别的 workflow，所以不能靠 push 去带动 Pages。
+
+再增加项目时，在 `data/projects.json` 加一项，并在 `flat.yml` 里按项目加上四步和对应的定时条件。抓取保持在同一个 job 里串行执行，避免两份提交互相覆盖。
 
 GitHub Actions 上的 `curl` 可能会被 Cloudflare 返回 403。工作流会把这种情况记成采集失败并继续用种子数据部署。在这种运行器上还没有验证过自动刷新成功。
 
