@@ -1,4 +1,6 @@
-export const PAGE_BASE = '/kickstarter-dashboard'
+import { pageBasePath, resolveViteBase } from './base.ts'
+
+export const PAGE_BASE = pageBasePath(resolveViteBase(undefined))
 
 export const PROJECT_ROUTES = [
   { key: 'aranix', route: 'ARANIX' },
@@ -7,8 +9,7 @@ export const PROJECT_ROUTES = [
 
 export type ProjectRoute = (typeof PROJECT_ROUTES)[number]['route']
 
-export function projectRouteFromPath(pathname: string): ProjectRoute {
-  const base = PAGE_BASE.replace(/\/+$/, '')
+export function projectRouteFromPath(pathname: string, base = PAGE_BASE): ProjectRoute {
   const trimmed = pathname.replace(/\/+$/, '')
   if (trimmed === '' || trimmed === base) return 'ARANIX'
   const prefix = `${base}/`

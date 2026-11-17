@@ -6,13 +6,15 @@ Airseekers TRON 360° 割草机器人 Kickstarter 项目的**第三方**静态�
 
 ## 路径
 
-静态站点 base 是 `/kickstarter-dashboard/`。规范地址带末尾斜杠：
+构建 base 由环境变量 `VITE_BASE` 决定。不设置时默认 `/kickstarter-dashboard/`，给 GitHub Pages 用。Cloudflare 的生产构建把 `VITE_BASE` 设为 `/`，站点挂在域名根上。两种产物的入口相同：根路径是 ARANIX，`/ARANIX/` 和 `/TRON/` 是可刷新的静态页。资源地址跟 base 走，内部项目链接用 Vite 的 `BASE_URL`。
+
+GitHub Pages 规范地址带末尾斜杠：
 
 - `/kickstarter-dashboard/` 和没有末尾斜杠的 `/kickstarter-dashboard` 直接渲染 **ARANIX**，不是项目选择页，也不是 TRON。
 - `/kickstarter-dashboard/ARANIX/` 与 `/kickstarter-dashboard/ARANIX`（`ARANIX.html`）是 ARANIX。
 - `/kickstarter-dashboard/TRON/` 与 `/kickstarter-dashboard/TRON`（`TRON.html`）是 TRON。
 
-每个地址都有自己的 `index.html` 或同名 `.html`，刷新和直接打开不依赖前端路由。资源路径从 `/kickstarter-dashboard/assets/` 引出，子目录页面也能加载。
+每个地址都有自己的 `index.html` 或同名 `.html`，刷新和直接打开不依赖前端路由。GitHub Pages 的资源从 `/kickstarter-dashboard/assets/` 引出；`VITE_BASE=/` 时从 `/assets/` 引出。子目录页面也能加载。
 
 ## 当前数据
 
@@ -73,7 +75,7 @@ npm run preview
 
 后处理会校验项目 id / slug / creator、拒绝挑战页、拒绝负数，并拒绝把已有正数筹款覆盖成 0。签名图片和 `signature=` 地址不会进入接受后的文件。
 
-采集和部署在同一个 workflow。`GITHUB_TOKEN` 提交的数据不会再触发别的 workflow，所以不能靠 push 去带动 Pages。
+采集和 Pages 部署在同一个 workflow。`GITHUB_TOKEN` 提交的数据不会再触发别的 GitHub Actions workflow，所以 Pages 不能靠这次 push 单独带动。Cloudflare Git integration 不是 Actions workflow，是否跟着这些提交构建见下方说明。
 
 再增加项目时，在 `data/projects.json` 加一项，并在 `flat.yml` 里按项目加上四步和对应的定时条件。抓取保持在同一个 job 里串行执行，避免两份提交互相覆盖。
 
@@ -81,10 +83,22 @@ GitHub Actions 上的 `curl` 可能会被 Cloudflare 返回 403。工作流会�
 
 ## GitHub Pages
 
-仓库保持 **private**。私有仓库的 Pages 需要组织方案支持（GitHub Team 或 Enterprise）；免费组织方案只给公开仓库提供 Pages。不要为了部署把仓库改成 public。
-
-即使仓库是私有的，Pages 站点本身通常仍是公开的。部署成功后的项目站路径是：
+仓库已经公开，Pages 源是 GitHub Actions。站点仍在：
 
 `https://airseekers.github.io/kickstarter-dashboard/`
 
-本环境的令牌读不到 Pages 设置（`GET /repos/airseekers/kickstarter-dashboard/pages` 返回 403）。工作流已经按官方 Pages actions 写好。合并到 `main` 之后，Actions 才会按默认分支上的 workflow 运行；若方案不允许私有 Pages，部署 job 会失败，而仓库可见性不应被改动。
+`ci.yml` 和 `flat.yml` 的构建都不设置 `VITE_BASE`，所以 Pages 继续使用 `/kickstarter-dashboard/`。采集 cron 也没有改。
+
+## Cloudflare Pages
+
+这是同一仓库的第二份静态托管，不替换 GitHub Pages，也不需要额外的 Cloudflare 密钥或 Wrangler 部署。Git integration 里把生产分支指到 `main` 后，使用：
+
+| 设置 | 值 |
+| --- | --- |
+| 环境变量 | `VITE_BASE=/`，`NODE_VERSION=22` |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+
+安装命令保持 Cloudflare 默认，它会按 lockfile 安装。根路径打开 ARANIX，`/ARANIX/` 和 `/TRON/` 各自是静态页，刷新仍停在当前项目。
+
+Cloudflare 文档写明，连上的分支每次 push 都会部署；提交说明以 `[CI Skip]`、`[CI-Skip]`、`[Skip CI]`、`[Skip-CI]` 或 `[CF-Pages-Skip]` 开头才会跳过。GitHub 文档只说 `GITHUB_TOKEN` 触发的事件不会再开一个 Actions workflow。Cloudflare 文档没有写 `GITHUB_TOKEN` 或 `github-actions[bot]` 例外。当前 Flat Data 提交说明是 `Flat: latest data` 和来源状态，没有上述跳过前缀。因此按两边已公开的说明，这些数据提交会被 Cloudflare Git integration 拿去构建；这一点还没有在本仓库上实际观察过。

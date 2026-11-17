@@ -10,6 +10,9 @@ describe('static project routes', () => {
     expect(projectRouteFromPath('/kickstarter-dashboard/ARANIX/')).toBe('ARANIX')
     expect(projectRouteFromPath('/kickstarter-dashboard/TRON')).toBe('TRON')
     expect(projectRouteFromPath('/kickstarter-dashboard/TRON/')).toBe('TRON')
+    expect(projectRouteFromPath('/', '')).toBe('ARANIX')
+    expect(projectRouteFromPath('/ARANIX/', '')).toBe('ARANIX')
+    expect(projectRouteFromPath('/TRON', '')).toBe('TRON')
   })
 
   it('declares the uppercase directory pages and an ARANIX root document', () => {
@@ -19,6 +22,6 @@ describe('static project routes', () => {
     expect(root).toContain('data-project="ARANIX"')
     expect(aranix).toContain('data-project="ARANIX"')
     expect(tron).toContain('data-project="TRON"')
-    expect(root).toContain('%BASE_URL%ARANIX/')
+    expect(root).toContain('%CANONICAL%')
   })
 })
