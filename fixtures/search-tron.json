@@ -1,0 +1,45 @@
+{
+  "projects": [
+    {
+      "id": 999,
+      "name": "Some Other Mower",
+      "slug": "some-other-mower",
+      "creator": { "slug": "someone-else", "name": "Someone" }
+    },
+    {
+      "id": 1873694145,
+      "name": "Tron 360° AI Vision Robotic Mower with Auto-Mulching",
+      "blurb": "360° AI Vision Navigation, Smart Collision Avoidance, No Wiring&Signal Issue, Mulch for Neat Lawns, No Dumping Hassle, For Complex Yard",
+      "goal": 156576,
+      "pledged": 17572828,
+      "state": "successful",
+      "slug": "tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+      "country": "HK",
+      "currency": "HKD",
+      "deadline": 1716559210,
+      "state_changed_at": 1716559210,
+      "created_at": 1697614732,
+      "launched_at": 1712671210,
+      "is_in_post_campaign_pledging_phase": false,
+      "staff_pick": true,
+      "backers_count": 1389,
+      "static_usd_rate": 0.12772461,
+      "usd_pledged": "2244482.60289708",
+      "converted_pledged_amount": 2250050,
+      "fx_rate": 0.12746144,
+      "usd_exchange_rate": 0.12804146,
+      "current_currency": "USD",
+      "creator": { "id": 498755937, "name": "Airseekers", "slug": "airseekers" },
+      "location": { "displayable_name": "Hong Kong, Hong Kong" },
+      "category": { "name": "Hardware" },
+      "photo": { "key": "assets/045/153/339/example_original.jpeg", "full": "https://i.kickstarter.com/example.jpeg?sig=NOT_A_REAL_SIGNATURE" },
+      "video": { "id": 1283983, "status": "successful", "width": 640, "height": 360, "high": "https://v2.kickstarter.com/clip.mp4?signature=not-real" },
+      "urls": { "web": { "project": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing" } },
+      "percent_funded": 11223.193848354793,
+      "spotlight": true,
+      "is_launched": true,
+      "prelaunch_activated": true
+    }
+  ],
+  "total_hits": 2
+}

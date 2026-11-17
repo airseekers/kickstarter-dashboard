@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "sourceUrl": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
+  "retrievedAt": "2026-11-17T10:51:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "capturedAtPrecision": "approximate",
+  "provenance": "manual_public_read",
+  "cacheCaveat": "WebFetch may return a cached response. This snapshot is not a Flat Data run and is not guaranteed to be realtime.",
+  "totalHits": 8,
+  "match": {
+    "id": 103950657,
+    "slug": "aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower",
+    "creator": "airseekers",
+    "resultIndex": 0
+  },
+  "missingSources": {
+    "community": "timeout; geography and new/returning backers unavailable",
+    "project_json": "not retrieved; comments, updates, and FAQ counts unavailable",
+    "faqs": "not retrieved"
+  },
+  "project": {
+    "id": 103950657,
+    "photo": {
+      "key": "assets/055/458/333/1cfa91dccd9e8796fa49725de8953992_original.jpg"
+    },
+    "name": "ARANIX — The World's First 4WD+4WS All-Terrain Robotic Mower",
+    "blurb": "4WD+4WS | 0-Radius Turning | 40° Slope Capability | FlowCut 2.0 | Edge-Cutting Module | Tri-Fusion Position | AI Obstacle Avoidance",
+    "goal": 0,
+    "pledged": 0.0,
+    "state": "submitted",
+    "slug": "aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower",
+    "country": "HK",
+    "country_displayable_name": "Hong Kong",
+    "currency": "HKD",
+    "currency_symbol": "$",
+    "currency_trailing_code": true,
+    "deadline": 0,
+    "state_changed_at": 1791617356,
+    "created_at": 1790756827,
+    "launched_at": 0,
+    "is_in_post_campaign_pledging_phase": false,
+    "staff_pick": true,
+    "is_starrable": true,
+    "disable_communication": false,
+    "backers_count": 0,
+    "static_usd_rate": 0.0,
+    "fx_rate": 0.12746144,
+    "current_currency": "USD",
+    "usd_type": "domestic",
+    "creator": {
+      "id": 498755937,
+      "name": "Airseekers",
+      "slug": "airseekers",
+      "has_admin_message_badge": false,
+      "ppo_has_action": false,
+      "backing_action_count": 0,
+      "urls": {
+        "web": {
+          "user": "https://www.kickstarter.com/profile/airseekers"
+        },
+        "api": {}
+      }
+    },
+    "location": {
+      "id": 2165352,
+      "name": "Hong Kong",
+      "slug": "hong-kong-hk",
+      "short_name": "Hong Kong, Hong Kong",
+      "displayable_name": "Hong Kong, Hong Kong",
+      "localized_name": "Hong Kong",
+      "country": "HK",
+      "state": "Hong Kong Island",
+      "type": "Town",
+      "is_root": false,
+      "expanded_country": "Hong Kong",
+      "urls": {
+        "web": {
+          "discover": "https://www.kickstarter.com/discover/places/hong-kong-hk",
+          "location": "https://www.kickstarter.com/locations/hong-kong-hk"
+        },
+        "api": {}
+      }
+    },
+    "category": {
+      "id": 52,
+      "name": "Hardware",
+      "analytics_name": "Hardware",
+      "slug": "technology/hardware",
+      "position": 8,
+      "parent_id": 16,
+      "parent_name": "Technology",
+      "color": 6526716,
+      "urls": {
+        "web": {
+          "discover": "http://www.kickstarter.com/discover/categories/technology/hardware"
+        }
+      }
+    },
+    "profile": {
+      "id": 5434780,
+      "project_id": 5434780,
+      "state": "inactive",
+      "state_changed_at": 1790756827,
+      "name": "ARANIX — The World's First 4WD+4WS All-Terrain Robotic Mower",
+      "show_feature_image": false,
+      "background_image_opacity": 0.8,
+      "should_show_feature_image_section": true
+    },
+    "spotlight": false,
+    "urls": {
+      "web": {
+        "project": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower",
+        "rewards": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/rewards"
+      }
+    },
+    "percent_funded": 0.0,
+    "is_launched": false,
+    "prelaunch_activated": true
+  }
+}

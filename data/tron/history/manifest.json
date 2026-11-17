@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "projectKey": "tron",
+  "cadence": "daily",
+  "cron": "17 2 * * *",
+  "observations": [],
+  "attempts": [],
+  "baseline": {
+    "kind": "manual_seed",
+    "capturedAt": "2026-11-16T23:12:00+08:00",
+    "note": "人工或公开读取快照，不是 Flat Data 成功观测，不能当作历史趋势点。"
+  }
+}

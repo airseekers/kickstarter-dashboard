@@ -1,0 +1,9 @@
+{
+  "timeout": 25000,
+  "maxRedirects": 2,
+  "headers": {
+    "User-Agent": "airseekers-kickstarter-dashboard/1.0 (third-party public dataset; https://github.com/airseekers/kickstarter-dashboard)",
+    "Accept": "application/json,text/html;q=0.8,*/*;q=0.5",
+    "Accept-Language": "en"
+  }
+}

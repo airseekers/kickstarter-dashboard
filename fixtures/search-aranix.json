@@ -1,0 +1,48 @@
+{
+  "projects": [
+    {
+      "id": 2077001694,
+      "name": "Arcanis 5E RPG",
+      "slug": "arcanis-5e-rpg",
+      "pledged": 67063,
+      "goal": 20000,
+      "backers_count": 591,
+      "percent_funded": 335.315,
+      "state": "successful",
+      "currency": "USD",
+      "creator": { "slug": "someone", "name": "Someone" }
+    },
+    {
+      "id": 103950657,
+      "name": "ARANIX — The World's First 4WD+4WS All-Terrain Robotic Mower",
+      "blurb": "4WD+4WS | 0-Radius Turning | 40° Slope Capability | FlowCut 2.0 | Edge-Cutting Module | Tri-Fusion Position | AI Obstacle Avoidance",
+      "goal": 0,
+      "pledged": 0,
+      "state": "submitted",
+      "slug": "aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower",
+      "country": "HK",
+      "currency": "HKD",
+      "deadline": 0,
+      "state_changed_at": 1791617356,
+      "created_at": 1790756827,
+      "launched_at": 0,
+      "staff_pick": true,
+      "backers_count": 0,
+      "static_usd_rate": 0,
+      "usd_pledged": null,
+      "converted_pledged_amount": null,
+      "fx_rate": 0.12746144,
+      "usd_exchange_rate": null,
+      "current_currency": "USD",
+      "creator": { "id": 498755937, "name": "Airseekers", "slug": "airseekers" },
+      "location": { "displayable_name": "Hong Kong, Hong Kong" },
+      "category": { "name": "Hardware" },
+      "percent_funded": 0,
+      "spotlight": false,
+      "is_launched": false,
+      "prelaunch_activated": true,
+      "is_in_post_campaign_pledging_phase": false
+    }
+  ],
+  "total_hits": 8
+}
