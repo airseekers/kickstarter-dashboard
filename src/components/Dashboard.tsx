@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react'
+import fxQuote from '../../data/fx/latest.json'
+import { formatDisplayMoney, readDisplayCurrency, type DisplayCurrency } from '../../shared/fx.ts'
+import type { FxQuote } from '../../shared/fx-types.ts'
 import {
   freshnessCopy,
   freshnessOf,
@@ -6,10 +10,8 @@ import {
 } from '../../shared/freshness.ts'
 import {
   formatGrouped,
-  formatMoney,
   formatPercentPoints,
   formatShare,
-  roundTo,
   stateLabel,
   timesGoal,
   top10Total,
@@ -33,9 +35,17 @@ export function Dashboard({
   const funding = snapshot.observations.funding
   const multiple = timesGoal(snapshot.percentFunded)
   const top10 = top10Total(snapshot.countries)
-  const fxEstimate =
-    snapshot.fxRate === null || snapshot.pledged <= 0 ? null : roundTo(snapshot.pledged * snapshot.fxRate, 2)
   const communityMissing = dataset.sources.find((source) => source.id === 'community')?.error
+  const quote = fxQuote as FxQuote
+  const [display, setDisplay] = useState<DisplayCurrency>('CNY')
+  useEffect(() => {
+    setDisplay(readDisplayCurrency(window.localStorage))
+  }, [])
+  function choose(next: DisplayCurrency) {
+    setDisplay(next)
+    window.localStorage.setItem('kickstarter-dashboard-display-currency', next)
+  }
+  const money = (amount: number | null) => formatDisplayMoney(amount, display, quote)
 
   return (
     <main className="page" data-freshness={freshness}>
@@ -57,6 +67,10 @@ export function Dashboard({
               </a>
             ))}
           </nav>
+          <div className="currency-switch" role="group" aria-label="显示货币">
+            <button type="button" aria-pressed={display === 'CNY'} onClick={() => choose('CNY')}>人民币</button>
+            <button type="button" aria-pressed={display === 'USD'} onClick={() => choose('USD')}>美元</button>
+          </div>
         </div>
         <div className={`state-pill state-${dataset.project.state}`}>
           <span className="dot" />
@@ -79,11 +93,8 @@ export function Dashboard({
       <section className="kpis">
         <article className="card kpi">
           <h2>累计支持金额</h2>
-          <p className="kpi-value">{formatMoney(snapshot.pledged, dataset.project.currency)}</p>
-          <p className="kpi-note">
-            项目货币 · {dataset.project.currency === 'HKD' ? '港元 ' : ''}
-            {dataset.project.currency}
-          </p>
+          <p className="kpi-value">{money(snapshot.pledged)}</p>
+          <p className="kpi-note">估算值 · 原币 {dataset.project.currency} {formatGrouped(snapshot.pledged)}</p>
         </article>
         <article className="card kpi">
           <h2>支持人数</h2>
@@ -97,15 +108,13 @@ export function Dashboard({
           </p>
           <p className="kpi-note">
             {multiple === null ? '—' : <span className="accent">{formatGrouped(multiple, 2)} 倍目标</span>}
-            <span className="goal">目标 {formatMoney(snapshot.goal, dataset.project.currency)}</span>
+            <span className="goal">目标 {money(snapshot.goal)}</span>
           </p>
         </article>
         <article className="card kpi">
           <h2>平均每位支持金额</h2>
           <p className="kpi-value">
-            {snapshot.averagePledge === null
-              ? '—'
-              : formatMoney(snapshot.averagePledge, dataset.project.currency, 2)}
+            {money(snapshot.averagePledge)}
           </p>
           <p className="kpi-note">计算值，非商品单价</p>
         </article>
@@ -213,7 +222,7 @@ export function Dashboard({
         </article>
       </section>
 
-      <section className="card collection">
+      <section className="card collection" id="collection">
         <div className="card-head">
           <h2>采集节奏</h2>
           <span className="unit">{dataset.collection.cron || '不定时'}</span>
@@ -226,7 +235,7 @@ export function Dashboard({
         <p className="empty">
           历史趋势会在同一字段至少有两次真实成功观测之后显示。种子快照和失败记录不会连成曲线。
         </p>
-        <HistoryChart points={[]} unit={dataset.project.currency} />
+        <HistoryChart points={[]} unit={display} />
       </section>
 
       <footer className="footer">
@@ -238,13 +247,13 @@ export function Dashboard({
               : ' 没有把页面页眉日期当成地区更新时间。'}
           </p>
           <p>
-            数据来源：Kickstarter 搜索 JSON / 项目片段 / Community。静态历史美元{' '}
-            {snapshot.usdPledged ?? '—'}，现行换算{' '}
-            {snapshot.convertedPledgedAmount === null
-              ? '—'
-              : formatGrouped(snapshot.convertedPledgedAmount)}
-            ，按 fx_rate 估算{' '}
-            {fxEstimate === null ? '—' : formatGrouped(fxEstimate, 2)}。三套美元口径彼此独立。
+            页面金额按 {quote.sourceName} 估算，汇率日 {quote.rateDate}
+            {quote.status === 'stale' ? '，当前汇率已过期，沿用上次有效汇率' : ''}
+            {quote.status === 'unavailable' ? '，汇率不可用，金额不换算' : ''}
+            。1 港元 = {quote.rates.CNY} 人民币 / {quote.rates.USD} 美元。
+            Kickstarter 静态历史美元 {snapshot.usdPledged ?? '—'}，其现行换算{' '}
+            {snapshot.convertedPledgedAmount === null ? '—' : formatGrouped(snapshot.convertedPledgedAmount)}
+            ，与本页估算不是同一口径。
           </p>
         </div>
         <div className="footer-brand">

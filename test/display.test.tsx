@@ -1,7 +1,10 @@
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
+import fxQuote from '../data/fx/latest.json'
 import { buildAranixDataset } from '../shared/aranix.ts'
+import { formatDisplayMoney } from '../shared/fx.ts'
+import type { FxQuote } from '../shared/fx-types.ts'
 import { Dashboard } from '../src/components/Dashboard.tsx'
 import { HistoryChart } from '../src/components/HistoryChart.tsx'
 import { buildSeedDataset } from '../shared/seed.ts'
@@ -20,11 +23,11 @@ describe('dashboard copy', () => {
     const page = html(seed)
     expect(page).toContain('TRON 众筹数据总览')
     expect(page).toContain('众筹成功')
-    expect(page).toContain('HK$ 17,572,828')
+    expect(page).toContain(formatDisplayMoney(17572828, 'CNY', fxQuote as FxQuote))
     expect(page).toContain('1,389')
     expect(page).toContain('11,223.19 %')
     expect(page).toContain('112.23 倍目标')
-    expect(page).toContain('HK$ 12,651.42')
+    expect(page).toContain(formatDisplayMoney(12651.42, 'CNY', fxQuote as FxQuote))
     expect(page).toContain('计算值，非商品单价')
     expect(page).toContain('65.44%')
     expect(page).toContain('49.03%')
@@ -64,7 +67,7 @@ describe('dashboard copy', () => {
     expect(degradedHtml).toContain('data-freshness="degraded"')
     expect(degradedHtml).toContain('最近采集失败')
     expect(degradedHtml).toContain('被拦截')
-    expect(degradedHtml).toContain('HK$ 17,572,828')
+    expect(degradedHtml).toContain(formatDisplayMoney(17572828, 'CNY', fxQuote as FxQuote))
 
     const stale = buildSeedDataset()
     stale.snapshot.provenance = 'flat'
@@ -114,7 +117,8 @@ describe('dashboard copy', () => {
     const page = html(buildAranixDataset(), now, 'ARANIX')
     expect(page).toContain('ARANIX 众筹数据总览')
     expect(page).toContain('未上线')
-    expect(page).toContain('HK$ 0')
+    expect(page).toContain(formatDisplayMoney(0, 'CNY', fxQuote as FxQuote))
+    expect(page).toContain('人民币')
     expect(page).toContain('暂无公开国家排行')
     expect(page).toContain('Community 这次没有取到')
     expect(page).toContain('href="/kickstarter-dashboard/TRON/"')
