@@ -1,5 +1,5 @@
 import { campaignDays, parseCount } from './metrics.ts'
-import { cityZh, countryZh } from './places.ts'
+import { cityZh, countryZh, splitCityCountry } from './places.ts'
 import { sanitizeValue } from './sanitize.ts'
 import { formatUnixShanghai } from './time.ts'
 import type { AcceptedPatch, GeoRow, ParseResult, ProjectConfig, SourceId } from './types.ts'
@@ -30,8 +30,24 @@ export function htmlToLines(input: string): string[] {
   return decoded
     .replace(/<[^>]+>/g, '\n')
     .split(/\r?\n/)
-    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .map((line) => normalizeLine(line))
     .filter(Boolean)
+}
+
+function normalizeLine(line: string): string {
+  return line
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/^#{1,6}\s*/, '')
+    .replace(/^>\s*/, '')
+    .replace(/^[-*+]\s+/, '')
+    .replace(/^(\*\*|__)(.+)\1$/, '$2')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function finiteNumber(value: unknown): number | null {
@@ -58,12 +74,13 @@ function numericString(value: unknown): string | null {
 }
 
 function identityText(raw: string, project: ProjectConfig): boolean {
-  return (
-    raw.includes(project.slug) ||
-    raw.includes(String(project.id)) ||
-    raw.includes('Tron 360') ||
-    raw.includes(project.creator)
-  )
+  if (raw.toLowerCase().includes(project.slug.toLowerCase())) return true
+  if (raw.includes(String(project.id))) return true
+  if (project.key === 'tron' && raw.includes('Tron 360')) return true
+  if (project.displayName.length >= 5 && new RegExp(`\\b${escapeRegExp(project.displayName)}\\b`, 'i').test(raw)) {
+    return true
+  }
+  return false
 }
 
 function section(lines: string[], start: string, ends: string[]): string[] {
@@ -83,53 +100,87 @@ function isBackersLine(line: string): boolean {
   return /^[0-9][0-9,]*\s+backers?$/i.test(line)
 }
 
-function backersOnLine(line: string): number | null {
-  const match = line.match(/^([0-9][0-9,]*)\s+backers?$/i)
-  if (!match) return null
-  return parseCount(match[1])
+function looksLikeCount(line: string): boolean {
+  return isBackersLine(line) || /^[0-9][0-9,]*$/.test(line)
+}
+
+function backersAt(lines: string[], index: number): { backers: number; consumed: number } | null {
+  if (index < 0 || index >= lines.length) return null
+  const direct = lines[index].match(/^([0-9][0-9,]*)\s+backers?$/i)
+  if (direct) {
+    const backers = parseCount(direct[1])
+    return backers === null ? null : { backers, consumed: 1 }
+  }
+  const bare = lines[index].match(/^([0-9][0-9,]*)$/)
+  if (bare && index + 1 < lines.length && /^backers?\b/i.test(lines[index + 1])) {
+    const backers = parseCount(bare[1])
+    return backers === null ? null : { backers, consumed: 2 }
+  }
+  return null
+}
+
+function cityRow(rank: number, city: string, country: string, backers: number): GeoRow {
+  const countryNames = countryZh(country)
+  return {
+    rank,
+    nameEn: city,
+    nameZh: cityZh(city),
+    countryEn: country,
+    countryZh: countryNames.zh,
+    countryCode: countryNames.code,
+    backers,
+  }
+}
+
+function countryRow(rank: number, country: string, backers: number): GeoRow {
+  const countryNames = countryZh(country)
+  return {
+    rank,
+    nameEn: country,
+    nameZh: countryNames.zh,
+    countryEn: country,
+    countryZh: countryNames.zh,
+    countryCode: countryNames.code,
+    backers,
+  }
 }
 
 function parseCityRows(lines: string[]): GeoRow[] | null {
   const rows: GeoRow[] = []
-  for (let index = 0; index < lines.length; index += 1) {
-    if (index + 2 >= lines.length || !isBackersLine(lines[index + 2])) continue
-    const backers = backersOnLine(lines[index + 2])
-    const city = lines[index]
-    const country = lines[index + 1]
-    if (backers === null || isBackersLine(city) || isBackersLine(country)) return null
-    const countryNames = countryZh(country)
-    rows.push({
-      rank: rows.length + 1,
-      nameEn: city,
-      nameZh: cityZh(city),
-      countryEn: country,
-      countryZh: countryNames.zh,
-      countryCode: countryNames.code,
-      backers,
-    })
-    index += 2
+  let index = 0
+  while (index < lines.length) {
+    const paired = backersAt(lines, index + 1)
+    const split = paired ? splitCityCountry(lines[index]) : null
+    if (paired && split) {
+      rows.push(cityRow(rows.length + 1, split.city, split.country, paired.backers))
+      index += 1 + paired.consumed
+      continue
+    }
+    const stacked = backersAt(lines, index + 2)
+    if (
+      stacked &&
+      !looksLikeCount(lines[index]) &&
+      !looksLikeCount(lines[index + 1]) &&
+      lines[index] &&
+      lines[index + 1]
+    ) {
+      rows.push(cityRow(rows.length + 1, lines[index], lines[index + 1], stacked.backers))
+      index += 2 + stacked.consumed
+      continue
+    }
+    return null
   }
   return rows
 }
 
 function parseCountryRows(lines: string[]): GeoRow[] | null {
   const rows: GeoRow[] = []
-  for (let index = 0; index < lines.length; index += 1) {
-    if (index + 1 >= lines.length || !isBackersLine(lines[index + 1])) continue
-    const backers = backersOnLine(lines[index + 1])
-    const country = lines[index]
-    if (backers === null || isBackersLine(country)) return null
-    const countryNames = countryZh(country)
-    rows.push({
-      rank: rows.length + 1,
-      nameEn: country,
-      nameZh: countryNames.zh,
-      countryEn: country,
-      countryZh: countryNames.zh,
-      countryCode: countryNames.code,
-      backers,
-    })
-    index += 1
+  let index = 0
+  while (index < lines.length) {
+    const found = backersAt(lines, index + 1)
+    if (!found || looksLikeCount(lines[index])) return null
+    rows.push(countryRow(rows.length + 1, lines[index], found.backers))
+    index += 1 + found.consumed
   }
   return rows
 }
@@ -306,6 +357,27 @@ function parseSearch(raw: string, project: ProjectConfig): ParseResult {
   }
 }
 
+function activityResult(
+  project: ProjectConfig,
+  faqs: number,
+  updates: number,
+  comments: number,
+): ParseResult {
+  return {
+    ok: true,
+    patch: { snapshot: { faqs, updates, comments } },
+    sanitizedRaw: { faqs, updates, comments, projectId: project.id },
+  }
+}
+
+function activityCounts(flat: string): { faqs: number; updates: number; comments: number } | null {
+  const faqs = labelCount(flat, 'FAQ')
+  const updates = labelCount(flat, 'Updates')
+  const comments = labelCount(flat, 'Comments')
+  if (faqs === null || updates === null || comments === null) return null
+  return { faqs, updates, comments }
+}
+
 function parseProjectFragment(raw: string, project: ProjectConfig): ParseResult {
   if (raw.trim().startsWith('<')) {
     return { ok: false, status: 'blocked', error: '项目片段接口返回了整页 HTML，而不是 running_board/content/card JSON。' }
@@ -314,7 +386,7 @@ function parseProjectFragment(raw: string, project: ProjectConfig): ParseResult 
   try {
     payload = JSON.parse(raw)
   } catch {
-    return { ok: false, status: 'parse_error', error: '项目片段不是合法 JSON。' }
+    return parseProjectFragmentText(raw, project)
   }
   if (!payload || typeof payload !== 'object' || typeof (payload as { content?: unknown }).content !== 'string') {
     return { ok: false, status: 'invalid', error: '项目片段缺少 content HTML。' }
@@ -326,18 +398,22 @@ function parseProjectFragment(raw: string, project: ProjectConfig): ParseResult 
   if (!identityText(blob, project)) {
     return { ok: false, status: 'mismatch', error: '项目片段里找不到目标项目名称、slug 或 id。' }
   }
-  const flat = blob.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
-  const faqs = labelCount(flat, 'FAQ')
-  const updates = labelCount(flat, 'Updates')
-  const comments = labelCount(flat, 'Comments')
-  if (faqs === null || updates === null || comments === null) {
+  const counts = activityCounts(blob.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '))
+  if (!counts) {
     return { ok: false, status: 'parse_error', error: '项目片段导航里没有同时解析出 FAQ、Updates、Comments 计数。' }
   }
-  return {
-    ok: true,
-    patch: { snapshot: { faqs, updates, comments } },
-    sanitizedRaw: { faqs, updates, comments, projectId: project.id },
+  return activityResult(project, counts.faqs, counts.updates, counts.comments)
+}
+
+function parseProjectFragmentText(raw: string, project: ProjectConfig): ParseResult {
+  if (!identityText(raw, project)) {
+    return { ok: false, status: 'mismatch', error: '项目片段里找不到目标项目名称、slug 或 id。' }
   }
+  const counts = activityCounts(raw.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '))
+  if (!counts) {
+    return { ok: false, status: 'parse_error', error: '项目片段导航里没有同时解析出 FAQ、Updates、Comments 计数。' }
+  }
+  return activityResult(project, counts.faqs, counts.updates, counts.comments)
 }
 
 function parseCommunity(raw: string, project: ProjectConfig): ParseResult {
@@ -352,8 +428,12 @@ function parseCommunity(raw: string, project: ProjectConfig): ParseResult {
   const countries = parseCountryRows(section(lines, 'Top Countries', ['New Backers', 'Returning Backers']))
   const newBackers = countAfterLabel(lines, 'New Backers')
   const returningBackers = countAfterLabel(lines, 'Returning Backers')
-  if (!cities || !countries || newBackers === null || returningBackers === null) {
-    return { ok: false, status: 'parse_error', error: 'Community 页面没有同时解析出城市、国家、新支持和既有支持。' }
+  if (!cities || !countries || supportingCount === null || newBackers === null || returningBackers === null) {
+    return {
+      ok: false,
+      status: 'parse_error',
+      error: 'Community 页面没有同时解析出城市、国家、支持人数、新支持和既有支持。',
+    }
   }
   const cityError = rejectRows(cities, supportingCount)
   const countryError = rejectRows(countries, supportingCount)
