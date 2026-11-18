@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "projectKey": "aranix",
-  "writtenAt": "2026-11-18T08:14:29+08:00",
+  "writtenAt": "2026-11-18T08:26:39+08:00",
   "writtenBy": "flat",
   "sources": [
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
-      "attemptedAt": "2026-11-18T08:14:29+08:00",
-      "fetchedAt": "2026-11-18T08:14:29+08:00",
-      "lastSuccessAt": "2026-11-18T08:14:29+08:00",
+      "attemptedAt": "2026-11-18T08:26:39+08:00",
+      "fetchedAt": "2026-11-18T08:26:39+08:00",
+      "lastSuccessAt": "2026-11-18T08:26:39+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
