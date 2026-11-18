@@ -25,12 +25,53 @@ async function waitFor(url: string) {
   throw new Error(`server did not start: ${url}`)
 }
 
+async function fitsWidth(page: Page, selector: string) {
+  return page.locator(selector).evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    const width = document.documentElement.clientWidth
+    return rect.width > 0 && rect.left >= -1 && rect.right <= width + 1
+  })
+}
+
 async function expectPageFits(page: Page) {
   const box = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
   }))
   expect(box.scrollWidth).toBeLessThanOrEqual(box.clientWidth + 1)
+  const currency = page.getByRole('button', { name: '人民币' })
+  await currency.scrollIntoViewIfNeeded()
+  const currencyVisible = await currency.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return rect.width > 0 && rect.height > 0 && rect.top >= -1 && rect.bottom <= window.innerHeight + 1
+  })
+  expect(currencyVisible).toBe(true)
+  expect(await currency.getAttribute('aria-pressed')).toBe('true')
+
+  const trend = page.locator('#backers-trend')
+  await trend.scrollIntoViewIfNeeded()
+  const trendVisible = await trend.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return rect.top < window.innerHeight && rect.bottom > 0 && rect.width > 0
+  })
+  expect(trendVisible).toBe(true)
+  expect(await fitsWidth(page, '#backers-trend')).toBe(true)
+  const heading = await page.locator('h1').innerText()
+  const trendText = await trend.innerText()
+  if (heading.startsWith('TRON')) {
+    expect(await page.locator('#backers-trend polyline').count()).toBe(0)
+    expect(trendText).toContain('至少有两次真实成功观测')
+    expect(trendText).toContain('1,389')
+    expect(trendText).not.toContain('320')
+  } else {
+    expect(await page.locator('#backers-trend polyline').count()).toBe(1)
+    expect(trendText).toContain('320')
+    expect(trendText).toContain('309')
+    expect(trendText).toContain('315')
+    expect(trendText).not.toContain('1,389')
+    expect(await fitsWidth(page, '#backers-trend .trend-plot')).toBe(true)
+  }
+
   const collection = page.locator('#collection')
   await collection.scrollIntoViewIfNeeded()
   const visible = await collection.evaluate((element) => {
@@ -38,7 +79,7 @@ async function expectPageFits(page: Page) {
     return rect.top < window.innerHeight && rect.bottom > 0 && rect.width > 0
   })
   expect(visible).toBe(true)
-  expect(await page.getByRole('button', { name: '人民币' }).getAttribute('aria-pressed')).toBe('true')
+  expect(await fitsWidth(page, '#collection')).toBe(true)
 }
 
 describe('responsive pages', () => {
@@ -81,6 +122,18 @@ describe('responsive pages', () => {
         document.documentElement.style.zoom = '1'
       })
     }
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.goto(`${origin}/kickstarter-dashboard/`, { waitUntil: 'networkidle' })
+    const trendBefore = await page.locator('#backers-trend').innerText()
+    const cnyAmount = await page.locator('.kpi-value').first().innerText()
+    await page.getByRole('button', { name: '美元' }).click()
+    expect(await page.getByRole('button', { name: '美元' }).getAttribute('aria-pressed')).toBe('true')
+    expect(await page.locator('.kpi-value').first().innerText()).not.toBe(cnyAmount)
+    expect(await page.locator('#backers-trend').innerText()).toBe(trendBefore)
+    await page.getByRole('button', { name: '人民币' }).click()
+    expect(await page.getByRole('button', { name: '人民币' }).getAttribute('aria-pressed')).toBe('true')
+    await page.setViewportSize({ width: 390, height: 700 })
+    await expectPageFits(page)
     } finally {
       await browser.close()
       server.kill()

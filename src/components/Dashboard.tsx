@@ -16,6 +16,7 @@ import {
   timesGoal,
   top10Total,
 } from '../../shared/metrics.ts'
+import type { ChartPoint } from '../../shared/history.ts'
 import { HistoryChart } from './HistoryChart.tsx'
 import { publicBase } from '../../shared/base.ts'
 import { PROJECT_ROUTES, type ProjectRoute } from '../../shared/routes.ts'
@@ -26,10 +27,12 @@ export function Dashboard({
   dataset,
   route,
   now,
+  backers = [],
 }: {
   dataset: DatasetFile
   route: ProjectRoute
   now: Date
+  backers?: ChartPoint[]
 }) {
   const freshness = freshnessOf(dataset, now)
   const snapshot = dataset.snapshot
@@ -223,6 +226,15 @@ export function Dashboard({
         </article>
       </section>
 
+      <section className="card" id="backers-trend">
+        <div className="card-head">
+          <h2>支持人数趋势</h2>
+          <span className="unit">单位：人 · 北京时间</span>
+        </div>
+        <p className="card-kicker">只连接已接受观测中当场测到的人数。种子快照、沿用值和失败记录不连线。</p>
+        <HistoryChart points={backers} unit="人" />
+      </section>
+
       <section className="card collection" id="collection">
         <div className="card-head">
           <h2>采集节奏</h2>
@@ -233,16 +245,12 @@ export function Dashboard({
           Flat Data 成功观测 <strong>{dataset.collection.flatObservationCount}</strong> 次
           <span>最近成功 {dataset.collection.lastAcceptedAt ?? '尚无'}</span>
         </p>
-        <p className="empty">
-          历史趋势会在同一字段至少有两次真实成功观测之后显示。种子快照和失败记录不会连成曲线。
-        </p>
-        <HistoryChart points={[]} unit={display} />
       </section>
 
       <footer className="footer">
         <div>
           <p>
-            地区仅展示公开 Top 10；无地区金额、个人支持明细与编造的历史趋势。
+            地区仅展示公开 Top 10；无地区金额和个人支持明细。支持人数趋势只使用当场测到的已接受观测，不把种子快照或缺失记成 0。
             {snapshot.communityPageHeaderText
               ? ` 社区页页眉 “${snapshot.communityPageHeaderText}” 不是地区数据更新时间。`
               : ' 没有把页面页眉日期当成地区更新时间。'}

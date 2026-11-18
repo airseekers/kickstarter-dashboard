@@ -26,6 +26,11 @@ export function shanghaiDate(isoOrDate: string | Date): string {
   return `${part(date, 'year')}-${part(date, 'month')}-${part(date, 'day')}`
 }
 
+export function shanghaiClock(isoOrDate: string | Date): string {
+  const date = typeof isoOrDate === 'string' ? new Date(isoOrDate) : isoOrDate
+  return `${part(date, 'hour')}:${part(date, 'minute')}`
+}
+
 export function formatUnixShanghai(unixSeconds: number): string | null {
   if (!Number.isFinite(unixSeconds) || unixSeconds <= 0) return null
   return toShanghaiIso(new Date(unixSeconds * 1000))

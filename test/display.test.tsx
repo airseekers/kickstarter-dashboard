@@ -5,15 +5,41 @@ import fxQuote from '../data/fx/latest.json'
 import { buildAranixDataset } from '../shared/aranix.ts'
 import { formatDisplayMoney } from '../shared/fx.ts'
 import type { FxQuote } from '../shared/fx-types.ts'
+import type { ChartPoint } from '../shared/history.ts'
 import { Dashboard } from '../src/components/Dashboard.tsx'
 import { HistoryChart } from '../src/components/HistoryChart.tsx'
+import { loadBackerSeries, loadDataset } from '../src/load.ts'
 import { buildSeedDataset } from '../shared/seed.ts'
 import type { DatasetFile } from '../shared/types.ts'
 
 const now = new Date('2026-11-17T02:18:00Z')
 
-function html(dataset: DatasetFile, at = now, route: 'TRON' | 'ARANIX' = 'TRON'): string {
-  return renderToStaticMarkup(createElement(Dashboard, { dataset, now: at, route }))
+function html(
+  dataset: DatasetFile,
+  at = now,
+  route: 'TRON' | 'ARANIX' = 'TRON',
+  backers: ChartPoint[] = [],
+): string {
+  return renderToStaticMarkup(createElement(Dashboard, { dataset, now: at, route, backers }))
+}
+
+function section(page: string, id: string): string {
+  const start = page.indexOf(`id="${id}"`)
+  if (start < 0) throw new Error(`missing #${id}`)
+  const next = page.indexOf('<section', start + 10)
+  return page.slice(start, next === -1 ? undefined : next)
+}
+
+function markTops(page: string): Array<{ value: number; at: string; top: number; left: number }> {
+  return [...page.matchAll(/<span[^>]*class="trend-mark"[^>]*>/g)].map((match) => {
+    const tag = match[0]
+    return {
+      value: Number(tag.match(/data-value="([0-9.]+)"/)?.[1]),
+      at: tag.match(/data-at="([^"]+)"/)?.[1] ?? '',
+      top: Number(tag.match(/top:\s*([0-9.]+)%/)?.[1]),
+      left: Number(tag.match(/left:\s*([0-9.]+)%/)?.[1]),
+    }
+  })
 }
 
 describe('dashboard copy', () => {
@@ -94,7 +120,7 @@ describe('dashboard copy', () => {
 
   it('draws separate marks when a missing observation sits between two values', () => {
     const page = renderToStaticMarkup(createElement(HistoryChart, {
-      unit: 'HKD',
+      unit: '人',
       points: [
         { at: '2026-11-17T10:17:00+08:00', value: 10 },
         { at: '2026-11-17T11:17:00+08:00', value: null },
@@ -102,15 +128,74 @@ describe('dashboard copy', () => {
       ],
     }))
     expect(page).not.toContain('<polyline')
-    expect(page.match(/<circle /g)).toHaveLength(2)
+    expect(page.match(/class="trend-mark"/g)).toHaveLength(2)
+    expect(page).toContain('缺失')
+    expect(page).toContain('不补 0')
+    expect(page).not.toContain('>0<')
     const connected = renderToStaticMarkup(createElement(HistoryChart, {
-      unit: 'HKD',
+      unit: '人',
       points: [
         { at: '2026-11-17T10:17:00+08:00', value: 10 },
         { at: '2026-11-17T11:17:00+08:00', value: 11 },
       ],
     }))
     expect(connected).toContain('<polyline')
+    expect(connected).toContain('10:17')
+    expect(connected).toContain('11:17')
+    expect(connected).toContain('北京时间')
+  })
+
+  it('plots only the accepted ARANIX backer observations in Beijing time', () => {
+    expect(loadBackerSeries('ARANIX')).toEqual([
+      { at: '2026-11-18T08:14:29+08:00', value: 309 },
+      { at: '2026-11-18T08:26:39+08:00', value: 309 },
+      { at: '2026-11-18T09:25:51+08:00', value: 315 },
+      { at: '2026-11-18T10:27:43+08:00', value: 320 },
+    ])
+    const page = html(loadDataset('ARANIX'), now, 'ARANIX', loadBackerSeries('ARANIX'))
+    const trend = section(page, 'backers-trend')
+    expect(trend).toContain('支持人数趋势')
+    expect(trend).toContain('<polyline')
+    expect(trend).toContain('2026-11-18')
+    expect(trend).toContain('08:14')
+    expect(trend).toContain('08:26')
+    expect(trend).toContain('09:25')
+    expect(trend).toContain('10:27')
+    expect(trend).toContain('北京时间 UTC+8')
+    expect(trend).not.toContain('2026-11-17')
+    expect(trend).not.toContain('1,389')
+    expect(trend).not.toContain('CNY')
+    expect(trend).not.toContain('USD')
+    expect(trend).not.toContain('data-value="0"')
+    const marks = markTops(trend)
+    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320])
+    const topOf = (value: number) => Math.min(...marks.filter((mark) => mark.value === value).map((mark) => mark.top))
+    expect(topOf(320)).toBeLessThan(topOf(315))
+    expect(topOf(315)).toBeLessThan(topOf(309))
+    expect(marks[0].left).toBeLessThan(marks[1].left)
+    expect(marks[1].left).toBeLessThan(marks[3].left)
+    expect(section(page, 'collection')).toContain('采集节奏')
+    expect(page).toContain('人民币')
+  })
+
+  it('does not invent a TRON trend from the seed or from ARANIX', () => {
+    expect(loadBackerSeries('TRON')).toEqual([
+      { at: '2026-11-18T10:27:43+08:00', value: 1389 },
+    ])
+    const page = html(loadDataset('TRON'), now, 'TRON', loadBackerSeries('TRON'))
+    const trend = section(page, 'backers-trend')
+    expect(trend).not.toContain('<polyline')
+    expect(trend).not.toContain('trend-mark')
+    expect(trend).toContain('至少有两次真实成功观测')
+    expect(trend).toContain('目前已接受 1 次')
+    expect(trend).toContain('2026-11-18 10:27')
+    expect(trend).toContain('1,389 人')
+    expect(trend).not.toContain('2026-11-16')
+    expect(trend).not.toContain('309')
+    expect(trend).not.toContain('315')
+    expect(trend).not.toContain('320')
+    expect(page).toContain('采集节奏')
+    expect(page).toContain('人民币')
   })
 
   it('shows the unlaunched ARANIX snapshot without TRON geography or amounts', () => {
