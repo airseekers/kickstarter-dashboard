@@ -2,12 +2,16 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { applyAttempt } from '../shared/merge.ts'
 import { parseDownload } from '../shared/parse.ts'
+import aranixManifestJson from '../data/aranix/history/manifest.json'
+import tronManifestJson from '../data/tron/history/manifest.json'
 import {
   chartSegments,
   emptyManifest,
   numericSeries,
+  observedPointCount,
   planCollectionRecord,
   readHistoryRecord,
+  type HistoryManifest,
 } from '../shared/history.ts'
 import { ARANIX_CRON, projectsForTrigger } from '../shared/schedule.ts'
 import { buildSeedDataset, TRON_PROJECT } from '../shared/seed.ts'
@@ -122,6 +126,61 @@ describe('collection history', () => {
     const read = readHistoryRecord(raw) as { futureField?: number }
     expect(read.futureField).toBe(7)
     expect(() => readHistoryRecord({ schemaVersion: 1, kind: 'attempt' })).toThrow(/schema/)
+  })
+
+  it('plots accepted backer observations and leaves seeds, attempts, and carried values off the series', () => {
+    const aranixManifest = aranixManifestJson as HistoryManifest
+    const tronManifest = tronManifestJson as HistoryManifest
+    const aranixSeries = numericSeries(aranixManifest, 'backersCount')
+    const tronSeries = numericSeries(tronManifest, 'backersCount')
+    expect(aranixSeries).toEqual([
+      { at: '2026-11-18T08:14:29+08:00', value: 309 },
+      { at: '2026-11-18T08:26:39+08:00', value: 309 },
+      { at: '2026-11-18T09:25:51+08:00', value: 315 },
+      { at: '2026-11-18T10:27:43+08:00', value: 320 },
+    ])
+    expect(tronSeries).toEqual([{ at: '2026-11-18T10:27:43+08:00', value: 1389 }])
+    expect(observedPointCount(aranixSeries)).toBe(4)
+    expect(observedPointCount(tronSeries)).toBe(1)
+    expect(chartSegments(aranixSeries)).toHaveLength(1)
+    expect(chartSegments(tronSeries)).toHaveLength(1)
+    for (const manifest of [aranixManifest, tronManifest]) {
+      const series = numericSeries(manifest, 'backersCount')
+      expect(series.map((point) => point.at)).toEqual(manifest.observations.map((row) => row.attemptedAt))
+      expect(series.some((point) => point.at === manifest.baseline.capturedAt)).toBe(false)
+      expect(manifest.baseline.kind).toBe('manual_seed')
+      expect(manifest.observations.some((row) => row.path.includes('manual_seed') || row.path.includes('/attempts/'))).toBe(false)
+      for (const attempt of manifest.attempts) {
+        expect(series.some((point) => point.at === attempt.attemptedAt)).toBe(false)
+      }
+      for (const row of manifest.observations) {
+        const record = readHistoryRecord(JSON.parse(readFileSync(new URL(`../${row.path}`, import.meta.url), 'utf8')))
+        expect(record.kind).toBe('accepted_observation')
+        if (record.kind !== 'accepted_observation') continue
+        expect(record.projectKey).toBe(manifest.projectKey)
+        expect(record.measures.backersCount.freshness).toBe('observed')
+        expect(record.measures.backersCount.value).toBe(row.measures.backersCount.value)
+      }
+    }
+    const carried = emptyManifest('tron', '2026-11-16T23:12:00+08:00')
+    carried.attempts.push({
+      runId: 'blocked',
+      attemptedAt: '2026-11-18T11:17:00+08:00',
+      path: 'data/tron/history/attempts/2026/11/blocked.json',
+    })
+    carried.observations.push({
+      runId: 'carried',
+      attemptedAt: '2026-11-18T10:17:00+08:00',
+      path: 'data/tron/history/observations/2026/11/carried.json',
+      acceptedSources: ['community'],
+      measures: {
+        backersCount: { value: 1389, freshness: 'carried_forward', observedAt: '2026-11-16T23:12:00+08:00' },
+      },
+    })
+    expect(numericSeries(carried, 'backersCount')).toEqual([
+      { at: '2026-11-18T10:17:00+08:00', value: null },
+    ])
+    expect(numericSeries(emptyManifest('aranix', '2026-11-17T10:51:00+08:00'), 'backersCount')).toEqual([])
   })
 
   it('does not count the ARANIX manual snapshot as a Flat observation', () => {

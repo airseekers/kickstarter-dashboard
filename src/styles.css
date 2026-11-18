@@ -287,9 +287,101 @@ button, input { font: inherit; }
 
 .empty { color: var(--amber); font-size: 14px; min-height: 120px; }
 
-.trend polyline { fill: none; stroke: var(--cyan); stroke-width: 3; }
-.trend circle { fill: var(--cyan); }
-.trend svg { width: 100%; height: auto; }
+.trend {
+  --plot-h: 168px;
+  margin: 0;
+  min-width: 0;
+}
+.trend .empty { margin: 0; }
+.trend-caption, .trend-note {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.trend-note { margin: 8px 0 0; }
+.trend-frame {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: start;
+  min-width: 0;
+}
+.trend-y {
+  position: relative;
+  width: 4.75em;
+  height: var(--plot-h);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.trend-y span {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+.trend-main, .trend-plot { min-width: 0; }
+.trend-plot {
+  position: relative;
+  height: var(--plot-h);
+}
+.trend svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.trend polyline {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.trend line.grid {
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.trend-mark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0 2px var(--card);
+  transform: translate(-50%, -50%);
+}
+.trend-x {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.trend-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+.trend-values li {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  min-width: 0;
+  font-size: 13px;
+}
+.trend-values time,
+.trend-values .missing { color: var(--muted); font-variant-numeric: tabular-nums; }
+.trend-values strong { font-variant-numeric: tabular-nums; font-weight: 600; }
 
 .footer {
   display: flex;

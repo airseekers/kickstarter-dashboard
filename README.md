@@ -31,7 +31,7 @@ GitHub Pages 规范地址带末尾斜杠：
 
 平均每位支持金额是 `已筹 ÷ 人数`，不是商品单价。新老支持者指的是此人以前有没有在 Kickstarter 支持过别的项目，不是 Airseekers 品牌复购。国家与城市只有公开 Top 10。`usd_pledged`（静态历史美元 `2244482.60289708`）和 `converted_pledged_amount`（2,250,050）是两套口径。社区页页眉 “Last updated October 19, 2026” 只是页面文案，不是地区数据的更新时间。
 
-没有奖励档销量、地区金额、支持者身份，也没有编造的历史曲线。趋势图要等 Flat Data 真正接受至少一条新快照之后才会出现。
+没有奖励档销量、地区金额、支持者身份，也不编造历史曲线。支持人数趋势只画该项目已接受、且当场测到的观测；种子快照、沿用值和失败记录不连线。少于两次这样的观测时，页面写明已有的次数和数值，不补点。
 
 ARANIX 使用 2026-11-17 约 10:51（北京时间）的公开搜索 JSON，`term=ARANIX`，精确匹配 slug `aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower`、id `103950657`。当时 `state=submitted`，`pledged`、`goal`、`backers_count` 都是接口里的 0，`usd_pledged` 为 null。这次读取可能带缓存，不是 Flat Data 抓取。Community 超时，项目片段和 FAQ 没拿到，所以地区、新老支持者和互动计数保持空，不用 0 或 TRON 的数字填上。核对过的字段在 `data/aranix/public-search.json`，已去掉签名图片地址。
 
@@ -67,7 +67,7 @@ npm run preview
 
 种子快照留在 `latest.json` 和 `history/` 下的 `manual_seed` 基线里，provenance 仍是人工读取。它不会被写成 Flat Data 观测，趋势图也不把它和后来的点连起来。沿用的地区分布会标成 `manual_seed` 或 `carried_forward`，观测时间仍是上次真正接受的时间，不是这次失败的时间。项目创建、上线和截止是生命周期时间，不是采集时间。
 
-页面上的「采集节奏」显示 cron、成功观测次数和最近成功时间。同一字段至少两次 `observed` 数值之后才画线；中间缺失会断开，不会当成已知变化。现在仓库里还没有 Flat Data 成功观测，所以还没有趋势曲线。
+页面上的「采集节奏」显示 cron、成功观测次数和最近成功时间。支持人数趋势读取对应项目的 `history/manifest.json`，只取 `backersCount` 里 freshness 为 `observed` 的点，时间用北京时间。同一字段至少两次这种数值之后才画线；中间缺失会断开，不会当成已知变化，也不会记成 0。种子基线和 `history/attempts/` 不进入曲线。点数不足时不画线。
 
 金额切换默认人民币，可选美元。换算使用 `data/fx/latest.json` 里缓存的 Frankfurter / 欧洲央行参考汇率，不在浏览器里实时请求。这是估算，汇率日和检索时间写在页脚。Kickstarter 的 `usd_pledged` 与 `converted_pledged_amount` 保持原值。汇率抓取失败时不改写上一份有效汇率文件；没有上一份就不换算。人数和百分比不换算。
 
