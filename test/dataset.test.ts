@@ -211,9 +211,23 @@ describe('ARANIX public snapshot', () => {
     expect(JSON.stringify(filesForDataset(aranix))).not.toContain('sig=')
   })
 
-  it('matches the committed ARANIX files and ignores a different first search hit', () => {
+  it('keeps the accepted live search observation and ignores a different first search hit', () => {
     const committed = JSON.parse(readFileSync(new URL('../data/aranix/latest.json', import.meta.url), 'utf8'))
-    expect(committed).toEqual(aranix)
+    expect(committed.project.state).toBe('live')
+    expect(committed.project.isLaunched).toBe(true)
+    expect(committed.snapshot.pledged).toBe(6250503)
+    expect(committed.snapshot.goal).toBe(392305)
+    expect(committed.snapshot.backersCount).toBe(309)
+    expect(committed.snapshot.percentFunded).toBe(1593.2764048380725)
+    expect(committed.snapshot.capturedAt).toBe('2026-11-18T08:14:29+08:00')
+    expect(committed.snapshot.provenance).toBe('flat')
+    expect(committed.snapshot.comments).toBeNull()
+    expect(committed.snapshot.updates).toBeNull()
+    expect(committed.snapshot.faqs).toBeNull()
+    expect(committed.snapshot.countries).toEqual([])
+    expect(committed.snapshot.newBackers).toBeNull()
+    expect(committed.collection.flatObservationCount).toBe(1)
+    expect(JSON.stringify(committed)).not.toContain('17572828')
     const parsed = parseDownload('search', read('search-aranix.json'), ARANIX_PROJECT)
     expect(parsed.ok).toBe(true)
     if (!parsed.ok) return
