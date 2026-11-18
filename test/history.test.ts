@@ -144,9 +144,10 @@ describe('collection history', () => {
       { at: '2026-11-18T14:21:40+08:00', value: 336 },
       { at: '2026-11-18T15:21:58+08:00', value: 337 },
       { at: '2026-11-18T16:24:23+08:00', value: 338 },
+      { at: '2026-11-18T17:21:51+08:00', value: 342 },
     ])
     expect(tronSeries).toEqual([{ at: '2026-11-18T10:27:43+08:00', value: 1389 }])
-    expect(observedPointCount(aranixSeries)).toBe(10)
+    expect(observedPointCount(aranixSeries)).toBe(11)
     expect(observedPointCount(tronSeries)).toBe(1)
     expect(chartSegments(aranixSeries)).toHaveLength(1)
     expect(chartSegments(tronSeries)).toHaveLength(1)
