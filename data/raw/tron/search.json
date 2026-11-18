@@ -1,0 +1,125 @@
+{
+  "total_hits": 1,
+  "project": {
+    "id": 1873694145,
+    "photo": {
+      "key": "assets/045/153/339/f2d118ce558d6936f510c66e726876bd_original.jpeg"
+    },
+    "name": "Tron 360° AI Vision Robotic Mower with Auto-Mulching",
+    "blurb": "360° AI Vision Navigation, Smart Collision Avoidance, No Wiring&Signal Issue, Mulch for Neat Lawns, No Dumping Hassle, For Complex Yard",
+    "goal": 156576,
+    "pledged": 17572828,
+    "state": "successful",
+    "slug": "tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+    "country": "HK",
+    "country_displayable_name": "Hong Kong",
+    "currency": "HKD",
+    "currency_symbol": "$",
+    "currency_trailing_code": true,
+    "deadline": 1716559210,
+    "state_changed_at": 1716559210,
+    "created_at": 1697614732,
+    "launched_at": 1712671210,
+    "is_in_post_campaign_pledging_phase": false,
+    "staff_pick": true,
+    "is_starrable": false,
+    "disable_communication": false,
+    "backers_count": 1389,
+    "static_usd_rate": 0.12772461,
+    "usd_pledged": "2244482.60289708",
+    "converted_pledged_amount": 2250050,
+    "fx_rate": 0.12745254,
+    "usd_exchange_rate": 0.12804146,
+    "current_currency": "USD",
+    "usd_type": "domestic",
+    "creator": {
+      "id": 498755937,
+      "name": "Airseekers",
+      "slug": "airseekers",
+      "is_registered": null,
+      "is_email_verified": null,
+      "chosen_currency": null,
+      "is_superbacker": null,
+      "has_admin_message_badge": false,
+      "partner_badge": null,
+      "ppo_has_action": false,
+      "backing_action_count": 0,
+      "urls": {
+        "web": {
+          "user": "https://www.kickstarter.com/profile/airseekers"
+        },
+        "api": {}
+      }
+    },
+    "location": {
+      "id": 2165352,
+      "name": "Hong Kong",
+      "slug": "hong-kong-hk",
+      "short_name": "Hong Kong, Hong Kong",
+      "displayable_name": "Hong Kong, Hong Kong",
+      "localized_name": "Hong Kong",
+      "country": "HK",
+      "state": "Hong Kong Island",
+      "type": "Town",
+      "is_root": false,
+      "expanded_country": "Hong Kong",
+      "urls": {
+        "web": {
+          "discover": "https://www.kickstarter.com/discover/places/hong-kong-hk",
+          "location": "https://www.kickstarter.com/locations/hong-kong-hk"
+        },
+        "api": {}
+      }
+    },
+    "category": {
+      "id": 52,
+      "name": "Hardware",
+      "analytics_name": "Hardware",
+      "slug": "technology/hardware",
+      "position": 8,
+      "parent_id": 16,
+      "parent_name": "Technology",
+      "color": 6526716,
+      "urls": {
+        "web": {
+          "discover": "http://www.kickstarter.com/discover/categories/technology/hardware"
+        }
+      }
+    },
+    "video": {
+      "id": 1283983,
+      "status": "successful",
+      "width": 640,
+      "height": 360
+    },
+    "profile": {
+      "id": 4714892,
+      "project_id": 4714892,
+      "state": "inactive",
+      "state_changed_at": 1697614732,
+      "name": "Tron 360° AI Vision Robotic Mower with Auto-Mulching",
+      "blurb": null,
+      "background_color": null,
+      "text_color": null,
+      "link_background_color": null,
+      "link_text_color": null,
+      "link_text": null,
+      "link_url": null,
+      "show_feature_image": false,
+      "background_image_opacity": 0.8,
+      "should_show_feature_image_section": true
+    },
+    "spotlight": true,
+    "urls": {
+      "web": {
+        "project": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing",
+        "rewards": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/rewards"
+      }
+    },
+    "percent_funded": 11223.193848354793,
+    "is_liked": null,
+    "is_disliked": null,
+    "is_launched": true,
+    "prelaunch_activated": true
+  }
+}

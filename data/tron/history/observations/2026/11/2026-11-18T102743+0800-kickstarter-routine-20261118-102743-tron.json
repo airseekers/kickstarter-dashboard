@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 2,
+  "kind": "accepted_observation",
+  "projectKey": "tron",
+  "projectId": 1873694145,
+  "runId": "kickstarter-routine-20261118-102743-tron",
+  "attemptedAt": "2026-11-18T10:27:43+08:00",
+  "recordedAt": "2026-11-18T10:27:43+08:00",
+  "timezone": "Asia/Shanghai",
+  "currency": "HKD",
+  "geographicCoverage": "manual_seed",
+  "sources": [
+    {
+      "id": "search",
+      "status": "ok",
+      "acceptedThisRun": true,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "lastSuccessAt": "2026-11-18T10:27:43+08:00",
+      "error": null
+    },
+    {
+      "id": "project_json",
+      "status": "http_error",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "lastSuccessAt": null,
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+    },
+    {
+      "id": "community",
+      "status": "http_error",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "lastSuccessAt": null,
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+    },
+    {
+      "id": "faqs",
+      "status": "http_error",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "lastSuccessAt": null,
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+    }
+  ],
+  "measures": {
+    "pledged": {
+      "value": 17572828,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "goal": {
+      "value": 156576,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "percentFunded": {
+      "value": 11223.193848354793,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "backersCount": {
+      "value": 1389,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "averagePledge": {
+      "value": 12651.42,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "usdPledged": {
+      "value": "2244482.60289708",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "convertedPledgedAmount": {
+      "value": 2250050,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "staticUsdRate": {
+      "value": 0.12772461,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "usdExchangeRate": {
+      "value": 0.12804146,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "fxRate": {
+      "value": 0.12745254,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "newBackers": {
+      "value": 681,
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "returningBackers": {
+      "value": 708,
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "countries": {
+      "value": [
+        {
+          "rank": 1,
+          "nameEn": "United States",
+          "nameZh": "美国",
+          "countryEn": "United States",
+          "countryZh": "美国",
+          "countryCode": "US",
+          "backers": 301
+        },
+        {
+          "rank": 2,
+          "nameEn": "Germany",
+          "nameZh": "德国",
+          "countryEn": "Germany",
+          "countryZh": "德国",
+          "countryCode": "DE",
+          "backers": 125
+        },
+        {
+          "rank": 3,
+          "nameEn": "France",
+          "nameZh": "法国",
+          "countryEn": "France",
+          "countryZh": "法国",
+          "countryCode": "FR",
+          "backers": 96
+        },
+        {
+          "rank": 4,
+          "nameEn": "Belgium",
+          "nameZh": "比利时",
+          "countryEn": "Belgium",
+          "countryZh": "比利时",
+          "countryCode": "BE",
+          "backers": 84
+        },
+        {
+          "rank": 5,
+          "nameEn": "United Kingdom",
+          "nameZh": "英国",
+          "countryEn": "United Kingdom",
+          "countryZh": "英国",
+          "countryCode": "GB",
+          "backers": 60
+        },
+        {
+          "rank": 6,
+          "nameEn": "Netherlands",
+          "nameZh": "荷兰",
+          "countryEn": "Netherlands",
+          "countryZh": "荷兰",
+          "countryCode": "NL",
+          "backers": 55
+        },
+        {
+          "rank": 7,
+          "nameEn": "Denmark",
+          "nameZh": "丹麦",
+          "countryEn": "Denmark",
+          "countryZh": "丹麦",
+          "countryCode": "DK",
+          "backers": 51
+        },
+        {
+          "rank": 8,
+          "nameEn": "Poland",
+          "nameZh": "波兰",
+          "countryEn": "Poland",
+          "countryZh": "波兰",
+          "countryCode": "PL",
+          "backers": 51
+        },
+        {
+          "rank": 9,
+          "nameEn": "Italy",
+          "nameZh": "意大利",
+          "countryEn": "Italy",
+          "countryZh": "意大利",
+          "countryCode": "IT",
+          "backers": 45
+        },
+        {
+          "rank": 10,
+          "nameEn": "Sweden",
+          "nameZh": "瑞典",
+          "countryEn": "Sweden",
+          "countryZh": "瑞典",
+          "countryCode": "SE",
+          "backers": 41
+        }
+      ],
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "cities": {
+      "value": [
+        {
+          "rank": 1,
+          "nameEn": "Copenhagen",
+          "nameZh": "哥本哈根",
+          "countryEn": "Denmark",
+          "countryZh": "丹麦",
+          "countryCode": "DK",
+          "backers": 21
+        },
+        {
+          "rank": 2,
+          "nameEn": "London",
+          "nameZh": "伦敦",
+          "countryEn": "United Kingdom",
+          "countryZh": "英国",
+          "countryCode": "GB",
+          "backers": 20
+        },
+        {
+          "rank": 3,
+          "nameEn": "Ljubljana",
+          "nameZh": "卢布尔雅那",
+          "countryEn": "Slovenia",
+          "countryZh": "斯洛文尼亚",
+          "countryCode": "SI",
+          "backers": 18
+        },
+        {
+          "rank": 4,
+          "nameEn": "Brussels",
+          "nameZh": "布鲁塞尔",
+          "countryEn": "Belgium",
+          "countryZh": "比利时",
+          "countryCode": "BE",
+          "backers": 17
+        },
+        {
+          "rank": 5,
+          "nameEn": "Paris",
+          "nameZh": "巴黎",
+          "countryEn": "France",
+          "countryZh": "法国",
+          "countryCode": "FR",
+          "backers": 16
+        },
+        {
+          "rank": 6,
+          "nameEn": "Budapest",
+          "nameZh": "布达佩斯",
+          "countryEn": "Hungary",
+          "countryZh": "匈牙利",
+          "countryCode": "HU",
+          "backers": 14
+        },
+        {
+          "rank": 7,
+          "nameEn": "Vilnius",
+          "nameZh": "维尔纽斯",
+          "countryEn": "Lithuania",
+          "countryZh": "立陶宛",
+          "countryCode": "LT",
+          "backers": 14
+        },
+        {
+          "rank": 8,
+          "nameEn": "Vienna",
+          "nameZh": "维也纳",
+          "countryEn": "Austria",
+          "countryZh": "奥地利",
+          "countryCode": "AT",
+          "backers": 13
+        },
+        {
+          "rank": 9,
+          "nameEn": "Dublin",
+          "nameZh": "都柏林",
+          "countryEn": "Ireland",
+          "countryZh": "爱尔兰",
+          "countryCode": "IE",
+          "backers": 12
+        },
+        {
+          "rank": 10,
+          "nameEn": "Berlin",
+          "nameZh": "柏林",
+          "countryEn": "Germany",
+          "countryZh": "德国",
+          "countryCode": "DE",
+          "backers": 12
+        }
+      ],
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "comments": {
+      "value": 2680,
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "updates": {
+      "value": 47,
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "faqs": {
+      "value": 35,
+      "freshness": "manual_seed",
+      "observedAt": "2026-11-16T23:12:00+08:00"
+    },
+    "state": {
+      "value": "successful",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "createdAt": {
+      "value": "2023-10-18T15:38:52+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "launchedAt": {
+      "value": "2024-04-09T22:00:10+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "deadline": {
+      "value": "2024-05-24T22:00:10+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    },
+    "stateChangedAt": {
+      "value": "2024-05-24T22:00:10+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T10:27:43+08:00"
+    }
+  }
+}
