@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "writtenAt": "2026-11-16T23:12:00+08:00",
-  "writtenBy": "manual_seed",
+  "writtenAt": "2026-11-18T10:27:43+08:00",
+  "writtenBy": "status_only",
   "project": {
     "key": "tron",
     "id": 1873694145,
@@ -24,10 +24,10 @@
     "currency": "HKD"
   },
   "snapshot": {
-    "provenance": "manual_seed",
-    "snapshotDate": "2026-11-16",
-    "capturedAt": "2026-11-16T23:12:00+08:00",
-    "capturedAtPrecision": "approximate",
+    "provenance": "flat",
+    "snapshotDate": "2026-11-18",
+    "capturedAt": "2026-11-18T10:27:43+08:00",
+    "capturedAtPrecision": "exact",
     "timezone": "Asia/Shanghai",
     "pledged": 17572828,
     "goal": 156576,
@@ -38,7 +38,7 @@
     "convertedPledgedAmount": 2250050,
     "staticUsdRate": 0.12772461,
     "usdExchangeRate": 0.12804146,
-    "fxRate": 0.12746144,
+    "fxRate": 0.12745254,
     "currentCurrency": "USD",
     "newBackers": 681,
     "returningBackers": 708,
@@ -238,9 +238,9 @@
     "geographyUpdatedAt": null,
     "observations": {
       "funding": {
-        "provenance": "manual_seed",
-        "capturedAt": "2026-11-16T23:12:00+08:00",
-        "capturedAtPrecision": "approximate"
+        "provenance": "flat",
+        "capturedAt": "2026-11-18T10:27:43+08:00",
+        "capturedAtPrecision": "exact"
       },
       "community": {
         "provenance": "manual_seed",
@@ -280,46 +280,46 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower",
-      "attemptedAt": null,
-      "fetchedAt": null,
-      "lastSuccessAt": null,
-      "httpStatus": null,
-      "status": "seed",
-      "accepted": false,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "fetchedAt": "2026-11-18T10:27:43+08:00",
+      "lastSuccessAt": "2026-11-18T10:27:43+08:00",
+      "httpStatus": 200,
+      "status": "ok",
+      "accepted": true,
       "error": null
     },
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json",
-      "attemptedAt": null,
-      "fetchedAt": null,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "fetchedAt": "2026-11-18T10:27:43+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
-      "status": "seed",
+      "status": "http_error",
       "accepted": false,
-      "error": null
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
     },
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community",
-      "attemptedAt": null,
-      "fetchedAt": null,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "fetchedAt": "2026-11-18T10:27:43+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
-      "status": "seed",
+      "status": "http_error",
       "accepted": false,
-      "error": null
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
     },
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs",
-      "attemptedAt": null,
-      "fetchedAt": null,
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "fetchedAt": "2026-11-18T10:27:43+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
-      "status": "seed",
+      "status": "http_error",
       "accepted": false,
-      "error": null
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
     }
   ],
   "collection": {
@@ -327,9 +327,9 @@
     "cadence": "daily",
     "cron": "17 2 * * *",
     "beijing": "每天 02:17 UTC，即北京时间 10:17。与 ARANIX 共用每小时第 17 分的那一次运行，只有 UTC 小时为 2 时才抓 TRON。Actions 定时是尽力而为，不保证准点。",
-    "flatObservationCount": 0,
-    "lastAcceptedAt": null,
-    "lastAttemptAt": null
+    "flatObservationCount": 1,
+    "lastAcceptedAt": "2026-11-18T10:27:43+08:00",
+    "lastAttemptAt": "2026-11-18T10:27:43+08:00"
   },
   "notes": [
     "人工种子快照，整理时间约 2026-11-16 23:12（北京时间，UTC+8）。这不是 Flat Data 的自动抓取。",

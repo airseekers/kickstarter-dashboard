@@ -3,7 +3,93 @@
   "projectKey": "tron",
   "cadence": "daily",
   "cron": "17 2 * * *",
-  "observations": [],
+  "observations": [
+    {
+      "runId": "kickstarter-routine-20261118-102743-tron",
+      "attemptedAt": "2026-11-18T10:27:43+08:00",
+      "path": "data/tron/history/observations/2026/11/2026-11-18T102743+0800-kickstarter-routine-20261118-102743-tron.json",
+      "acceptedSources": [
+        "search"
+      ],
+      "measures": {
+        "pledged": {
+          "value": 17572828,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "goal": {
+          "value": 156576,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "percentFunded": {
+          "value": 11223.193848354793,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "backersCount": {
+          "value": 1389,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "averagePledge": {
+          "value": 12651.42,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "convertedPledgedAmount": {
+          "value": 2250050,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "staticUsdRate": {
+          "value": 0.12772461,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "usdExchangeRate": {
+          "value": 0.12804146,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "fxRate": {
+          "value": 0.12745254,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        },
+        "newBackers": {
+          "value": 681,
+          "freshness": "manual_seed",
+          "observedAt": "2026-11-16T23:12:00+08:00"
+        },
+        "returningBackers": {
+          "value": 708,
+          "freshness": "manual_seed",
+          "observedAt": "2026-11-16T23:12:00+08:00"
+        },
+        "comments": {
+          "value": 2680,
+          "freshness": "manual_seed",
+          "observedAt": "2026-11-16T23:12:00+08:00"
+        },
+        "updates": {
+          "value": 47,
+          "freshness": "manual_seed",
+          "observedAt": "2026-11-16T23:12:00+08:00"
+        },
+        "faqs": {
+          "value": 35,
+          "freshness": "manual_seed",
+          "observedAt": "2026-11-16T23:12:00+08:00"
+        },
+        "usdPledged": {
+          "value": "2244482.60289708",
+          "freshness": "observed",
+          "observedAt": "2026-11-18T10:27:43+08:00"
+        }
+      }
+    }
+  ],
   "attempts": [],
   "baseline": {
     "kind": "manual_seed",
