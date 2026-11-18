@@ -165,6 +165,7 @@ describe('dashboard copy', () => {
       { at: '2026-11-18T22:27:53+08:00', value: 358 },
       { at: '2026-11-18T23:25:02+08:00', value: 361 },
       { at: '2026-11-19T00:26:30+08:00', value: 363 },
+      { at: '2026-11-19T01:24:44+08:00', value: 366 },
     ])
     const page = html(loadDataset('ARANIX'), now, 'ARANIX', loadBackerSeries('ARANIX'))
     const trend = section(page, 'backers-trend')
@@ -189,6 +190,7 @@ describe('dashboard copy', () => {
     expect(trend).toContain('22:27')
     expect(trend).toContain('23:25')
     expect(trend).toContain('00:26')
+    expect(trend).toContain('01:24')
     expect(trend).toContain('北京时间 UTC+8')
     expect(trend).not.toContain('2026-11-17')
     expect(trend).not.toContain('1,389')
@@ -196,8 +198,9 @@ describe('dashboard copy', () => {
     expect(trend).not.toContain('USD')
     expect(trend).not.toContain('data-value="0"')
     const marks = markTops(trend)
-    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320, 325, 328, 331, 336, 337, 338, 342, 347, 348, 353, 356, 358, 361, 363])
+    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320, 325, 328, 331, 336, 337, 338, 342, 347, 348, 353, 356, 358, 361, 363, 366])
     const topOf = (value: number) => Math.min(...marks.filter((mark) => mark.value === value).map((mark) => mark.top))
+    expect(topOf(366)).toBeLessThan(topOf(363))
     expect(topOf(363)).toBeLessThan(topOf(361))
     expect(topOf(361)).toBeLessThan(topOf(358))
     expect(topOf(358)).toBeLessThan(topOf(356))

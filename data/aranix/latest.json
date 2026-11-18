@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "writtenAt": "2026-11-19T00:26:30+08:00",
+  "writtenAt": "2026-11-19T01:24:44+08:00",
   "writtenBy": "status_only",
   "project": {
     "key": "aranix",
@@ -26,16 +26,16 @@
   "snapshot": {
     "provenance": "flat",
     "snapshotDate": "2026-11-19",
-    "capturedAt": "2026-11-19T00:26:30+08:00",
+    "capturedAt": "2026-11-19T01:24:44+08:00",
     "capturedAtPrecision": "exact",
     "timezone": "Asia/Shanghai",
-    "pledged": 7367071,
+    "pledged": 7437751,
     "goal": 392305,
-    "percentFunded": 1877.8937306432497,
-    "backersCount": 363,
-    "averagePledge": 20294.96,
-    "usdPledged": "939017.47824224",
-    "convertedPledgedAmount": 939024,
+    "percentFunded": 1895.9103248747783,
+    "backersCount": 366,
+    "averagePledge": 20321.72,
+    "usdPledged": "948026.45282144",
+    "convertedPledgedAmount": 948033,
     "staticUsdRate": 0.12746144,
     "usdExchangeRate": 0.12746233,
     "fxRate": 0.12746233,
@@ -57,7 +57,7 @@
     "observations": {
       "funding": {
         "provenance": "flat",
-        "capturedAt": "2026-11-19T00:26:30+08:00",
+        "capturedAt": "2026-11-19T01:24:44+08:00",
         "capturedAtPrecision": "exact"
       },
       "community": {
@@ -67,7 +67,7 @@
       },
       "activity": {
         "provenance": "flat",
-        "capturedAt": "2026-11-19T00:26:30+08:00",
+        "capturedAt": "2026-11-19T01:24:44+08:00",
         "capturedAtPrecision": "exact"
       }
     }
@@ -98,9 +98,9 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
-      "attemptedAt": "2026-11-19T00:26:30+08:00",
-      "fetchedAt": "2026-11-19T00:26:30+08:00",
-      "lastSuccessAt": "2026-11-19T00:26:30+08:00",
+      "attemptedAt": "2026-11-19T01:24:44+08:00",
+      "fetchedAt": "2026-11-19T01:24:44+08:00",
+      "lastSuccessAt": "2026-11-19T01:24:44+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -109,9 +109,9 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
-      "attemptedAt": "2026-11-19T00:26:30+08:00",
-      "fetchedAt": "2026-11-19T00:26:30+08:00",
-      "lastSuccessAt": "2026-11-19T00:26:30+08:00",
+      "attemptedAt": "2026-11-19T01:24:44+08:00",
+      "fetchedAt": "2026-11-19T01:24:44+08:00",
+      "lastSuccessAt": "2026-11-19T01:24:44+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -120,8 +120,8 @@
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
-      "attemptedAt": "2026-11-19T00:26:30+08:00",
-      "fetchedAt": "2026-11-19T00:26:30+08:00",
+      "attemptedAt": "2026-11-19T01:24:44+08:00",
+      "fetchedAt": "2026-11-19T01:24:44+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
       "status": "invalid",
@@ -131,9 +131,9 @@
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
-      "attemptedAt": "2026-11-19T00:26:30+08:00",
-      "fetchedAt": "2026-11-19T00:26:30+08:00",
-      "lastSuccessAt": "2026-11-19T00:26:30+08:00",
+      "attemptedAt": "2026-11-19T01:24:44+08:00",
+      "fetchedAt": "2026-11-19T01:24:44+08:00",
+      "lastSuccessAt": "2026-11-19T01:24:44+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -145,9 +145,9 @@
     "cadence": "hourly",
     "cron": "17 * * * *",
     "beijing": "每小时第 17 分（UTC 与北京时间相同的分钟）。GitHub Actions 定时是尽力而为，不保证准点。",
-    "flatObservationCount": 18,
-    "lastAcceptedAt": "2026-11-19T00:26:30+08:00",
-    "lastAttemptAt": "2026-11-19T00:26:30+08:00"
+    "flatObservationCount": 19,
+    "lastAcceptedAt": "2026-11-19T01:24:44+08:00",
+    "lastAttemptAt": "2026-11-19T01:24:44+08:00"
   },
   "notes": [
     "公开搜索 JSON（term=ARANIX）人工核对快照，约 2026-11-17 10:51（北京时间）。不是 Flat Data 自动抓取。",
