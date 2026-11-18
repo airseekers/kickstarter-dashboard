@@ -1037,6 +1037,93 @@
           "observedAt": "2026-11-18T18:22:05+08:00"
         }
       }
+    },
+    {
+      "runId": "routine-kickstarter-93692bb3-20261118T192247-aranix",
+      "attemptedAt": "2026-11-18T19:22:47+08:00",
+      "path": "data/aranix/history/observations/2026/11/2026-11-18T192247+0800-routine-kickstarter-93692bb3-20261118T192247-aranix.json",
+      "acceptedSources": [
+        "search",
+        "project_json",
+        "faqs"
+      ],
+      "measures": {
+        "pledged": {
+          "value": 7084477,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "goal": {
+          "value": 392305,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "percentFunded": {
+          "value": 1805.8594715846089,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "backersCount": {
+          "value": 348,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "averagePledge": {
+          "value": 20357.69,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "convertedPledgedAmount": {
+          "value": 903003,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "staticUsdRate": {
+          "value": 0.12746144,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "usdExchangeRate": {
+          "value": 0.12746233,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "fxRate": {
+          "value": 0.12746233,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "newBackers": {
+          "value": null,
+          "freshness": "unavailable",
+          "observedAt": null
+        },
+        "returningBackers": {
+          "value": null,
+          "freshness": "unavailable",
+          "observedAt": null
+        },
+        "comments": {
+          "value": 57,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "updates": {
+          "value": 2,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "faqs": {
+          "value": 23,
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        },
+        "usdPledged": {
+          "value": "902997.64006688",
+          "freshness": "observed",
+          "observedAt": "2026-11-18T19:22:47+08:00"
+        }
+      }
     }
   ],
   "attempts": [],
