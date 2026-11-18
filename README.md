@@ -71,13 +71,30 @@ npm run preview
 
 金额切换默认人民币，可选美元。换算使用 `data/fx/latest.json` 里缓存的 Frankfurter / 欧洲央行参考汇率，不在浏览器里实时请求。这是估算，汇率日和检索时间写在页脚。Kickstarter 的 `usd_pledged` 与 `converted_pledged_amount` 保持原值。汇率抓取失败时不改写上一份有效汇率文件；没有上一份就不换算。人数和百分比不换算。
 
-后处理会校验项目 id / slug / creator、拒绝挑战页、拒绝负数，并拒绝把已有正数筹款覆盖成 0。签名图片和 `signature=` 地址不会进入接受后的文件。
+后处理会校验项目 id、slug、不少于 5 个字母的显示名，以及 TRON 标题里的 “Tron 360”。只出现创建者名字不够，避免把另一个项目的页面认进来。它拒绝挑战页、拒绝负数，并拒绝把已有正数筹款覆盖成 0。签名图片和 `signature=` 地址不会进入接受后的文件。
+
+国家、城市、新支持和既有支持只来自该项目公开的 Community 页，不在 `search.json` 里。页面要同时有 Top Cities、Top Countries、支持人数，以及 New Backers 与 Returning Backers，且两者之和等于该页支持人数。正文可以是原始 HTML，也可以是公开阅读转成的文本：城市可以是单独的城市行、国家行和 “21 backers”，也可以是 “Copenhagen Denmark” 再加一行人数。缺任何一块、地区名为空、新老人数对不上，或者正文是 Cloudflare 挑战页（“Just a moment…”）时，整页拒绝。拒绝不会把已有地区或新老人数改成 0，也不会抄另一个项目的数字。
+
+GitHub Actions 里的 Deno、普通服务器 IP，以及 `kickstarter-fetch` Worker 请求 Kickstarter HTML（Community、FAQ，常常也包括 `search.json`）时，通常仍会收到 HTTP 403 挑战页。工作流不伪装浏览器，也不跟随挑战页。这种失败不会写入 raw。`KICKSTARTER_FETCH_BASE` 可以一直不设置。
+
+已经拿到可读正文时，不要再跑会覆盖结果的抓取，把正文交给同一条 `processDownload`。search、项目片段和 FAQ 用同样的做法；项目片段在不是合法 JSON 时，仍要能读出 FAQ、Updates、Comments 三个计数。接受之后 raw 文件会被换成去掉签名地址的摘要，不保留挑战页或整页 HTML。
+
+```bash
+mkdir -p data/raw/aranix
+# 将可读的 Community 正文写入 data/raw/aranix/community.json
+# 项目片段是 data/raw/aranix/project.json，FAQ 是 data/raw/aranix/faqs.json，搜索 JSON 是 data/raw/aranix/search.json
+deno run --allow-env --allow-read --allow-write --allow-run=git deno/postprocess.ts data/raw/aranix/community.json
+deno run --allow-env --allow-read --allow-write deno/reconcile.ts
+node --experimental-strip-types scripts/decide-publish.ts
+```
+
+TRON 把路径里的 `aranix` 换成 `tron`。只有 `decide-publish` 判断这次有接受的观测时，才应该提交。
 
 采集和 GitHub Pages 部署在同一个 workflow，但部署发生在数据提交已经出现在 `origin/main` 之后。`GITHUB_TOKEN` 产生的 push 不会再启动 `ci.yml`，所以不能靠这次 push 去触发 CI 里的 Pages 部署。Flat Data workflow 自己在 `git push` 成功并且 `HEAD` 等于 `origin/main` 之后才构建、上传 artifact、运行 `deploy-pages`。
 
 下面几种情况不提交，也不部署：Kickstarter 请求失败、只有失败记录或来源状态变化、汇率数值和汇率日都没变。汇率文件字节数相同不等于没变化；比较的是汇率日和 USD/CNY。数值没变的成功观测仍会追加文件，提交到 `main` 后再部署。失败响应不会写进已有的 raw 或 `latest.json`。
 
-GitHub 托管运行器直接请求 Kickstarter 会收到 HTTP 403。工作流因此不在运行器上伪装浏览器或跟随挑战页跳转。设置仓库变量 `KICKSTARTER_FETCH_BASE` 之后，Kickstarter 的四个公开地址改由 Cloudflare Worker 代为请求；Frankfurter 汇率仍然由运行器直接请求。变量还没设置时，403 会被记在日志里，仓库保持原样。
+定时抓取仍不伪装浏览器，也不跟随挑战页跳转。设置仓库变量 `KICKSTARTER_FETCH_BASE` 之后，四个公开地址改由 Worker 代为请求；Worker 不带 cookie、不跟随重定向，HTML 挑战页还是失败，这时用上面的可读正文。Frankfurter 汇率仍然由运行器直接请求。变量还没设置时，403 记在日志里，仓库保持原样。
 
 再增加项目时，在 `data/projects.json` 加一项。Worker 只放行 `www.kickstarter.com` 上该创建者的 search、项目 JSON、community 和 faqs。抓取在同一个 job 里串行执行。
 

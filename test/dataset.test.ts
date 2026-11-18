@@ -1,8 +1,10 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { filesForDataset } from '../shared/files.ts'
+import { emptyManifest, planCollectionRecord } from '../shared/history.ts'
 import { applyAttempt, fundingUntouched, markStepFailure } from '../shared/merge.ts'
 import { averagePledge, formatShare, top10Total } from '../shared/metrics.ts'
+import { splitCityCountry } from '../shared/places.ts'
 import { containsSignedUrl } from '../shared/sanitize.ts'
 import { parseDownload } from '../shared/parse.ts'
 import { ARANIX_PROJECT, buildAranixDataset } from '../shared/aranix.ts'
@@ -208,6 +210,191 @@ describe('parsers and preservation', () => {
     if (parsed.ok) return
     expect(parsed.status).toBe('invalid')
   })
+
+  it('accepts a public-read community page and records geography on the dataset', () => {
+    expect(splitCityCountry('Auckland New Zealand')).toEqual({ city: 'Auckland', country: 'New Zealand' })
+    expect(splitCityCountry('Chicago United States')).toEqual({ city: 'Chicago', country: 'United States' })
+    expect(splitCityCountry('Hong Kong Hong Kong')).toEqual({ city: 'Hong Kong', country: 'Hong Kong' })
+    expect(splitCityCountry('United States')).toBeNull()
+
+    const html = parseDownload('community', read('community.html'), TRON_PROJECT)
+    const parsed = parseDownload('community', read('community-public-tron.txt'), TRON_PROJECT)
+    expect(html.ok && parsed.ok).toBe(true)
+    if (!html.ok || !parsed.ok) return
+    expect(parsed.patch.snapshot?.countries?.map((row) => [row.nameEn, row.backers])).toEqual(
+      html.patch.snapshot?.countries?.map((row) => [row.nameEn, row.backers]),
+    )
+    expect(parsed.patch.snapshot?.cities?.map((row) => [row.nameEn, row.countryEn, row.backers])).toEqual(
+      html.patch.snapshot?.cities?.map((row) => [row.nameEn, row.countryEn, row.backers]),
+    )
+    expect(parsed.patch.snapshot?.newBackers).toBe(681)
+    expect(parsed.patch.snapshot?.returningBackers).toBe(708)
+    expect(parsed.patch.snapshot?.cities?.[2].nameZh).toBe('卢布尔雅那')
+    expect(parsed.patch.snapshot?.communityPageHeaderText).toBe('Last updated October 19, 2026')
+    expect(parsed.patch.snapshot?.geographyUpdatedAt).toBeNull()
+    expect(JSON.stringify(parsed.sanitizedRaw)).not.toContain('sig=')
+
+    const next = applyAttempt(seed, { source: 'community', result: parsed, fetchedAt, httpStatus: 200 })
+    expect(next.snapshot.countries[0]).toMatchObject({ nameEn: 'United States', nameZh: '美国', backers: 301 })
+    expect(next.snapshot.cities[0]).toMatchObject({ nameEn: 'Copenhagen', countryEn: 'Denmark', backers: 21 })
+    expect(next.snapshot.newBackers).toBe(681)
+    expect(next.snapshot.returningBackers).toBe(708)
+    expect(next.snapshot.observations.community).toEqual({
+      provenance: 'flat',
+      capturedAt: fetchedAt,
+      capturedAtPrecision: 'exact',
+    })
+    expect(next.snapshot.observations.funding.provenance).toBe('manual_seed')
+    expect(next.snapshot.backersCount).toBe(1389)
+    expect(next.sources.find((source) => source.id === 'community')).toMatchObject({
+      status: 'ok',
+      accepted: true,
+      httpStatus: 200,
+      lastSuccessAt: fetchedAt,
+    })
+
+    const plan = planCollectionRecord({
+      dataset: next,
+      runId: 'community-public',
+      attemptedAt: fetchedAt,
+      recordedAt: fetchedAt,
+      manifest: emptyManifest('tron', seed.snapshot.capturedAt),
+    })
+    expect(plan.manifest.observations[0].acceptedSources).toEqual(['community'])
+    const observation = JSON.parse(plan.files[plan.manifest.observations[0].path]) as {
+      geographicCoverage: string
+      measures: {
+        pledged: { freshness: string }
+        newBackers: { value: number; freshness: string; observedAt: string }
+        countries: { freshness: string; value: Array<{ nameEn: string; backers: number }> }
+        cities: { freshness: string; value: Array<{ nameEn: string }> }
+      }
+    }
+    expect(observation.geographicCoverage).toBe('observed')
+    expect(observation.measures.pledged.freshness).toBe('manual_seed')
+    expect(observation.measures.newBackers).toEqual({ value: 681, freshness: 'observed', observedAt: fetchedAt })
+    expect(observation.measures.countries.freshness).toBe('observed')
+    expect(observation.measures.countries.value[0]).toMatchObject({ nameEn: 'United States', backers: 301 })
+    expect(observation.measures.cities.value[2].nameEn).toBe('Ljubljana')
+  })
+
+  it('rejects a challenge page, an incomplete community page, and a count mismatch without clearing last-known-good', () => {
+    const challenge = parseDownload(
+      'community',
+      `${read('cloudflare.html')}\nTron 360\nTop Cities\nCopenhagen Denmark\n21 backers\n`,
+      TRON_PROJECT,
+    )
+    expect(challenge.ok).toBe(false)
+    if (challenge.ok) return
+    expect(challenge.status).toBe('blocked')
+
+    const cases = [
+      read('community-public-incomplete.txt'),
+      read('community-public-tron.txt').replace('Top Cities', 'Cities'),
+      read('community-public-tron.txt').replace('Top Countries', 'Countries'),
+      read('community-public-tron.txt').replace('##### New Backers', '##### Backers'),
+      read('community-public-tron.txt').replace('##### Returning Backers', '##### Previous Backers'),
+      read('community-public-tron.txt').replace('\n708\n', '\n700\n'),
+      read('community-public-tron.txt').replace('1,389 people are supporting Airseekers', 'people are supporting Airseekers'),
+    ]
+    for (const body of [read('cloudflare.html'), ...cases]) {
+      const parsed = parseDownload('community', body, TRON_PROJECT)
+      expect(parsed.ok).toBe(false)
+      const next = applyAttempt(seed, { source: 'community', result: parsed, fetchedAt, httpStatus: null })
+      expect(next.snapshot.countries).toEqual(seed.snapshot.countries)
+      expect(next.snapshot.cities).toEqual(seed.snapshot.cities)
+      expect(next.snapshot.newBackers).toBe(681)
+      expect(next.snapshot.returningBackers).toBe(708)
+      expect(next.snapshot.observations.community.provenance).toBe('manual_seed')
+      expect(next.sources.find((source) => source.id === 'community')?.accepted).toBe(false)
+      expect(JSON.stringify(next.snapshot.countries)).not.toContain('Auckland')
+    }
+
+    const incomplete = parseDownload('community', read('community-public-incomplete.txt'), ARANIX_PROJECT)
+    expect(incomplete.ok).toBe(false)
+    if (incomplete.ok) return
+    expect(incomplete.status).not.toBe('mismatch')
+    const aranix = applyAttempt(buildAranixDataset(), {
+      source: 'community',
+      result: incomplete,
+      fetchedAt,
+      httpStatus: null,
+    })
+    expect(aranix.snapshot.countries).toEqual([])
+    expect(aranix.snapshot.cities).toEqual([])
+    expect(aranix.snapshot.newBackers).toBeNull()
+    expect(aranix.snapshot.returningBackers).toBeNull()
+    expect(JSON.stringify(aranix.snapshot)).not.toContain('United Kingdom')
+    expect(JSON.stringify(aranix.snapshot)).not.toContain('"newBackers":0')
+
+    const otherProject = parseDownload('community', read('community-public-tron.txt'), ARANIX_PROJECT)
+    expect(otherProject.ok).toBe(false)
+    if (otherProject.ok) return
+    expect(otherProject.status).toBe('mismatch')
+    const copied = applyAttempt(buildAranixDataset(), {
+      source: 'community',
+      result: otherProject,
+      fetchedAt,
+      httpStatus: null,
+    })
+    expect(copied.snapshot.countries).toEqual([])
+    expect(copied.snapshot.newBackers).toBeNull()
+  })
+
+  it('does not accept community counts that disagree with the current backer total', () => {
+    const parsed = parseDownload('community', read('community-public-tron.txt'), TRON_PROJECT)
+    expect(parsed.ok).toBe(true)
+    const altered = structuredClone(seed)
+    altered.snapshot.backersCount = 100
+    const next = applyAttempt(altered, { source: 'community', result: parsed, fetchedAt, httpStatus: 200 })
+    expect(next.snapshot.backersCount).toBe(100)
+    expect(next.snapshot.countries).toEqual(seed.snapshot.countries)
+    expect(next.snapshot.newBackers).toBe(681)
+    expect(next.snapshot.observations.community.provenance).toBe('manual_seed')
+    expect(next.sources.find((source) => source.id === 'community')?.status).toBe('invalid')
+  })
+
+  it('accepts project and FAQ text from a public read without borrowing the other project', () => {
+    const text = [
+      'ARANIX — The World\'s First 4WD+4WS All-Terrain Robotic Mower',
+      'FAQ',
+      '23',
+      'Updates',
+      '2',
+      'Comments',
+      '44',
+    ].join('\n')
+    const parsed = parseDownload('project_json', text, ARANIX_PROJECT)
+    expect(parsed.ok).toBe(true)
+    if (!parsed.ok) return
+    expect(parsed.patch.snapshot).toMatchObject({ faqs: 23, updates: 2, comments: 44 })
+    const wrong = parseDownload('project_json', text, TRON_PROJECT)
+    expect(wrong.ok).toBe(false)
+    if (wrong.ok) return
+    expect(wrong.status).toBe('mismatch')
+    const kept = applyAttempt(buildAranixDataset(), {
+      source: 'project_json',
+      result: wrong,
+      fetchedAt,
+      httpStatus: null,
+    })
+    expect(kept.snapshot.comments).toBeNull()
+    expect(kept.snapshot.updates).toBeNull()
+    expect(kept.snapshot.faqs).toBeNull()
+
+    const faqs = parseDownload(
+      'faqs',
+      'ARANIX — The World\'s First 4WD+4WS All-Terrain Robotic Mower — FAQ\nLast updated: Tue, Nov 17 2026 9:13 am EST\n',
+      ARANIX_PROJECT,
+    )
+    expect(faqs.ok).toBe(true)
+    const faqsOnTron = parseDownload(
+      'faqs',
+      'ARANIX — The World\'s First 4WD+4WS All-Terrain Robotic Mower — FAQ\nLast updated: Tue, Nov 17 2026 9:13 am EST\n',
+      TRON_PROJECT,
+    )
+    expect(faqsOnTron.ok).toBe(false)
+  })
 })
 
 describe('ARANIX public snapshot', () => {
@@ -243,18 +430,18 @@ describe('ARANIX public snapshot', () => {
     const committed = JSON.parse(readFileSync(new URL('../data/aranix/latest.json', import.meta.url), 'utf8'))
     expect(committed.project.state).toBe('live')
     expect(committed.project.isLaunched).toBe(true)
-    expect(committed.snapshot.pledged).toBe(6470686)
+    expect(committed.snapshot.pledged).toBe(6578878)
     expect(committed.snapshot.goal).toBe(392305)
-    expect(committed.snapshot.backersCount).toBe(320)
-    expect(committed.snapshot.percentFunded).toBe(1649.401868444195)
-    expect(committed.snapshot.capturedAt).toBe('2026-11-18T10:27:43+08:00')
+    expect(committed.snapshot.backersCount).toBe(325)
+    expect(committed.snapshot.percentFunded).toBe(1676.980410649877)
+    expect(committed.snapshot.capturedAt).toBe('2026-11-18T11:21:43+08:00')
     expect(committed.snapshot.provenance).toBe('flat')
     expect(committed.snapshot.comments).toBeNull()
     expect(committed.snapshot.updates).toBeNull()
     expect(committed.snapshot.faqs).toBeNull()
     expect(committed.snapshot.countries).toEqual([])
     expect(committed.snapshot.newBackers).toBeNull()
-    expect(committed.collection.flatObservationCount).toBe(4)
+    expect(committed.collection.flatObservationCount).toBe(5)
     expect(JSON.stringify(committed)).not.toContain('17572828')
     const parsed = parseDownload('search', read('search-aranix.json'), ARANIX_PROJECT)
     expect(parsed.ok).toBe(true)
