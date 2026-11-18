@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "kind": "accepted_observation",
+  "projectKey": "aranix",
+  "projectId": 103950657,
+  "runId": "routine-kickstarter-93692bb3-20261118T112143-aranix",
+  "attemptedAt": "2026-11-18T11:21:43+08:00",
+  "recordedAt": "2026-11-18T11:21:43+08:00",
+  "timezone": "Asia/Shanghai",
+  "currency": "HKD",
+  "geographicCoverage": "unavailable",
+  "sources": [
+    {
+      "id": "search",
+      "status": "ok",
+      "acceptedThisRun": true,
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "lastSuccessAt": "2026-11-18T11:21:43+08:00",
+      "error": null
+    },
+    {
+      "id": "project_json",
+      "status": "http_error",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "lastSuccessAt": null,
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+    },
+    {
+      "id": "community",
+      "status": "http_error",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "lastSuccessAt": null,
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+    },
+    {
+      "id": "faqs",
+      "status": "http_error",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "lastSuccessAt": null,
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+    }
+  ],
+  "measures": {
+    "pledged": {
+      "value": 6578878,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "goal": {
+      "value": 392305,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "percentFunded": {
+      "value": 1676.980410649877,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "backersCount": {
+      "value": 325,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "averagePledge": {
+      "value": 20242.7,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "usdPledged": {
+      "value": "838553.26346432",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "convertedPledgedAmount": {
+      "value": 838494,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "staticUsdRate": {
+      "value": 0.12746144,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "usdExchangeRate": {
+      "value": 0.12745254,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "fxRate": {
+      "value": 0.12745254,
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "newBackers": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "returningBackers": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "countries": {
+      "value": [],
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "cities": {
+      "value": [],
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "comments": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "updates": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "faqs": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "state": {
+      "value": "live",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "createdAt": {
+      "value": "2026-09-30T16:27:07+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "launchedAt": {
+      "value": "2026-11-17T22:00:07+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "deadline": {
+      "value": "2027-01-01T22:00:07+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    },
+    "stateChangedAt": {
+      "value": "2026-11-17T22:00:11+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-18T11:21:43+08:00"
+    }
+  }
+}

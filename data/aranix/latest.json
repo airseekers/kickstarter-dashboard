@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "writtenAt": "2026-11-18T10:27:43+08:00",
+  "writtenAt": "2026-11-18T11:21:43+08:00",
   "writtenBy": "status_only",
   "project": {
     "key": "aranix",
@@ -26,16 +26,16 @@
   "snapshot": {
     "provenance": "flat",
     "snapshotDate": "2026-11-18",
-    "capturedAt": "2026-11-18T10:27:43+08:00",
+    "capturedAt": "2026-11-18T11:21:43+08:00",
     "capturedAtPrecision": "exact",
     "timezone": "Asia/Shanghai",
-    "pledged": 6470686,
+    "pledged": 6578878,
     "goal": 392305,
-    "percentFunded": 1649.401868444195,
-    "backersCount": 320,
-    "averagePledge": 20220.89,
-    "usdPledged": "824762.95534784",
-    "convertedPledgedAmount": 824705,
+    "percentFunded": 1676.980410649877,
+    "backersCount": 325,
+    "averagePledge": 20242.7,
+    "usdPledged": "838553.26346432",
+    "convertedPledgedAmount": 838494,
     "staticUsdRate": 0.12746144,
     "usdExchangeRate": 0.12745254,
     "fxRate": 0.12745254,
@@ -57,7 +57,7 @@
     "observations": {
       "funding": {
         "provenance": "flat",
-        "capturedAt": "2026-11-18T10:27:43+08:00",
+        "capturedAt": "2026-11-18T11:21:43+08:00",
         "capturedAtPrecision": "exact"
       },
       "community": {
@@ -98,9 +98,9 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
-      "lastSuccessAt": "2026-11-18T10:27:43+08:00",
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "fetchedAt": "2026-11-18T11:21:43+08:00",
+      "lastSuccessAt": "2026-11-18T11:21:43+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -109,8 +109,8 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "fetchedAt": "2026-11-18T11:21:43+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
       "status": "http_error",
@@ -120,8 +120,8 @@
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "fetchedAt": "2026-11-18T11:21:43+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
       "status": "http_error",
@@ -131,8 +131,8 @@
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
+      "attemptedAt": "2026-11-18T11:21:43+08:00",
+      "fetchedAt": "2026-11-18T11:21:43+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
       "status": "http_error",
@@ -145,9 +145,9 @@
     "cadence": "hourly",
     "cron": "17 * * * *",
     "beijing": "每小时第 17 分（UTC 与北京时间相同的分钟）。GitHub Actions 定时是尽力而为，不保证准点。",
-    "flatObservationCount": 4,
-    "lastAcceptedAt": "2026-11-18T10:27:43+08:00",
-    "lastAttemptAt": "2026-11-18T10:27:43+08:00"
+    "flatObservationCount": 5,
+    "lastAcceptedAt": "2026-11-18T11:21:43+08:00",
+    "lastAttemptAt": "2026-11-18T11:21:43+08:00"
   },
   "notes": [
     "公开搜索 JSON（term=ARANIX）人工核对快照，约 2026-11-17 10:51（北京时间）。不是 Flat Data 自动抓取。",
