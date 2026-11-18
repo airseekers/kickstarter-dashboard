@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "projectKey": "aranix",
-  "writtenAt": "2026-11-18T08:26:39+08:00",
-  "writtenBy": "flat",
+  "writtenAt": "2026-11-18T09:25:51+08:00",
+  "writtenBy": "status_only",
   "sources": [
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
-      "attemptedAt": "2026-11-18T08:26:39+08:00",
-      "fetchedAt": "2026-11-18T08:26:39+08:00",
-      "lastSuccessAt": "2026-11-18T08:26:39+08:00",
+      "attemptedAt": "2026-11-18T09:25:51+08:00",
+      "fetchedAt": "2026-11-18T09:25:51+08:00",
+      "lastSuccessAt": "2026-11-18T09:25:51+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -18,35 +18,35 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
-      "attemptedAt": null,
-      "fetchedAt": null,
+      "attemptedAt": "2026-11-18T09:25:51+08:00",
+      "fetchedAt": "2026-11-18T09:25:51+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
-      "status": "seed",
+      "status": "http_error",
       "accepted": false,
-      "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
     },
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
-      "attemptedAt": null,
-      "fetchedAt": null,
+      "attemptedAt": "2026-11-18T09:25:51+08:00",
+      "fetchedAt": "2026-11-18T09:25:51+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
-      "status": "seed",
+      "status": "http_error",
       "accepted": false,
-      "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
     },
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
-      "attemptedAt": null,
-      "fetchedAt": null,
+      "attemptedAt": "2026-11-18T09:25:51+08:00",
+      "fetchedAt": "2026-11-18T09:25:51+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
-      "status": "seed",
+      "status": "http_error",
       "accepted": false,
-      "error": "本次公开读取没有拿到该来源，不能用 0 或其他项目的数据填充。"
+      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
     }
   ]
 }
