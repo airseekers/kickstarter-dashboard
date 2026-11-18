@@ -11,6 +11,7 @@ const outcomeEnv: Record<SourceId, string> = {
   faqs: 'FAQS_OUTCOME',
 }
 
+export async function reconcile(): Promise<void> {
 const projects = JSON.parse(await Deno.readTextFile('data/projects.json')) as ProjectsFile
 const fetchedAt = Deno.env.get('COLLECTED_AT') || toShanghaiIso(new Date())
 const runId = Deno.env.get('COLLECTION_RUN_ID') || `local-${fetchedAt}`
@@ -36,7 +37,7 @@ for (const project of projects.projects) {
       source.id,
       fetchedAt,
       'http_error',
-      'Flat 的 HTTP 步骤在后处理之前失败。常见原因是 Cloudflare 403 或非 200。响应体未采纳，原有数字保持不变。',
+      '公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。',
     )
   }
   const manifest = await readManifest(project.key, dataset.snapshot.capturedAt)
@@ -69,3 +70,6 @@ for (const project of projects.projects) {
     console.log(`no status change for ${project.key}`)
   }
 }
+}
+
+if (import.meta.main) await reconcile()
