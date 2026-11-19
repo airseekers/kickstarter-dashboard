@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "writtenAt": "2026-11-19T07:26:02+08:00",
+  "writtenAt": "2026-11-19T08:28:04+08:00",
   "writtenBy": "status_only",
   "project": {
     "key": "aranix",
@@ -26,16 +26,16 @@
   "snapshot": {
     "provenance": "flat",
     "snapshotDate": "2026-11-19",
-    "capturedAt": "2026-11-19T07:26:02+08:00",
+    "capturedAt": "2026-11-19T08:28:04+08:00",
     "capturedAtPrecision": "exact",
     "timezone": "Asia/Shanghai",
-    "pledged": 7766680,
+    "pledged": 7801667,
     "goal": 392305,
-    "percentFunded": 1979.7555473419916,
-    "backersCount": 383,
-    "averagePledge": 20278.54,
-    "usdPledged": "989952.2168192",
-    "convertedPledgedAmount": 989959,
+    "percentFunded": 1988.6738634480826,
+    "backersCount": 385,
+    "averagePledge": 20264.07,
+    "usdPledged": "994411.71022048",
+    "convertedPledgedAmount": 994418,
     "staticUsdRate": 0.12746144,
     "usdExchangeRate": 0.12746233,
     "fxRate": 0.12746233,
@@ -57,7 +57,7 @@
     "observations": {
       "funding": {
         "provenance": "flat",
-        "capturedAt": "2026-11-19T07:26:02+08:00",
+        "capturedAt": "2026-11-19T08:28:04+08:00",
         "capturedAtPrecision": "exact"
       },
       "community": {
@@ -67,7 +67,7 @@
       },
       "activity": {
         "provenance": "flat",
-        "capturedAt": "2026-11-19T07:26:02+08:00",
+        "capturedAt": "2026-11-19T08:28:04+08:00",
         "capturedAtPrecision": "exact"
       }
     }
@@ -98,9 +98,9 @@
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=ARANIX",
-      "attemptedAt": "2026-11-19T07:26:02+08:00",
-      "fetchedAt": "2026-11-19T07:26:02+08:00",
-      "lastSuccessAt": "2026-11-19T07:26:02+08:00",
+      "attemptedAt": "2026-11-19T08:28:04+08:00",
+      "fetchedAt": "2026-11-19T08:28:04+08:00",
+      "lastSuccessAt": "2026-11-19T08:28:04+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -109,9 +109,9 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower.json",
-      "attemptedAt": "2026-11-19T07:26:02+08:00",
-      "fetchedAt": "2026-11-19T07:26:02+08:00",
-      "lastSuccessAt": "2026-11-19T07:26:02+08:00",
+      "attemptedAt": "2026-11-19T08:28:04+08:00",
+      "fetchedAt": "2026-11-19T08:28:04+08:00",
+      "lastSuccessAt": "2026-11-19T08:28:04+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -120,8 +120,8 @@
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/community",
-      "attemptedAt": "2026-11-19T07:26:02+08:00",
-      "fetchedAt": "2026-11-19T07:26:02+08:00",
+      "attemptedAt": "2026-11-19T08:28:04+08:00",
+      "fetchedAt": "2026-11-19T08:28:04+08:00",
       "lastSuccessAt": null,
       "httpStatus": null,
       "status": "invalid",
@@ -131,9 +131,9 @@
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/faqs",
-      "attemptedAt": "2026-11-19T07:26:02+08:00",
-      "fetchedAt": "2026-11-19T07:26:02+08:00",
-      "lastSuccessAt": "2026-11-19T07:26:02+08:00",
+      "attemptedAt": "2026-11-19T08:28:04+08:00",
+      "fetchedAt": "2026-11-19T08:28:04+08:00",
+      "lastSuccessAt": "2026-11-19T08:28:04+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -145,9 +145,9 @@
     "cadence": "hourly",
     "cron": "17 * * * *",
     "beijing": "每小时第 17 分（UTC 与北京时间相同的分钟）。GitHub Actions 定时是尽力而为，不保证准点。",
-    "flatObservationCount": 25,
-    "lastAcceptedAt": "2026-11-19T07:26:02+08:00",
-    "lastAttemptAt": "2026-11-19T07:26:02+08:00"
+    "flatObservationCount": 26,
+    "lastAcceptedAt": "2026-11-19T08:28:04+08:00",
+    "lastAttemptAt": "2026-11-19T08:28:04+08:00"
   },
   "notes": [
     "公开搜索 JSON（term=ARANIX）人工核对快照，约 2026-11-17 10:51（北京时间）。不是 Flat Data 自动抓取。",
