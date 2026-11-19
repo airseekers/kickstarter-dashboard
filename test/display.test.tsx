@@ -174,6 +174,7 @@ describe('dashboard copy', () => {
       { at: '2026-11-19T07:26:02+08:00', value: 383 },
       { at: '2026-11-19T08:28:04+08:00', value: 385 },
       { at: '2026-11-19T09:19:20+08:00', value: 386 },
+      { at: '2026-11-19T10:23:57+08:00', value: 389 },
     ])
     const page = html(loadDataset('ARANIX'), now, 'ARANIX', loadBackerSeries('ARANIX'))
     const trend = section(page, 'backers-trend')
@@ -207,6 +208,7 @@ describe('dashboard copy', () => {
     expect(trend).toContain('07:26')
     expect(trend).toContain('08:28')
     expect(trend).toContain('09:19')
+    expect(trend).toContain('10:23')
     expect(trend).toContain('北京时间 UTC+8')
     expect(trend).not.toContain('2026-11-17')
     expect(trend).not.toContain('1,389')
@@ -214,8 +216,9 @@ describe('dashboard copy', () => {
     expect(trend).not.toContain('USD')
     expect(trend).not.toContain('data-value="0"')
     const marks = markTops(trend)
-    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320, 325, 328, 331, 336, 337, 338, 342, 347, 348, 353, 356, 358, 361, 363, 366, 370, 373, 377, 377, 382, 383, 385, 386])
+    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320, 325, 328, 331, 336, 337, 338, 342, 347, 348, 353, 356, 358, 361, 363, 366, 370, 373, 377, 377, 382, 383, 385, 386, 389])
     const topOf = (value: number) => Math.min(...marks.filter((mark) => mark.value === value).map((mark) => mark.top))
+    expect(topOf(389)).toBeLessThan(topOf(386))
     expect(topOf(386)).toBeLessThan(topOf(385))
     expect(topOf(385)).toBeLessThan(topOf(383))
     expect(topOf(383)).toBeLessThan(topOf(382))
@@ -249,19 +252,21 @@ describe('dashboard copy', () => {
   it('does not invent a TRON trend from the seed or from ARANIX', () => {
     expect(loadBackerSeries('TRON')).toEqual([
       { at: '2026-11-18T10:27:43+08:00', value: 1389 },
+      { at: '2026-11-19T10:23:57+08:00', value: 1389 },
     ])
     const page = html(loadDataset('TRON'), now, 'TRON', loadBackerSeries('TRON'))
     const trend = section(page, 'backers-trend')
-    expect(trend).not.toContain('<polyline')
-    expect(trend).not.toContain('trend-mark')
-    expect(trend).toContain('至少有两次真实成功观测')
-    expect(trend).toContain('目前已接受 1 次')
-    expect(trend).toContain('2026-11-18 10:27')
-    expect(trend).toContain('1,389 人')
+    expect(trend).toContain('<polyline')
+    expect(trend).toContain('10:27')
+    expect(trend).toContain('10:23')
+    expect(trend).toContain('1,389')
+    expect(trend).not.toContain('至少有两次真实成功观测')
+    expect(trend).not.toContain('目前已接受 1 次')
     expect(trend).not.toContain('2026-11-16')
     expect(trend).not.toContain('309')
     expect(trend).not.toContain('315')
     expect(trend).not.toContain('320')
+    expect(markTops(trend).map((mark) => mark.value)).toEqual([1389, 1389])
     expect(page).toContain('采集节奏')
     expect(page).toContain('人民币')
   })

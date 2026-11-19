@@ -1,0 +1,101 @@
+{
+  "projectId": 1873694145,
+  "communityPageHeaderText": "Last updated October 19, 2026",
+  "geographyUpdatedAt": null,
+  "newBackers": 681,
+  "returningBackers": 708,
+  "countries": [
+    {
+      "name": "United States",
+      "backers": 301
+    },
+    {
+      "name": "Germany",
+      "backers": 125
+    },
+    {
+      "name": "France",
+      "backers": 96
+    },
+    {
+      "name": "Belgium",
+      "backers": 84
+    },
+    {
+      "name": "United Kingdom",
+      "backers": 60
+    },
+    {
+      "name": "Netherlands",
+      "backers": 55
+    },
+    {
+      "name": "Denmark",
+      "backers": 51
+    },
+    {
+      "name": "Poland",
+      "backers": 51
+    },
+    {
+      "name": "Italy",
+      "backers": 45
+    },
+    {
+      "name": "Sweden",
+      "backers": 41
+    }
+  ],
+  "cities": [
+    {
+      "name": "Copenhagen",
+      "country": "Denmark",
+      "backers": 21
+    },
+    {
+      "name": "London",
+      "country": "United Kingdom",
+      "backers": 20
+    },
+    {
+      "name": "Ljubljana",
+      "country": "Slovenia",
+      "backers": 18
+    },
+    {
+      "name": "Brussels",
+      "country": "Belgium",
+      "backers": 17
+    },
+    {
+      "name": "Paris",
+      "country": "France",
+      "backers": 16
+    },
+    {
+      "name": "Budapest",
+      "country": "Hungary",
+      "backers": 14
+    },
+    {
+      "name": "Vilnius",
+      "country": "Lithuania",
+      "backers": 14
+    },
+    {
+      "name": "Vienna",
+      "country": "Austria",
+      "backers": 13
+    },
+    {
+      "name": "Dublin",
+      "country": "Ireland",
+      "backers": 12
+    },
+    {
+      "name": "Berlin",
+      "country": "Germany",
+      "backers": 12
+    }
+  ]
+}

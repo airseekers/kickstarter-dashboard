@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "projectKey": "tron",
-  "writtenAt": "2026-11-18T10:27:43+08:00",
-  "writtenBy": "status_only",
+  "writtenAt": "2026-11-19T10:23:57+08:00",
+  "writtenBy": "flat",
   "sources": [
     {
       "id": "search",
       "url": "https://www.kickstarter.com/projects/search.json?term=tron+360+ai+vision+robot+mower",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
-      "lastSuccessAt": "2026-11-18T10:27:43+08:00",
+      "attemptedAt": "2026-11-19T10:23:57+08:00",
+      "fetchedAt": "2026-11-19T10:23:57+08:00",
+      "lastSuccessAt": "2026-11-19T10:23:57+08:00",
       "httpStatus": 200,
       "status": "ok",
       "accepted": true,
@@ -18,35 +18,35 @@
     {
       "id": "project_json",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing.json",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
-      "lastSuccessAt": null,
-      "httpStatus": null,
-      "status": "http_error",
-      "accepted": false,
-      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+      "attemptedAt": "2026-11-19T10:23:57+08:00",
+      "fetchedAt": "2026-11-19T10:23:57+08:00",
+      "lastSuccessAt": "2026-11-19T10:23:57+08:00",
+      "httpStatus": 200,
+      "status": "ok",
+      "accepted": true,
+      "error": null
     },
     {
       "id": "community",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/community",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
-      "lastSuccessAt": null,
-      "httpStatus": null,
-      "status": "http_error",
-      "accepted": false,
-      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+      "attemptedAt": "2026-11-19T10:23:57+08:00",
+      "fetchedAt": "2026-11-19T10:23:57+08:00",
+      "lastSuccessAt": "2026-11-19T10:23:57+08:00",
+      "httpStatus": 200,
+      "status": "ok",
+      "accepted": true,
+      "error": null
     },
     {
       "id": "faqs",
       "url": "https://www.kickstarter.com/projects/airseekers/tron-360-ai-vision-robot-mower-smooth-lawns-and-fertilizing/faqs",
-      "attemptedAt": "2026-11-18T10:27:43+08:00",
-      "fetchedAt": "2026-11-18T10:27:43+08:00",
-      "lastSuccessAt": null,
-      "httpStatus": null,
-      "status": "http_error",
-      "accepted": false,
-      "error": "公开页面请求在写入前失败。常见原因是运行器 IP 收到 HTTP 403。响应体未采纳，原有数字保持不变。"
+      "attemptedAt": "2026-11-19T10:23:57+08:00",
+      "fetchedAt": "2026-11-19T10:23:57+08:00",
+      "lastSuccessAt": "2026-11-19T10:23:57+08:00",
+      "httpStatus": 200,
+      "status": "ok",
+      "accepted": true,
+      "error": null
     }
   ]
 }

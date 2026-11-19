@@ -67,27 +67,55 @@ describe('seed snapshot', () => {
     expect(committed.snapshot.percentFunded).toBe(11223.193848354793)
     expect(committed.snapshot.usdPledged).toBe('2244482.60289708')
     expect(committed.snapshot.convertedPledgedAmount).toBe(2250050)
-    expect(committed.snapshot.fxRate).toBe(0.12745254)
-    expect(committed.snapshot.capturedAt).toBe('2026-11-18T10:27:43+08:00')
+    expect(committed.snapshot.fxRate).toBe(0.12746233)
+    expect(committed.snapshot.capturedAt).toBe('2026-11-19T10:23:57+08:00')
     expect(committed.snapshot.provenance).toBe('flat')
-    expect(committed.snapshot.observations.funding.provenance).toBe('flat')
-    expect(committed.snapshot.observations.community).toEqual(seed.snapshot.observations.community)
-    expect(committed.snapshot.observations.activity).toEqual(seed.snapshot.observations.activity)
+    expect(committed.snapshot.snapshotDate).toBe('2026-11-19')
+    const flatObservation = {
+      provenance: 'flat',
+      capturedAt: '2026-11-19T10:23:57+08:00',
+      capturedAtPrecision: 'exact',
+    }
+    expect(committed.snapshot.observations.funding).toEqual(flatObservation)
+    expect(committed.snapshot.observations.community).toEqual(flatObservation)
+    expect(committed.snapshot.observations.activity).toEqual(flatObservation)
     expect(committed.snapshot.newBackers).toBe(681)
     expect(committed.snapshot.returningBackers).toBe(708)
     expect(committed.snapshot.comments).toBe(2680)
     expect(committed.snapshot.updates).toBe(47)
     expect(committed.snapshot.faqs).toBe(35)
-    expect(committed.snapshot.countries).toEqual(seed.snapshot.countries)
-    expect(committed.snapshot.cities).toEqual(seed.snapshot.cities)
+    expect(committed.snapshot.countries.map((row: { countryCode: string; backers: number }) => [row.countryCode, row.backers])).toEqual([
+      ['US', 301],
+      ['DE', 125],
+      ['FR', 96],
+      ['BE', 84],
+      ['GB', 60],
+      ['NL', 55],
+      ['DK', 51],
+      ['PL', 51],
+      ['IT', 45],
+      ['SE', 41],
+    ])
+    expect(committed.snapshot.cities.map((row: { nameEn: string; backers: number }) => [row.nameEn, row.backers])).toEqual([
+      ['Copenhagen', 21],
+      ['London', 20],
+      ['Ljubljana', 18],
+      ['Brussels', 17],
+      ['Paris', 16],
+      ['Budapest', 14],
+      ['Vilnius', 14],
+      ['Vienna', 13],
+      ['Dublin', 12],
+      ['Berlin', 12],
+    ])
     expect(committed.snapshot.communityPageHeaderText).toBe('Last updated October 19, 2026')
-    expect(committed.collection.flatObservationCount).toBe(1)
-    expect(committed.sources.find((source: { id: string }) => source.id === 'search')?.status).toBe('ok')
-    expect(
-      committed.sources
-        .filter((source: { id: string }) => source.id !== 'search')
-        .every((source: { status: string }) => source.status === 'http_error'),
-    ).toBe(true)
+    expect(committed.collection.flatObservationCount).toBe(2)
+    expect(committed.sources.map((source: { id: string; status: string; accepted: boolean }) => [source.id, source.status, source.accepted])).toEqual([
+      ['search', 'ok', true],
+      ['project_json', 'ok', true],
+      ['community', 'ok', true],
+      ['faqs', 'ok', true],
+    ])
   })
 
   it('does not store signed media URLs in the flat files', () => {
@@ -430,18 +458,18 @@ describe('ARANIX public snapshot', () => {
     const committed = JSON.parse(readFileSync(new URL('../data/aranix/latest.json', import.meta.url), 'utf8'))
     expect(committed.project.state).toBe('live')
     expect(committed.project.isLaunched).toBe(true)
-    expect(committed.snapshot.pledged).toBe(7824612)
+    expect(committed.snapshot.pledged).toBe(7884899)
     expect(committed.snapshot.goal).toBe(392305)
-    expect(committed.snapshot.backersCount).toBe(386)
-    expect(committed.snapshot.percentFunded).toBe(1994.5226290768662)
-    expect(committed.snapshot.capturedAt).toBe('2026-11-19T09:19:20+08:00')
+    expect(committed.snapshot.backersCount).toBe(389)
+    expect(committed.snapshot.percentFunded).toBe(2009.890009049082)
+    expect(committed.snapshot.capturedAt).toBe('2026-11-19T10:23:57+08:00')
     expect(committed.snapshot.provenance).toBe('flat')
-    expect(committed.snapshot.comments).toBe(74)
+    expect(committed.snapshot.comments).toBe(77)
     expect(committed.snapshot.updates).toBe(2)
     expect(committed.snapshot.faqs).toBe(23)
     expect(committed.snapshot.countries).toEqual([])
     expect(committed.snapshot.newBackers).toBeNull()
-    expect(committed.collection.flatObservationCount).toBe(27)
+    expect(committed.collection.flatObservationCount).toBe(28)
     expect(JSON.stringify(committed)).not.toContain('17572828')
     const parsed = parseDownload('search', read('search-aranix.json'), ARANIX_PROJECT)
     expect(parsed.ok).toBe(true)
