@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "kind": "accepted_observation",
+  "projectKey": "aranix",
+  "projectId": 103950657,
+  "runId": "routine-kickstarter-93692bb3-20261119T222938-aranix",
+  "attemptedAt": "2026-11-19T22:29:38+08:00",
+  "recordedAt": "2026-11-19T22:29:38+08:00",
+  "timezone": "Asia/Shanghai",
+  "currency": "HKD",
+  "geographicCoverage": "unavailable",
+  "sources": [
+    {
+      "id": "search",
+      "status": "ok",
+      "acceptedThisRun": true,
+      "attemptedAt": "2026-11-19T22:29:38+08:00",
+      "lastSuccessAt": "2026-11-19T22:29:38+08:00",
+      "error": null
+    },
+    {
+      "id": "project_json",
+      "status": "ok",
+      "acceptedThisRun": true,
+      "attemptedAt": "2026-11-19T22:29:38+08:00",
+      "lastSuccessAt": "2026-11-19T22:29:38+08:00",
+      "error": null
+    },
+    {
+      "id": "community",
+      "status": "invalid",
+      "acceptedThisRun": false,
+      "attemptedAt": "2026-11-19T22:29:38+08:00",
+      "lastSuccessAt": null,
+      "error": "公开排行为空，拒绝用空列表覆盖已有数据。"
+    },
+    {
+      "id": "faqs",
+      "status": "ok",
+      "acceptedThisRun": true,
+      "attemptedAt": "2026-11-19T22:29:38+08:00",
+      "lastSuccessAt": "2026-11-19T22:29:38+08:00",
+      "error": null
+    }
+  ],
+  "measures": {
+    "pledged": {
+      "value": 8374942,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "goal": {
+      "value": 392305,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "percentFunded": {
+      "value": 2134.8037878691325,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "backersCount": {
+      "value": 413,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "averagePledge": {
+      "value": 20278.31,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "usdPledged": {
+      "value": "1067482.16723648",
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "convertedPledgedAmount": {
+      "value": 1067529,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "staticUsdRate": {
+      "value": 0.12746144,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "usdExchangeRate": {
+      "value": 0.12746714,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "fxRate": {
+      "value": 0.12746714,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "newBackers": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "returningBackers": {
+      "value": null,
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "countries": {
+      "value": [],
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "cities": {
+      "value": [],
+      "freshness": "unavailable",
+      "observedAt": null
+    },
+    "comments": {
+      "value": 84,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "updates": {
+      "value": 3,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "faqs": {
+      "value": 23,
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "state": {
+      "value": "live",
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "createdAt": {
+      "value": "2026-09-30T16:27:07+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "launchedAt": {
+      "value": "2026-11-17T22:00:07+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "deadline": {
+      "value": "2027-01-01T22:00:07+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    },
+    "stateChangedAt": {
+      "value": "2026-11-17T22:00:11+08:00",
+      "freshness": "observed",
+      "observedAt": "2026-11-19T22:29:38+08:00"
+    }
+  }
+}
