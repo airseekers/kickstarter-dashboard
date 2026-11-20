@@ -8,7 +8,7 @@
     "name": "ARANIX — The World's First 4WD+4WS All-Terrain Robotic Mower",
     "blurb": "4WD+4WS | 0-Radius Turning | 40° Slope Capability | FlowCut 2.0 | Edge-Cutting Module | Tri-Fusion Position | AI Obstacle Avoidance",
     "goal": 392305,
-    "pledged": 8648461,
+    "pledged": 8649089,
     "state": "live",
     "slug": "aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower",
     "country": "HK",
@@ -26,8 +26,8 @@
     "disable_communication": false,
     "backers_count": 426,
     "static_usd_rate": 0.12746144,
-    "usd_pledged": "1102345.29284384",
-    "converted_pledged_amount": 1102877,
+    "usd_pledged": "1102425.33862816",
+    "converted_pledged_amount": 1102957,
     "fx_rate": 0.12752298,
     "usd_exchange_rate": 0.12752298,
     "current_currency": "USD",
@@ -116,7 +116,7 @@
         "rewards": "https://www.kickstarter.com/projects/airseekers/aranix-the-worlds-first-4wd-4ws-all-terrain-robotic-mower/rewards"
       }
     },
-    "percent_funded": 2204.5247957584024,
+    "percent_funded": 2204.6848752883598,
     "is_liked": null,
     "is_disliked": null,
     "is_launched": true,
