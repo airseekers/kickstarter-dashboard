@@ -3,14 +3,14 @@
   "sourceName": "Frankfurter，欧洲央行参考汇率",
   "sourceUrl": "https://api.frankfurter.app/latest?from=HKD&to=USD,CNY",
   "base": "HKD",
-  "rateDate": "2026-11-19",
-  "retrievedAt": "2026-11-20T09:29:23+08:00",
+  "rateDate": "2026-11-20",
+  "retrievedAt": "2026-11-21T00:21:37+08:00",
   "retrievedAtPrecision": "exact",
   "estimated": true,
   "status": "ok",
   "rates": {
-    "USD": 0.12746,
-    "CNY": 0.84973
+    "USD": 0.12757,
+    "CNY": 0.85186
   },
   "error": null,
   "note": "把项目货币港元估算成美元或人民币。不是 Kickstarter 的 usd_pledged，也不是 converted_pledged_amount。"
