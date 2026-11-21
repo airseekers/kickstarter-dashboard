@@ -212,6 +212,7 @@ describe('dashboard copy', () => {
       { at: '2026-11-21T07:21:39+08:00', value: 433 },
       { at: '2026-11-21T08:29:53+08:00', value: 433 },
       { at: '2026-11-21T09:27:34+08:00', value: 433 },
+      { at: '2026-11-21T10:28:44+08:00', value: 433 },
     ])
     const page = html(loadDataset('ARANIX'), now, 'ARANIX', loadBackerSeries('ARANIX'))
     const trend = section(page, 'backers-trend')
@@ -245,6 +246,7 @@ describe('dashboard copy', () => {
     expect(trend).toContain('07:21')
     expect(trend).toContain('08:29')
     expect(trend).toContain('09:27')
+    expect(trend).toContain('10:28')
     expect(trend).toContain('07:26')
     expect(trend).toContain('08:28')
     expect(trend).toContain('09:19')
@@ -286,7 +288,7 @@ describe('dashboard copy', () => {
     expect(trend).not.toContain('USD')
     expect(trend).not.toContain('data-value="0"')
     const marks = markTops(trend)
-    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320, 325, 328, 331, 336, 337, 338, 342, 347, 348, 353, 356, 358, 361, 363, 366, 370, 373, 377, 377, 382, 383, 385, 386, 389, 392, 396, 398, 402, 403, 406, 406, 407, 407, 409, 411, 413, 425, 425, 425, 425, 426, 426, 426, 426, 426, 426, 426, 426, 427, 426, 427, 427, 431, 431, 432, 432, 432, 432, 433, 433, 433])
+    expect(marks.map((mark) => mark.value)).toEqual([309, 309, 315, 320, 325, 328, 331, 336, 337, 338, 342, 347, 348, 353, 356, 358, 361, 363, 366, 370, 373, 377, 377, 382, 383, 385, 386, 389, 392, 396, 398, 402, 403, 406, 406, 407, 407, 409, 411, 413, 425, 425, 425, 425, 426, 426, 426, 426, 426, 426, 426, 426, 427, 426, 427, 427, 431, 431, 432, 432, 432, 432, 433, 433, 433, 433])
     const topOf = (value: number) => Math.min(...marks.filter((mark) => mark.value === value).map((mark) => mark.top))
     expect(topOf(427)).toBeLessThan(topOf(426))
     expect(topOf(426)).toBeLessThan(topOf(425))
@@ -337,6 +339,7 @@ describe('dashboard copy', () => {
       { at: '2026-11-18T10:27:43+08:00', value: 1389 },
       { at: '2026-11-19T10:23:57+08:00', value: 1389 },
       { at: '2026-11-20T10:30:38+08:00', value: 1389 },
+      { at: '2026-11-21T10:28:44+08:00', value: 1389 },
     ])
     const page = html(loadDataset('TRON'), now, 'TRON', loadBackerSeries('TRON'))
     const trend = section(page, 'backers-trend')
@@ -344,6 +347,7 @@ describe('dashboard copy', () => {
     expect(trend).toContain('10:27')
     expect(trend).toContain('10:23')
     expect(trend).toContain('10:30')
+    expect(trend).toContain('10:28')
     expect(trend).toContain('1,389')
     expect(trend).not.toContain('至少有两次真实成功观测')
     expect(trend).not.toContain('目前已接受 1 次')
@@ -351,7 +355,7 @@ describe('dashboard copy', () => {
     expect(trend).not.toContain('309')
     expect(trend).not.toContain('315')
     expect(trend).not.toContain('320')
-    expect(markTops(trend).map((mark) => mark.value)).toEqual([1389, 1389, 1389])
+    expect(markTops(trend).map((mark) => mark.value)).toEqual([1389, 1389, 1389, 1389])
     expect(page).toContain('采集节奏')
     expect(page).toContain('人民币')
   })
